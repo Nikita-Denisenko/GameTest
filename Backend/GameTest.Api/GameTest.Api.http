@@ -1,0 +1,6 @@
+@GameTest.Api_HostAddress = http://localhost:5008
+
+GET {{GameTest.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

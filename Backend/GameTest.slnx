@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="GameTest.Api/GameTest.Api.csproj" />
+  <Project Path="GameTest.Application/GameTest.Application.csproj" />
+  <Project Path="GameTest.Domain/GameTest.Domain.csproj" />
+  <Project Path="GameTest.Infrastructure/GameTest.Infrastructure.csproj" />
+</Solution>
