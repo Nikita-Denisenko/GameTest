@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GameTest.Domain.Entities
 {
-    internal class PlayerItem
+    public class PlayerItem
     {
     }
 }

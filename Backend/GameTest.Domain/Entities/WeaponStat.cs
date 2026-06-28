@@ -2,17 +2,16 @@
 
 namespace GameTest.Domain.Entities
 {
-    public class Weapon
+    public class WeaponStat
     {
         public int Id { get; private set; }
         public string Name { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
-        public WeaponType Type { get; private set; }
-        public ICollection<WeaponProperty> Properties { get; private set; } = [];
+        public WeaponStatType Type { get; private set; }
 
-        private Weapon() { }
+        private WeaponStat() { }
 
-        public Weapon(string name, string description, WeaponType type)
+        public WeaponStat(string name, string description, WeaponStatType type)
         {
             Name = name;
             Description = description;

@@ -11,10 +11,9 @@ public class Player
     public int Gold { get; private set; }
     public int Level { get; private set; }
     public int TotalKills { get; private set; }
-    public int TotalTime { get; private set; }
-
-    public List<PlayerUnit> PlayerUnits { get; private set; } = new();
-    public List<PlayerWeapon> PlayerWeapons { get; private set; } = new();
+    public ICollection<PlayerUnit> Units { get; private set; } = [];
+    public ICollection<PlayerWeapon> Weapons { get; private set; } = [];
+    public ICollection<PlayerItem> Items { get; private set; } = [];
 
     private Player() { }
 
@@ -26,7 +25,6 @@ public class Player
         Gold = 0;
         Level = 1;
         TotalKills = 0;
-        TotalTime = 0;
     }
 
     public void AddGold(int amount)
@@ -56,5 +54,4 @@ public class Player
     }
 
     public void AddKill() => TotalKills += 1;
-    public void AddTime(int seconds) => TotalTime += seconds;
 }
