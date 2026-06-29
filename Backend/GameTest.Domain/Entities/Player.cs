@@ -11,9 +11,15 @@ public class Player
     public int Gold { get; private set; }
     public int Level { get; private set; }
     public int TotalKills { get; private set; }
-    public ICollection<PlayerUnit> Units { get; private set; } = [];
-    public ICollection<PlayerWeapon> Weapons { get; private set; } = [];
-    public ICollection<PlayerItem> Items { get; private set; } = [];
+
+    private readonly List<PlayerUnit> _units = [];
+    public IReadOnlyCollection<PlayerUnit> Units => _units;
+
+    private readonly List<PlayerWeapon> _weapons = [];
+    public IReadOnlyCollection<PlayerWeapon> Weapons => _weapons;
+
+    private readonly List<PlayerItem> _items = [];
+    public IReadOnlyCollection<PlayerItem> Items => _items;
 
     private Player() { }
 

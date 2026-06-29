@@ -1,4 +1,5 @@
-﻿using GameTest.Domain.ValueObjects;
+﻿using GameTest.Domain.Enums;
+using GameTest.Domain.ValueObjects;
 
 namespace GameTest.Domain.Entities
 {
@@ -9,28 +10,35 @@ namespace GameTest.Domain.Entities
         public Weapon Weapon { get; private set; } = null!;
         public int StatId { get; private set; }
         public WeaponStat Stat { get; private set; } = null!;
-        public double DefaultValue { get; private set; }
-        public IReadOnlyCollection<WeaponPropertyLevel> Levels { get; private set; } = [];
+
+        private readonly List<WeaponPropertyLevel> _levels = [];
+        public IReadOnlyCollection<WeaponPropertyLevel> Levels => _levels;
+        public int MaxLevel => _levels.Count > 0 ? _levels.Max(l => l.Level) : 0;
+        public string Name => Stat.Name;
+        public WeaponStatType StatType => Stat.Type;
 
         private WeaponProperty() { }
 
-        public WeaponProperty
-        (
-            int weaponId, 
-            int statId, 
-            IReadOnlyCollection<WeaponPropertyLevel> levels, 
-            double defaultValue = 0
-        )
+        public WeaponProperty(
+            int weaponId,
+            int statId,
+            IEnumerable<WeaponPropertyLevel> levels)
         {
             WeaponId = weaponId;
             StatId = statId;
-            DefaultValue = defaultValue;
-            Levels = levels;
+
+            if (levels == null || !levels.Any())
+                throw new ArgumentException("Levels cannot be empty", nameof(levels));
+
+            _levels.AddRange(levels);
         }
 
-        public void UpdateDefaultValue(double newValue)
+        public double GetValueAtLevel(int level)
         {
-            DefaultValue = newValue;
+            var levelInfo = _levels.FirstOrDefault(l => l.Level == level);
+            if (levelInfo == null)
+                throw new ArgumentException($"Level {level} does not exist.");
+            return levelInfo.Value;
         }
     }
 }

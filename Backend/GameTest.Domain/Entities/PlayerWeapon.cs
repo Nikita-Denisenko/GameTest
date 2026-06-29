@@ -3,10 +3,13 @@
     public class PlayerWeapon
     {
         public int Id { get; private set; }
-        public int PlayerId { get; set; }
-        public Player Player { get; set; } = null!;
-        public int WeaponId { get; set; }
+        public int PlayerId { get; private set; }
+        public Player Player { get; private set; } = null!;
+        public int WeaponId { get; private set; }
         public Weapon Weapon { get; private set; } = null!;
+
+        private readonly List<PlayerWeaponProperty> _properties = [];
+        public IReadOnlyCollection<PlayerWeaponProperty> Properties => _properties;
 
         private PlayerWeapon() { }
 
@@ -14,7 +17,7 @@
         {
             PlayerId = playerId;
             WeaponId = weaponId;
-        }
+        }   
     }
 }
  

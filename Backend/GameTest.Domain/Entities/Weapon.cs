@@ -8,7 +8,9 @@ namespace GameTest.Domain.Entities
         public string Name { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
         public WeaponType Type { get; private set; }
-        public ICollection<WeaponProperty> Properties { get; private set; } = [];
+
+        private readonly List<WeaponProperty> _properties = [];
+        public IReadOnlyCollection<WeaponProperty> Properties => _properties;
 
         private Weapon() { }
 
