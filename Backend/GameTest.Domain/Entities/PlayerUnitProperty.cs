@@ -19,6 +19,7 @@ namespace GameTest.Domain.Entities
         public PlayerUnitProperty(int playerUnitId, UnitProperty unitProperty, int level = 1)
         {
             PlayerUnitId = playerUnitId;
+            UnitPropertyId = unitProperty.Id;
             UnitProperty = unitProperty;
             Level = level;
             Value = unitProperty.GetValueAtLevel(level);

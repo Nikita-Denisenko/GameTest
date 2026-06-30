@@ -19,6 +19,7 @@ namespace GameTest.Domain.Entities
         public PlayerWeaponProperty(int playerWeaponId, WeaponProperty weaponProperty, int level = 1)
         {
             PlayerWeaponId = playerWeaponId;
+            WeaponPropertyId = weaponProperty.Id;
             WeaponProperty = weaponProperty;
             Level = level;
             Value = weaponProperty.GetValueAtLevel(level);
