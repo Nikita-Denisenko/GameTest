@@ -55,9 +55,9 @@ public class Player
         while (experience >= EXP_PER_LEVEL)
         {
             experience -= EXP_PER_LEVEL;
-            Level += 1;
+            Level++;
         }
     }
 
-    public void AddKill() => TotalKills += 1;
+    public void AddKill() => TotalKills++;
 }

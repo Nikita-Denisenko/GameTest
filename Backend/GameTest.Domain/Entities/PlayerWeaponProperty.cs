@@ -28,7 +28,6 @@ namespace GameTest.Domain.Entities
         {
             if (Level >= WeaponProperty.MaxLevel)
                 throw new InvalidOperationException("You have reached the maximum level for this weapon property.");
-
             Level++;
             RecalculateValue();
         }
