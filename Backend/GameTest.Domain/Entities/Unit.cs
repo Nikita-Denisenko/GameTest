@@ -10,8 +10,8 @@ public class Unit
     public string Name { get; private set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int StartWeaponId { get; private set; }
-    public Weapon StartWeapon { get; set; } = null!;
-    public PassiveAbility PassiveAbility { get; set; } = null!;
+    public Weapon StartWeapon { get; private set; } = null!;
+    public PassiveAbility PassiveAbility { get; private set; } = null!;
 
     private readonly List<UnitProperty> _properties = [];
     public IReadOnlyCollection<UnitProperty> Properties => _properties;
@@ -20,15 +20,18 @@ public class Unit
 
     public Unit(string name,
         string description,
-        int startWeaponId, 
+        Weapon startWeapon,
         string passiveAbilityName, 
         string passiveAbilityDescription, 
         double passiveAbilityBonus, 
-        PassiveAbilityType passiveAbilityType)
+        PassiveAbilityType passiveAbilityType,
+        IEnumerable<UnitProperty> properties)
     {
         Name = name;
-        StartWeaponId = startWeaponId;
+        StartWeaponId = startWeapon.Id;
+        StartWeapon = startWeapon;
         Description = description;
         PassiveAbility = new PassiveAbility(passiveAbilityName, passiveAbilityBonus, passiveAbilityDescription, passiveAbilityType);
+        _properties.AddRange(properties);
     }
 }

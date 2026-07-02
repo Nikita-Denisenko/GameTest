@@ -23,7 +23,12 @@ public class Player
 
     private Player() { }
 
-    public Player(string username, string email, string passwordHash)
+    public Player(
+        string username, 
+        string email, string passwordHash, 
+        IEnumerable<PlayerUnit> units, 
+        IEnumerable<PlayerWeapon> weapons, 
+        IEnumerable<PlayerItem> items)
     {
         Username = username;
         Email = email;
@@ -31,6 +36,9 @@ public class Player
         Gold = 0;
         Level = 1;
         TotalKills = 0;
+        _units.AddRange(units);
+        _weapons.AddRange(weapons);
+        _items.AddRange(items);
     }
 
     public void AddGold(int amount)

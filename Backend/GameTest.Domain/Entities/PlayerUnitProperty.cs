@@ -16,9 +16,8 @@ namespace GameTest.Domain.Entities
 
         private PlayerUnitProperty() { }
 
-        public PlayerUnitProperty(int playerUnitId, UnitProperty unitProperty, int level = 1)
+        public PlayerUnitProperty(UnitProperty unitProperty, int level = 1)
         {
-            PlayerUnitId = playerUnitId;
             UnitPropertyId = unitProperty.Id;
             UnitProperty = unitProperty;
             Level = level;

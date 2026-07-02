@@ -14,11 +14,12 @@ namespace GameTest.Domain.Entities
 
         private Weapon() { }
 
-        public Weapon(string name, string description, WeaponType type)
+        public Weapon(string name, string description, WeaponType type, IEnumerable<WeaponProperty> properties)
         {
             Name = name;
             Description = description;
             Type = type;
+            _properties.AddRange(properties);
         }
 
         public void UpdateName(string name)

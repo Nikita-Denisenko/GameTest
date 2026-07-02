@@ -12,9 +12,8 @@
 
         private PlayerItem() { }
 
-        public PlayerItem(int playerId, Item item, int level = 1)
+        public PlayerItem(Item item, int level = 1)
         {
-            PlayerId = playerId;
             ItemId = item.Id;
             Item = item;
             Level = level;

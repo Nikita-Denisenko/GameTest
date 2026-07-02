@@ -20,12 +20,11 @@ namespace GameTest.Domain.Entities
         private UnitProperty() { }
 
         public UnitProperty(
-            int unitId,
-            int statId,
+            UnitStat stat,
             IEnumerable<UnitPropertyLevel> levels)
         {
-            UnitId = unitId;
-            StatId = statId;
+            StatId = stat.Id;
+            Stat = stat;
             if (levels == null || !levels.Any())
                 throw new ArgumentException("Levels cannot be empty", nameof(levels));
             _levels.AddRange(levels);

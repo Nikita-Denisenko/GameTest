@@ -13,10 +13,11 @@
 
         private PlayerWeapon() { }
 
-        public PlayerWeapon(int playerId, int weaponId)
+        public PlayerWeapon(Weapon weapon, IEnumerable<PlayerWeaponProperty> properties)
         {
-            PlayerId = playerId;
-            WeaponId = weaponId;
+            WeaponId = weapon.Id;
+            Weapon = weapon;
+            _properties.AddRange(properties);
         }
 
         public void UpPropertyLevel(int playerWeaponPropertyId)

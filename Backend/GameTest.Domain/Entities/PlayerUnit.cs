@@ -13,10 +13,11 @@ public class PlayerUnit
 
     private PlayerUnit() { }
 
-    public PlayerUnit(int playerId, int unitId)
+    public PlayerUnit(Unit unit, IEnumerable<PlayerUnitProperty> properties)
     {
-        PlayerId = playerId;
-        UnitId = unitId;
+        UnitId = unit.Id;
+        Unit = unit;
+        _properties.AddRange(properties);
     }
 
     public void UpPropertyLevel(int playerUnitPropertyId)

@@ -16,9 +16,8 @@ namespace GameTest.Domain.Entities
 
         private PlayerWeaponProperty() { }
 
-        public PlayerWeaponProperty(int playerWeaponId, WeaponProperty weaponProperty, int level = 1)
+        public PlayerWeaponProperty(WeaponProperty weaponProperty, int level = 1)
         {
-            PlayerWeaponId = playerWeaponId;
             WeaponPropertyId = weaponProperty.Id;
             WeaponProperty = weaponProperty;
             Level = level;
