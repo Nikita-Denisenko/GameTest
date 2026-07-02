@@ -1,13 +1,9 @@
 ﻿using GameTest.Domain.Enums;
-using GameTest.Domain.ValueObjects;
 
-namespace GameTest.Domain.Entities
+namespace GameTest.Domain.ValueObjects
 {
-    public class ItemEffect
+    public record ItemEffect
     {
-        public int Id { get; private set; }
-        public int ItemId { get; private set; }
-        public Item Item { get; private set; } = null!;
         public string Name { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
         public ItemEffectType Type { get; private set; }
@@ -17,11 +13,13 @@ namespace GameTest.Domain.Entities
 
         private ItemEffect() { }
 
-        public ItemEffect(string name, string description, ItemEffectType type)
+
+        public ItemEffect(string name, string description, ItemEffectType type, IEnumerable<ItemLevel> levels)
         {
             Name = name;
             Description = description;
             Type = type;
+            _levels.AddRange(levels);
         }
 
         public double GetBonusAtLevel(int level)

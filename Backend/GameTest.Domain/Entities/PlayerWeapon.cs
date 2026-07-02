@@ -17,7 +17,15 @@
         {
             PlayerId = playerId;
             WeaponId = weaponId;
-        }   
+        }
+
+        public void UpPropertyLevel(int playerWeaponPropertyId)
+        {
+            var property = _properties.FirstOrDefault(p => p.Id == playerWeaponPropertyId);
+            if (property == null)
+                throw new KeyNotFoundException($"Property with id {playerWeaponPropertyId} was not found!");
+            property.UpLevel();
+        }
     }
 }
  

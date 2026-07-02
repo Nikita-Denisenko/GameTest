@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using GameTest.Domain.Enums;
+using GameTest.Domain.ValueObjects;
+using System.Collections.Generic;
 
 namespace GameTest.Domain.Entities;
 
@@ -9,7 +11,6 @@ public class Unit
     public string Description { get; set; } = string.Empty;
     public int StartWeaponId { get; private set; }
     public Weapon StartWeapon { get; set; } = null!;
-    public int PassiveAbilityId { get; private set; }
     public PassiveAbility PassiveAbility { get; set; } = null!;
 
     private readonly List<UnitProperty> _properties = [];
@@ -17,10 +18,17 @@ public class Unit
 
     private Unit() { }
 
-    public Unit(string name, int startWeaponId, int passiveAbilityId)
+    public Unit(string name,
+        string description,
+        int startWeaponId, 
+        string passiveAbilityName, 
+        string passiveAbilityDescription, 
+        double passiveAbilityBonus, 
+        PassiveAbilityType passiveAbilityType)
     {
         Name = name;
         StartWeaponId = startWeaponId;
-        PassiveAbilityId = passiveAbilityId;
+        Description = description;
+        PassiveAbility = new PassiveAbility(passiveAbilityName, passiveAbilityBonus, passiveAbilityDescription, passiveAbilityType);
     }
 }

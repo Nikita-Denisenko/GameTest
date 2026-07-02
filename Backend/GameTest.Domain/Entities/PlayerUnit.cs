@@ -18,4 +18,12 @@ public class PlayerUnit
         PlayerId = playerId;
         UnitId = unitId;
     }
+
+    public void UpPropertyLevel(int playerUnitPropertyId)
+    {
+        var property = _properties.FirstOrDefault(p => p.Id == playerUnitPropertyId);
+        if (property == null)
+            throw new KeyNotFoundException($"Property with id {playerUnitPropertyId} was not found!");
+        property.UpLevel();
+    }
 }

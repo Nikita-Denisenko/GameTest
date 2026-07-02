@@ -1,4 +1,5 @@
 ﻿using GameTest.Domain.Enums;
+using GameTest.Domain.ValueObjects;
 
 namespace GameTest.Domain.Entities
 {
@@ -20,13 +21,14 @@ namespace GameTest.Domain.Entities
             ItemType type, 
             string effectName,
             string effectDescription,
-            ItemEffectType effectType
+            ItemEffectType effectType,
+            IEnumerable<ItemLevel> levels
         )
         {
             Name = name;
             Description = description;
             Type = type;
-            Effect = new ItemEffect(effectName, effectDescription, effectType);
+            Effect = new ItemEffect(effectName, effectDescription, effectType, levels);
         }
     }
 }
