@@ -8,8 +8,39 @@ namespace GameTest.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Item> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(i => i.Id);
+
+            builder.Property(i => i.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.OwnsOne(i => i.Effect, e =>
+            {
+                e.Property(e => e.Name)
+                    .IsRequired()
+                    .HasColumnName("EffectName");
+
+                e.Property(e => e.Description)
+                    .IsRequired()
+                    .HasColumnName("EffectDescription");
+
+                e.Property(e => e.Type)
+                    .IsRequired()
+                    .HasColumnName("EffectType");
+
+                e.OwnsMany(eff => eff.Levels, levels =>
+                {
+                    levels.WithOwner()
+                        .HasForeignKey("ItemEffectId");
+
+                    levels.HasKey("ItemEffectId", "Level");
+
+                    levels.Property(l => l.Level).IsRequired()
+                        .HasColumnName("Level");
+
+                    levels.Property(l => l.Bonus).IsRequired()
+                        .HasColumnName("Bonus");
+                });
+            });
         }
     }
 }
-

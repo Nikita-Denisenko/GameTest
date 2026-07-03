@@ -5,19 +5,19 @@
         public int Id { get; private set; }
         public int EnemyId { get; private set; }
         public Enemy Enemy { get; private set; } = null!;
-        public int EnemyStatId { get; private set; }
-        public EnemyStat EnemyStat { get; private set; } = null!;
+        public int StatId { get; private set; }
+        public EnemyStat Stat { get; private set; } = null!;
         public double Value { get; private set; }
 
         private EnemyProperty() { }
 
-        public EnemyProperty(EnemyStat enemyStat, double value)
+        public EnemyProperty(EnemyStat stat, double value)
         {
             if (value < 0)
                 throw new ArgumentOutOfRangeException(nameof(value), "Value must be a non-negative number");
 
-            EnemyStatId = enemyStat.Id;
-            EnemyStat = enemyStat;
+            StatId = stat.Id;
+            Stat = stat;
             Value = value;
         }
     }

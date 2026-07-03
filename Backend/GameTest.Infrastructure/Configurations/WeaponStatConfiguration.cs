@@ -8,7 +8,10 @@ namespace GameTest.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<WeaponStat> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(ws => ws.Id);
+
+            builder.Property(ws => ws.Id)
+                .ValueGeneratedOnAdd();
         }
     }
 }

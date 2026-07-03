@@ -8,7 +8,20 @@ namespace GameTest.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<PlayerWeapon> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(pw => pw.Id);
+
+            builder.Property(pw => pw.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.HasOne(pw => pw.Player)
+                .WithMany(p => p.Weapons)
+                .HasForeignKey(pw => pw.PlayerId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(pw => pw.Weapon)
+                .WithMany()
+                .HasForeignKey(pw => pw.WeaponId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

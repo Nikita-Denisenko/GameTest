@@ -8,7 +8,10 @@ namespace GameTest.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Player> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(p => p.Id);
+
+            builder.Property(p => p.Id)
+                .ValueGeneratedOnAdd();
         }
     }
 }

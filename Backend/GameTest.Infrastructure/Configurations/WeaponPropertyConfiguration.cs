@@ -8,7 +8,35 @@ namespace GameTest.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<WeaponProperty> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(wp => wp.Id);
+
+            builder.Property(wp => wp.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.HasOne(wp => wp.Weapon)
+                .WithMany(w => w.Properties)
+                .HasForeignKey(wp => wp.WeaponId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(wp => wp.Stat)
+                .WithMany()
+                .HasForeignKey(wp => wp.StatId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.OwnsMany(wp => wp.Levels, levels =>
+            {
+                levels.WithOwner().HasForeignKey("WeaponPropertyId");
+
+                levels.HasKey("WeaponPropertyId", "Level");
+
+                levels.Property(l => l.Level)
+                    .IsRequired()
+                    .HasColumnName("Level");
+
+                levels.Property(l => l.Value)
+                    .IsRequired()
+                    .HasColumnName("Value");
+            });
         }
     }
 }

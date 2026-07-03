@@ -8,7 +8,15 @@ namespace GameTest.Infrastructure.Configurations
     {
         public void Configure(EntityTypeBuilder<Run> builder)
         {
-            throw new NotImplementedException();
+            builder.HasKey(r => r.Id);
+
+            builder.Property(r => r.Id)
+                .ValueGeneratedOnAdd();
+
+            builder.HasOne(r => r.Player)
+                .WithMany(p => p.Runs)
+                .HasForeignKey(r => r.PlayerId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
