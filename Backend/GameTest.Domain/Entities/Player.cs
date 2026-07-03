@@ -21,6 +21,9 @@ public class Player
     private readonly List<PlayerItem> _items = [];
     public IReadOnlyCollection<PlayerItem> Items => _items;
 
+    private readonly List<Run> _runs = [];
+    public IReadOnlyCollection<Run> Runs => _runs;
+
     private Player() { }
 
     public Player(
@@ -67,5 +70,10 @@ public class Player
         }
     }
 
-    public void AddKill() => TotalKills++;
+    public void AddKills(int count)
+    {
+        if (count < 0)
+            throw new ArgumentException("Kill count cannot be negative", nameof(count));
+        TotalKills += count;
+    }
 }

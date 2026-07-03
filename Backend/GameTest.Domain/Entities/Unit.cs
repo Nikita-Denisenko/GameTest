@@ -9,6 +9,7 @@ public class Unit
     public int Id { get; private set; }
     public string Name { get; private set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public UnitType UnitType { get; private set; }
     public int StartWeaponId { get; private set; }
     public Weapon StartWeapon { get; private set; } = null!;
     public PassiveAbility PassiveAbility { get; private set; } = null!;
@@ -20,6 +21,7 @@ public class Unit
 
     public Unit(string name,
         string description,
+        UnitType unitType,
         Weapon startWeapon,
         string passiveAbilityName, 
         string passiveAbilityDescription, 
@@ -28,9 +30,10 @@ public class Unit
         IEnumerable<UnitProperty> properties)
     {
         Name = name;
+        Description = description;
+        UnitType = unitType;
         StartWeaponId = startWeapon.Id;
         StartWeapon = startWeapon;
-        Description = description;
         PassiveAbility = new PassiveAbility(passiveAbilityName, passiveAbilityBonus, passiveAbilityDescription, passiveAbilityType);
         _properties.AddRange(properties);
     }
