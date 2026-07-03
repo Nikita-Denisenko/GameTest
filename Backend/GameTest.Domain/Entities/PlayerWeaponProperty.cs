@@ -18,6 +18,9 @@ namespace GameTest.Domain.Entities
 
         public PlayerWeaponProperty(WeaponProperty weaponProperty, int level = 1)
         {
+            if (level < 1)
+                throw new ArgumentOutOfRangeException(nameof(level), "Level must be a positive number");
+
             WeaponPropertyId = weaponProperty.Id;
             WeaponProperty = weaponProperty;
             Level = level;

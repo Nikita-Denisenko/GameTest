@@ -18,6 +18,9 @@ namespace GameTest.Domain.Entities
 
         public PlayerUnitProperty(UnitProperty unitProperty, int level = 1)
         {
+            if (level < 1)
+                throw new ArgumentOutOfRangeException(nameof(level), "Level must be a positive number");
+
             UnitPropertyId = unitProperty.Id;
             UnitProperty = unitProperty;
             Level = level;

@@ -15,6 +15,9 @@
 
         public PlayerWeapon(Weapon weapon, IEnumerable<PlayerWeaponProperty> properties)
         {
+            if (properties == null || !properties.Any())
+                throw new ArgumentException("Properties cannot be empty", nameof(properties));
+
             WeaponId = weapon.Id;
             Weapon = weapon;
             _properties.AddRange(properties);

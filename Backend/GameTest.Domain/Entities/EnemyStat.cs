@@ -15,6 +15,15 @@ namespace GameTest.Domain.Entities
 
         public EnemyStat(string name, string description, EnemyStatType type)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty", nameof(name));
+            
+            if (string.IsNullOrWhiteSpace(description)) 
+                throw new ArgumentException("Description cannot be empty", nameof(description));
+
+            if (!Enum.IsDefined(typeof(EnemyStatType), type))
+                throw new ArgumentException("Invalid enemy stat type", nameof(type));
+
             Name = name;
             Description = description;
             Type = type;

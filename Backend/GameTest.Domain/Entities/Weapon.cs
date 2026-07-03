@@ -16,6 +16,18 @@ namespace GameTest.Domain.Entities
 
         public Weapon(string name, string description, WeaponType type, IEnumerable<WeaponProperty> properties)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty", nameof(name));
+
+            if (string.IsNullOrWhiteSpace(description))
+                throw new ArgumentException("Description cannot be empty", nameof(description));
+
+            if (!Enum.IsDefined(typeof(WeaponType), type))
+                throw new ArgumentException("Invalid WeaponType", nameof(type));
+
+            if (properties == null || !properties.Any())
+                throw new ArgumentException("Properties cannot be empty", nameof(properties));
+
             Name = name;
             Description = description;
             Type = type;

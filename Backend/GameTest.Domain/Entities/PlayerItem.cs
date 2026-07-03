@@ -14,6 +14,9 @@
 
         public PlayerItem(Item item, int level = 1)
         {
+            if (level < 1)
+                throw new ArgumentOutOfRangeException(nameof(level), "Level must be a positive number");
+
             ItemId = item.Id;
             Item = item;
             Level = level;

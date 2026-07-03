@@ -13,6 +13,9 @@
 
         public EnemyProperty(EnemyStat enemyStat, double value)
         {
+            if (value < 0)
+                throw new ArgumentOutOfRangeException(nameof(value), "Value must be a non-negative number");
+
             EnemyStatId = enemyStat.Id;
             EnemyStat = enemyStat;
             Value = value;

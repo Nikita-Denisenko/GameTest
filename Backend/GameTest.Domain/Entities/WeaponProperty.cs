@@ -23,12 +23,11 @@ namespace GameTest.Domain.Entities
             WeaponStat stat,
             IEnumerable<WeaponPropertyLevel> levels)
         {
-            StatId = stat.Id;
-            Stat = stat;
-
             if (levels == null || !levels.Any())
                 throw new ArgumentException("Levels cannot be empty", nameof(levels));
 
+            StatId = stat.Id;
+            Stat = stat;
             _levels.AddRange(levels);
         }
 

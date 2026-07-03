@@ -13,23 +13,18 @@ namespace GameTest.Domain.Entities
 
         public WeaponStat(string name, string description, WeaponStatType type)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty", nameof(name));
+
+            if (string.IsNullOrWhiteSpace(description))
+                throw new ArgumentException("Description cannot be empty", nameof(description));
+
+            if (!Enum.IsDefined(typeof(WeaponStatType), type))
+                throw new ArgumentException("Invalid WeaponStatType", nameof(type));
+
             Name = name;
             Description = description;
             Type = type;
-        }
-
-        public void UpdateName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty");
-            Name = name;
-        }
-
-        public void UpdateDescription(string description)
-        {
-            if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Description cannot be empty");
-            Description = description;
         }
     }
 }

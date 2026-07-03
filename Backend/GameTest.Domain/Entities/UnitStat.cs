@@ -13,6 +13,15 @@ public class UnitStat
 
     public UnitStat(string name, string description, UnitStatType type)
     {
+        if (string.IsNullOrWhiteSpace(name))
+            throw new ArgumentException("Name cannot be empty", nameof(name));
+
+        if (string.IsNullOrWhiteSpace(description))
+            throw new ArgumentException("Description cannot be empty", nameof(description));
+
+        if (!Enum.IsDefined(typeof(UnitStatType), type))
+            throw new ArgumentException("Invalid UnitStatType", nameof(type));
+
         Name = name;
         Description = description;
         Type = type;

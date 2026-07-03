@@ -22,6 +22,21 @@ namespace GameTest.Domain.Entities
             EnemyAttackType attackType, 
             IEnumerable<EnemyProperty> properties)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new ArgumentException("Name cannot be empty", nameof(name));
+
+            if (string.IsNullOrWhiteSpace(description))
+                throw new ArgumentException("Description cannot be empty", nameof(description));
+
+            if (!Enum.IsDefined(typeof(EnemyType), type))
+                throw new ArgumentException("Invalid enemy type", nameof(type));
+
+            if (!Enum.IsDefined(typeof(EnemyAttackType), attackType))
+                throw new ArgumentException("Invalid enemy attack type", nameof(attackType));
+
+            if (properties == null || !properties.Any())
+                throw new ArgumentException("Properties cannot be empty", nameof(properties));
+
             Name = name;
             Description = description;
             Type = type;

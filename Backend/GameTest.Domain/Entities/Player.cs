@@ -9,7 +9,6 @@ public class Player
     public string Email { get; private set; } = string.Empty;
     public string PasswordHash { get; private set; } = string.Empty;
     public int Gold { get; private set; }
-    public int Level { get; private set; }
     public int TotalKills { get; private set; }
 
     private readonly List<PlayerUnit> _units = [];
@@ -27,17 +26,34 @@ public class Player
     private Player() { }
 
     public Player(
-        string username, 
-        string email, string passwordHash, 
-        IEnumerable<PlayerUnit> units, 
-        IEnumerable<PlayerWeapon> weapons, 
+        string username,
+        string email, string passwordHash,
+        IEnumerable<PlayerUnit> units,
+        IEnumerable<PlayerWeapon> weapons,
         IEnumerable<PlayerItem> items)
     {
+        if (string.IsNullOrWhiteSpace(username))
+            throw new ArgumentException("Username cannot be empty", nameof(username));
+
+        if (string.IsNullOrWhiteSpace(email))
+            throw new ArgumentException(nameof(email));
+
+        if (string.IsNullOrWhiteSpace(passwordHash))
+            throw new ArgumentException(nameof(passwordHash));
+
+        if (units == null || !units.Any())
+            throw new ArgumentException("Units cannot be null or empty", nameof(units));
+
+        if (weapons == null || !weapons.Any())
+            throw new ArgumentException(nameof(weapons));
+
+        if (items == null || !items.Any())
+            throw new ArgumentException(nameof(items));
+
         Username = username;
         Email = email;
         PasswordHash = passwordHash;
         Gold = 0;
-        Level = 1;
         TotalKills = 0;
         _units.AddRange(units);
         _weapons.AddRange(weapons);
@@ -60,20 +76,10 @@ public class Player
         Gold -= amount;
     }
 
-    public void AddExperience(int experience)
+    public void AddKills(int amount)
     {
-        const int EXP_PER_LEVEL = 100;
-        while (experience >= EXP_PER_LEVEL)
-        {
-            experience -= EXP_PER_LEVEL;
-            Level++;
-        }
-    }
-
-    public void AddKills(int count)
-    {
-        if (count < 0)
-            throw new ArgumentException("Kill count cannot be negative", nameof(count));
-        TotalKills += count;
+        if (amount < 0)
+            throw new ArgumentException("Kills cannot be negative", nameof(amount));
+        TotalKills += amount;
     }
 }
