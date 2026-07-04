@@ -11,6 +11,7 @@ namespace GameTest.Domain.Entities
         public WeaponProperty WeaponProperty { get; private set; } = null!;
         public int Level { get; private set; }
         public double Value { get; private set; }
+        public int? NextLevelPrice { get; private set; }
         public string Name => WeaponProperty.Name;
         public WeaponStatType StatType => WeaponProperty.StatType;
 
@@ -25,6 +26,7 @@ namespace GameTest.Domain.Entities
             WeaponProperty = weaponProperty;
             Level = level;
             Value = weaponProperty.GetValueAtLevel(level);
+            NextLevelPrice = weaponProperty.GetNextLevelPrice(level);
         }
 
         public void UpLevel()
@@ -33,8 +35,10 @@ namespace GameTest.Domain.Entities
                 throw new InvalidOperationException("You have reached the maximum level for this weapon property.");
             Level++;
             RecalculateValue();
+            RecalculateNextLevelPrice();
         }
 
         private void RecalculateValue() => Value = WeaponProperty.GetValueAtLevel(Level);
+        private void RecalculateNextLevelPrice() => NextLevelPrice = WeaponProperty.GetNextLevelPrice(Level);
     }
 }

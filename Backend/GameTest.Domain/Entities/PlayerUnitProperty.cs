@@ -11,6 +11,7 @@ namespace GameTest.Domain.Entities
         public UnitProperty UnitProperty { get; private set; } = null!;
         public int Level { get; private set; }
         public double Value { get; private set; }
+        public int? NextLevelPrice { get; private set; }
         public string Name => UnitProperty.Name;
         public UnitStatType StatType => UnitProperty.StatType;
 
@@ -25,6 +26,7 @@ namespace GameTest.Domain.Entities
             UnitProperty = unitProperty;
             Level = level;
             Value = unitProperty.GetValueAtLevel(level);
+            NextLevelPrice = unitProperty.GetNextLevelPrice(level);
         }
 
         public void UpLevel()
@@ -33,8 +35,11 @@ namespace GameTest.Domain.Entities
                 throw new InvalidOperationException("You have reached the maximum level for this unit property.");
             Level++;
             RecalculateValue();
+            RecalculateNextLevelPrice();
         }
 
         private void RecalculateValue() => Value = UnitProperty.GetValueAtLevel(Level);
+
+        private void RecalculateNextLevelPrice() => NextLevelPrice = UnitProperty.GetNextLevelPrice(Level);
     }
 }

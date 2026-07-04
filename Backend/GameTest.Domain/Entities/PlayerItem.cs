@@ -9,6 +9,7 @@
         public Item Item { get; private set; } = null!;
         public double Bonus { get; private set; }
         public int Level { get; private set; }
+        public int? NextLevelPrice { get; private set; }
 
         private PlayerItem() { }
 
@@ -21,6 +22,7 @@
             Item = item;
             Level = level;
             Bonus = Item.Effect.GetBonusAtLevel(level);
+            NextLevelPrice = Item.Effect.GetNextLevelPrice(level);
         }
 
         public void UpLevel()
@@ -30,11 +32,10 @@
 
             Level++;
             RecalculateBonus();
+            RecalculateNextLevelPrice();
         }
 
-        private void RecalculateBonus()
-        {
-            Bonus = Item.Effect.GetBonusAtLevel(Level);
-        }
+        private void RecalculateBonus() => Bonus = Item.Effect.GetBonusAtLevel(Level);
+        private void RecalculateNextLevelPrice() => NextLevelPrice = Item.Effect.GetNextLevelPrice(Level);
     }
 }

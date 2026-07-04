@@ -36,6 +36,10 @@ namespace GameTest.Infrastructure.Configurations
                 levels.Property(l => l.Value)
                     .IsRequired()
                     .HasColumnName("Value");
+
+                levels.Property(l => l.Price)
+                    .IsRequired()
+                    .HasColumnName("Price");
             });
         }
     }

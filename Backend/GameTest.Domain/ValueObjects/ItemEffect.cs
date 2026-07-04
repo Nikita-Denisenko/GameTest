@@ -29,5 +29,11 @@ namespace GameTest.Domain.ValueObjects
                 throw new ArgumentException($"Level {level} does not exist for this effect.");
             return itemLevel.Bonus;
         }
+
+        public int? GetNextLevelPrice(int currentLevel)
+        {
+            var nextLevel = currentLevel + 1;
+            return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Price;
+        }
     } 
 }

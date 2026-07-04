@@ -38,5 +38,11 @@ namespace GameTest.Domain.Entities
                 throw new ArgumentException($"Level {level} does not exist.");
             return levelInfo.Value;
         }
+
+        public int? GetNextLevelPrice(int currentLevel)
+        {
+            var nextLevel = currentLevel + 1;
+            return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Price;
+        }
     }
 }

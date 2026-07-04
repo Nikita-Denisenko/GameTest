@@ -35,10 +35,16 @@ namespace GameTest.Infrastructure.Configurations
                     levels.HasKey("ItemEffectId", "Level");
 
                     levels.Property(l => l.Level).IsRequired()
+                        .IsRequired()
                         .HasColumnName("Level");
 
                     levels.Property(l => l.Bonus).IsRequired()
+                        .IsRequired()
                         .HasColumnName("Bonus");
+
+                    levels.Property(l => l.Price)
+                        .IsRequired()
+                        .HasColumnName("Price");
                 });
             });
         }
