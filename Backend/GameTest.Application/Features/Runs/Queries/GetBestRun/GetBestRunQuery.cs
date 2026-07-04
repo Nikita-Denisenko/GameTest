@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameTest.Application.Queries.Auth.Login
+namespace GameTest.Application.Features.Runs.Queries.GetBestRun
 {
-    internal class LoginCommand
+    internal class GetBestRunQuery
     {
     }
 }

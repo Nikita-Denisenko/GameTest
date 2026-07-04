@@ -36,6 +36,9 @@ namespace GameTest.Infrastructure.Configurations
                     .IsRequired()
                     .HasColumnName("PassiveAbilityType");
             });
+
+            builder.Navigation(u => u.Properties)
+               .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

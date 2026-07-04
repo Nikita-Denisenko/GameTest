@@ -22,6 +22,9 @@ namespace GameTest.Infrastructure.Configurations
                 .WithMany()
                 .HasForeignKey(pu => pu.UnitId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Navigation(pu => pu.Properties)
+               .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

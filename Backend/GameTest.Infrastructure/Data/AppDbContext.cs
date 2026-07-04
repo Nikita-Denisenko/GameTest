@@ -1,6 +1,7 @@
 ﻿using GameTest.Application.Interfaces;
 using GameTest.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace GameTest.Infrastructure;
 
@@ -32,6 +33,8 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<EnemyProperty> EnemyProperties { get; set; } = null!;
 
     public DbSet<Run> Runs { get; set; } = null!;
+
+    public new DatabaseFacade Database => base.Database;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

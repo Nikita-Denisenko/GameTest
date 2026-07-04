@@ -41,6 +41,9 @@ namespace GameTest.Infrastructure.Configurations
                     .IsRequired()
                     .HasColumnName("Price");
             });
+
+            builder.Navigation(up => up.Levels)
+               .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

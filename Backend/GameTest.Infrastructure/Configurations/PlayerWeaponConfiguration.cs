@@ -22,6 +22,9 @@ namespace GameTest.Infrastructure.Configurations
                 .WithMany()
                 .HasForeignKey(pw => pw.WeaponId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Navigation(pw => pw.Properties)
+               .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using GameTest.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace GameTest.Application.Interfaces
 {
@@ -29,6 +30,7 @@ namespace GameTest.Application.Interfaces
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
+        DatabaseFacade Database { get; }
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     }
 }

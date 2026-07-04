@@ -12,6 +12,9 @@ namespace GameTest.Infrastructure.Configurations
 
             builder.Property(e => e.Id)
                 .ValueGeneratedOnAdd();
+
+            builder.Navigation(e => e.Properties)
+               .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
