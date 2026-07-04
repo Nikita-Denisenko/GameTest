@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameTest.Application.Features.Runs.Queries.GetBestRun
+namespace GameTest.Application.Features.Catalog.ReadModels
 {
-    internal class GetBestRunQueryHandler
+    internal class EnemyStatReadModel
     {
     }
 }

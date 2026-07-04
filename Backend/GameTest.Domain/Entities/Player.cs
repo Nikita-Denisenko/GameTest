@@ -5,7 +5,7 @@ namespace GameTest.Domain.Entities;
 public class Player
 {
     public int Id { get; private set; }
-    public string Username { get; private set; } = string.Empty;
+    public string Nickname { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
     public string PasswordHash { get; private set; } = string.Empty;
     public int Gold { get; private set; }
@@ -26,14 +26,14 @@ public class Player
     private Player() { }
 
     public Player(
-        string username,
+        string nickname,
         string email, string passwordHash,
         IEnumerable<PlayerUnit> units,
         IEnumerable<PlayerWeapon> weapons,
         IEnumerable<PlayerItem> items)
     {
-        if (string.IsNullOrWhiteSpace(username))
-            throw new ArgumentException("Username cannot be empty", nameof(username));
+        if (string.IsNullOrWhiteSpace(nickname))
+            throw new ArgumentException("Nickname cannot be empty", nameof(nickname));
 
         if (string.IsNullOrWhiteSpace(email))
             throw new ArgumentException(nameof(email));
@@ -50,7 +50,7 @@ public class Player
         if (items == null || !items.Any())
             throw new ArgumentException(nameof(items));
 
-        Username = username;
+        Nickname = nickname;
         Email = email;
         PasswordHash = passwordHash;
         Gold = 0;

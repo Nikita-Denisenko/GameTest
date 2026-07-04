@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameTest.Application.Features.Runs.Queries.GetBestRun
+namespace GameTest.Application.Features.Auth.Commands.Register
 {
-    internal class GetBestRunQuery
+    internal class RegisterCommandValidator
     {
     }
 }
