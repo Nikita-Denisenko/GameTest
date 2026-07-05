@@ -1,0 +1,11 @@
+﻿using GameTest.Domain.ValueObjects;
+
+namespace GameTest.Application.Features.Catalog.ReadModels
+{
+    public record UnitPropertyReadModel
+    {
+        public int StatId { get; init; }
+        public string StatName { get; init; } = string.Empty;
+        public List<UnitPropertyLevel> Levels { get; init; } = [];
+    }
+}
