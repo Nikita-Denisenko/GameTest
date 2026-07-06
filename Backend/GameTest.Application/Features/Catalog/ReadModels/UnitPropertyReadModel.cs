@@ -6,6 +6,6 @@ namespace GameTest.Application.Features.Catalog.ReadModels
     {
         public int StatId { get; init; }
         public string StatName { get; init; } = string.Empty;
-        public List<UnitPropertyLevel> Levels { get; init; } = [];
+        public List<LevelProgressionReadModel> Levels { get; init; } = [];
     }
 }

@@ -21,7 +21,7 @@
             ItemId = item.Id;
             Item = item;
             Level = level;
-            Bonus = Item.Effect.GetBonusAtLevel(level);
+            Bonus = Item.Effect.GetValueAtLevel(level);
             NextLevelPrice = Item.Effect.GetNextLevelPrice(level);
         }
 
@@ -35,7 +35,7 @@
             RecalculateNextLevelPrice();
         }
 
-        private void RecalculateBonus() => Bonus = Item.Effect.GetBonusAtLevel(Level);
+        private void RecalculateBonus() => Bonus = Item.Effect.GetValueAtLevel(Level);
         private void RecalculateNextLevelPrice() => NextLevelPrice = Item.Effect.GetNextLevelPrice(Level);
     }
 }

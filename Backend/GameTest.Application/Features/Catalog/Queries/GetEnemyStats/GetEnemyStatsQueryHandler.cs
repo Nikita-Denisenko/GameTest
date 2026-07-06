@@ -1,12 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameTest.Application.Features.Catalog.ReadModels;
+using GameTest.Application.Interfaces;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetEnemyStats
 {
-    internal class GetEnemyStatsQueryHandler
+    public class GetEnemyStatsQueryHandler : IRequestHandler<GetEnemyStatsQuery, List<EnemyStatReadModel>>
     {
+        private readonly IAppDbContext _context;
+
+        public GetEnemyStatsQueryHandler(IAppDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<List<EnemyStatReadModel>> Handle(GetEnemyStatsQuery query, CancellationToken ct)
+        {
+            return await _context.EnemyStats
+                .AsNoTracking()
+                .Select(e => new EnemyStatReadModel
+                {
+                    Id = e.Id,
+                    Name = e.Name,
+                    Description = e.Description,
+                    Type = e.Type
+                })
+                .ToListAsync(ct);
+        }
     }
 }

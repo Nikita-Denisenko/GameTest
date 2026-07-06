@@ -11,9 +11,7 @@ namespace GameTest.Application.Features.Catalog.ReadModels
         public UnitType Type { get; init; }
         public int StartWeaponId { get; init; }
         public string StartWeaponName { get; init; } = string.Empty;
-        public PassiveAbility PassiveAbility { get; init; } = null!;
-        public double Bonus { get; init; }
-        public PassiveAbilityType PassiveAbilityType { get; init; }
+        public PassiveAbilityReadModel PassiveAbility { get; init; } = null!;
         public List<UnitPropertyReadModel> Properties { get; init; } = [];
     }
 }

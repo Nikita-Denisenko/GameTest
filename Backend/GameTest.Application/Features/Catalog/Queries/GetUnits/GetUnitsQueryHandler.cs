@@ -1,12 +1,51 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameTest.Application.Features.Catalog.ReadModels;
+using GameTest.Application.Interfaces;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetUnits
 {
-    internal class GetUnitsQueryHandler
+    public class GetUnitsQueryHandler : IRequestHandler<GetUnitsQuery, List<UnitReadModel>>
     {
+        private readonly IAppDbContext _context;
+
+        public GetUnitsQueryHandler(IAppDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<List<UnitReadModel>> Handle(GetUnitsQuery query, CancellationToken ct)
+        {
+            return await _context.Units
+                .AsNoTracking()
+                .Select(unit => new UnitReadModel
+                {
+                    Id = unit.Id,
+                    Name = unit.Name,
+                    Description = unit.Description,
+                    Type = unit.Type,
+                    StartWeaponId = unit.StartWeaponId,
+                    StartWeaponName = unit.StartWeapon.Name,
+                    PassiveAbility = new PassiveAbilityReadModel
+                    {
+                        Name = unit.PassiveAbility.Name,
+                        Description = unit.PassiveAbility.Description,
+                        Bonus = unit.PassiveAbility.Bonus,
+                        Type = unit.PassiveAbility.Type
+                    },
+                    Properties = unit.Properties.Select(p => new UnitPropertyReadModel
+                    {
+                        StatId = p.StatId,
+                        StatName = p.Stat.Name,
+                        Levels = p.Levels.Select(l => new LevelProgressionReadModel
+                        {
+                            Level = l.Level,
+                            Value = l.Value,
+                            Price = l.Price,
+                        }).ToList()
+                    }).ToList(),
+                })
+                .ToListAsync(ct);
+        }
     }
 }

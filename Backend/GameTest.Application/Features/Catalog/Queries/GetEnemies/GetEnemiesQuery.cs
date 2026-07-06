@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameTest.Application.Features.Catalog.ReadModels;
+using MediatR;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetEnemies
 {
-    internal class GetEnemiesQuery
-    {
-    }
+    public record GetEnemiesQuery : IRequest<List<EnemyReadModel>>;
 }

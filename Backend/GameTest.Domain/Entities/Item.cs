@@ -22,7 +22,7 @@ namespace GameTest.Domain.Entities
             string effectName,
             string effectDescription,
             ItemEffectType effectType,
-            IEnumerable<ItemLevel> levels
+            IEnumerable<LevelProgression> levels
         )
         {
             if (string.IsNullOrWhiteSpace(name))

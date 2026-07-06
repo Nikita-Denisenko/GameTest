@@ -11,8 +11,8 @@ namespace GameTest.Domain.Entities
         public int StatId { get; private set; }
         public WeaponStat Stat { get; private set; } = null!;
 
-        private readonly List<WeaponPropertyLevel> _levels = [];
-        public IReadOnlyCollection<WeaponPropertyLevel> Levels => _levels;
+        private readonly List<LevelProgression> _levels = [];
+        public IReadOnlyCollection<LevelProgression> Levels => _levels;
         public int MaxLevel => _levels.Count > 0 ? _levels.Max(l => l.Level) : 0;
         public string Name => Stat.Name;
         public WeaponStatType StatType => Stat.Type;
@@ -21,7 +21,7 @@ namespace GameTest.Domain.Entities
 
         public WeaponProperty(
             WeaponStat stat,
-            IEnumerable<WeaponPropertyLevel> levels)
+            IEnumerable<LevelProgression> levels)
         {
             if (levels == null || !levels.Any())
                 throw new ArgumentException("Levels cannot be empty", nameof(levels));
