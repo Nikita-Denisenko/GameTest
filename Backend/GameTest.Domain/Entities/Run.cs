@@ -5,9 +5,10 @@ namespace GameTest.Domain.Entities
     public class Run
     {
         public int Id { get; private set; }
+        public Guid IdempotencyKey { get; private set; }
         public int PlayerId { get; private set; }
         public Player Player { get; private set; } = null!;
-        public UnitType UnitType { get; private set; }
+        public int UnitId { get; private set; }
         public DateTime StartedAt { get; private set; }
         public int DurationSeconds { get; private set; }
         public int Kills { get; private set; }
@@ -17,8 +18,9 @@ namespace GameTest.Domain.Entities
         private Run() { }
 
         public Run(
+            Guid idempotencyKey,
             int playerId,
-            UnitType unitType, 
+            int unitId, 
             DateTime startedAt, 
             int durationSeconds, 
             int kills, 
@@ -28,8 +30,8 @@ namespace GameTest.Domain.Entities
             if (playerId <= 0)
                 throw new ArgumentOutOfRangeException(nameof(playerId), "Player ID cannot be zero or negative");
 
-            if (!Enum.IsDefined(typeof(UnitType), unitType))
-                throw new ArgumentException("Invalid UnitType", nameof(unitType));
+            if (unitId <= 0)
+                throw new ArgumentOutOfRangeException(nameof(unitId), "Unit ID cannot be zero or negative");
 
             if (startedAt == default)
                 throw new ArgumentException("StartedAt cannot be default", nameof(startedAt));
@@ -46,8 +48,9 @@ namespace GameTest.Domain.Entities
             if (levelReached < 0)
                 throw new ArgumentOutOfRangeException(nameof(levelReached), "Level reached cannot be negative");
 
+            IdempotencyKey = idempotencyKey;
             PlayerId = playerId;
-            UnitType = unitType;
+            UnitId = unitId;
             StartedAt = startedAt;
             DurationSeconds = durationSeconds;
             Kills = kills;

@@ -1,5 +1,10 @@
+using FluentValidation;
+using GameTest.Api.Middleware;
+using GameTest.Application.Common.Behaviors;
+using GameTest.Application.Features.Runs.Commands.SaveRun;
 using GameTest.Application.Interfaces;
 using GameTest.Infrastructure;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -20,6 +25,14 @@ builder.Services.AddMediatR(cfg =>
 {
     cfg.RegisterServicesFromAssembly(typeof(IAppDbContext).Assembly);
 });
+
+builder.Services.AddValidatorsFromAssembly(
+    typeof(SaveRunValidator).Assembly);
+
+builder.Services.AddTransient(
+    typeof(IPipelineBehavior<,>),
+    typeof(ValidationBehavior<,>));
+
 
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("Jwt:Key not found");
@@ -91,6 +104,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseMiddleware<ExceptionMiddleware>();
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();

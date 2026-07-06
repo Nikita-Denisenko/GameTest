@@ -17,6 +17,9 @@ namespace GameTest.Infrastructure.Configurations
                 .WithMany(p => p.Runs)
                 .HasForeignKey(r => r.PlayerId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasIndex(x => x.IdempotencyKey)
+                .IsUnique();
         }
     }
 }
