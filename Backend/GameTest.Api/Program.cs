@@ -27,7 +27,7 @@ builder.Services.AddMediatR(cfg =>
 });
 
 builder.Services.AddValidatorsFromAssembly(
-    typeof(SaveRunValidator).Assembly);
+    typeof(SaveRunCommandValidator).Assembly);
 
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),

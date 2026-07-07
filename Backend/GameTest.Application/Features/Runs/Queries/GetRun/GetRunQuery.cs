@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameTest.Application.Features.Runs.ReadModels;
+using MediatR;
 
-namespace GameTest.Application.Features.Runs.Queries.GetBestRun
+namespace GameTest.Application.Features.Runs.Queries.GetRun
 {
-    internal class GetRunQuery
+    public record GetRunQuery : IRequest<RunReadModel>
     {
+        public int Id { get; init; }
+        public int PlayerId { get; init; }
     }
 }

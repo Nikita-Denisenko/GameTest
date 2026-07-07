@@ -9,6 +9,7 @@ namespace GameTest.Domain.Entities
         public int PlayerId { get; private set; }
         public Player Player { get; private set; } = null!;
         public int UnitId { get; private set; }
+        public Unit Unit { get; private set; } = null!;
         public DateTime StartedAt { get; private set; }
         public int DurationSeconds { get; private set; }
         public int Kills { get; private set; }

@@ -18,6 +18,11 @@ namespace GameTest.Infrastructure.Configurations
                 .HasForeignKey(r => r.PlayerId)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            builder.HasOne(r => r.Unit)
+                .WithMany()
+                .HasForeignKey(r => r.UnitId)
+                .OnDelete(DeleteBehavior.Restrict);
+
             builder.HasIndex(x => x.IdempotencyKey)
                 .IsUnique();
         }

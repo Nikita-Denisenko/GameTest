@@ -2,9 +2,9 @@
 
 namespace GameTest.Application.Features.Runs.Commands.SaveRun
 {
-    public class SaveRunValidator : AbstractValidator<SaveRunCommand>
+    public class SaveRunCommandValidator : AbstractValidator<SaveRunCommand>
     {
-        public SaveRunValidator()
+        public SaveRunCommandValidator()
         {
             RuleFor(x => x.PlayerId)
                 .GreaterThan(0)
