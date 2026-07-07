@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetEnemyStats
 {
-    public class GetEnemyStatsQueryHandler : IRequestHandler<GetEnemyStatsQuery, List<EnemyStatReadModel>>
+    public class GetEnemyStatsQueryHandler : IRequestHandler<GetEnemyStatsQuery, IReadOnlyCollection<EnemyStatReadModel>>
     {
         private readonly IAppDbContext _context;
 
@@ -14,7 +14,7 @@ namespace GameTest.Application.Features.Catalog.Queries.GetEnemyStats
             _context = context;
         }
 
-        public async Task<List<EnemyStatReadModel>> Handle(GetEnemyStatsQuery query, CancellationToken ct)
+        public async Task<IReadOnlyCollection<EnemyStatReadModel>> Handle(GetEnemyStatsQuery query, CancellationToken ct)
         {
             return await _context.EnemyStats
                 .AsNoTracking()

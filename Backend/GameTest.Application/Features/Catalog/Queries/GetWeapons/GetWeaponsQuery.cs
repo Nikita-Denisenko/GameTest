@@ -3,5 +3,5 @@ using MediatR;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetWeapons
 {
-    public record GetWeaponsQuery : IRequest<List<WeaponReadModel>>;
+    public record GetWeaponsQuery : IRequest<IReadOnlyCollection<WeaponReadModel>>;
 }

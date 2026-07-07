@@ -8,6 +8,6 @@ namespace GameTest.Application.Features.Catalog.ReadModels
         public string Name { get; init; } = string.Empty;
         public string Description { get; init; } = string.Empty;
         public ItemEffectType Type { get; init; }
-        public List<LevelProgressionReadModel> Levels { get; init; } = new();
+        public IReadOnlyCollection<LevelProgressionReadModel> Levels { get; init; } = [];
     }
 }

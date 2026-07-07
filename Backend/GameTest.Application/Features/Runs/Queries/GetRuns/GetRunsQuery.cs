@@ -3,7 +3,7 @@ using MediatR;
 
 namespace GameTest.Application.Features.Runs.Queries.GetRuns
 {
-    public record GetRunsQuery : IRequest<List<RunReadModel>>
+    public record GetRunsQuery : IRequest<IReadOnlyCollection<RunReadModel>>
     {
         public int PlayerId { get; init; }
         public int Page { get; init; }

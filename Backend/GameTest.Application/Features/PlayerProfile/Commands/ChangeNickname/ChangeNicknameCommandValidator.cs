@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameTest.Application.Features.PlayerProfile.Commands.UpdateNickname
+namespace GameTest.Application.Features.PlayerProfile.Commands.ChangeNickname
 {
     internal class ChangeNicknameCommandValidator
     {

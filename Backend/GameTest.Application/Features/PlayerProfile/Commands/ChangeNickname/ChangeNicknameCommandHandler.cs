@@ -1,12 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameTest.Application.Interfaces;
+using MediatR;
+using Microsoft.EntityFrameworkCore;
 
-namespace GameTest.Application.Features.PlayerProfile.Commands.UpdateNickname
+namespace GameTest.Application.Features.PlayerProfile.Commands.ChangeNickname
 {
-    internal class ChangeNicknameCommandHandler
+    public class ChangeNicknameCommandHandler : IRequestHandler<ChangeNicknameCommand>
     {
+        private readonly IAppDbContext _context;
+
+        public ChangeNicknameCommandHandler(IAppDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task Handle(ChangeNicknameCommand query, CancellationToken ct)
+        {
+            var player = await _context.Players.FirstOrDefaultAsync(p => p.Id == query.PlayerId, ct)
+                ?? throw new KeyNotFoundException("Player with ID {query.PlayerId} not found");
+
+            player.ChangeNickname(query.NewNickname);
+
+            await _context.SaveChangesAsync(ct);
+        }
     }
 }

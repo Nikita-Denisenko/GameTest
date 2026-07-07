@@ -3,5 +3,5 @@ using MediatR;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetUnits
 {
-    public record GetUnitsQuery : IRequest<List<UnitReadModel>>;
+    public record GetUnitsQuery : IRequest<IReadOnlyCollection<UnitReadModel>>;
 }

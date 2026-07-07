@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetUnits
 {
-    public class GetUnitsQueryHandler : IRequestHandler<GetUnitsQuery, List<UnitReadModel>>
+    public class GetUnitsQueryHandler : IRequestHandler<GetUnitsQuery, IReadOnlyCollection<UnitReadModel>>
     {
         private readonly IAppDbContext _context;
 
@@ -14,7 +14,7 @@ namespace GameTest.Application.Features.Catalog.Queries.GetUnits
             _context = context;
         }
 
-        public async Task<List<UnitReadModel>> Handle(GetUnitsQuery query, CancellationToken ct)
+        public async Task<IReadOnlyCollection<UnitReadModel>> Handle(GetUnitsQuery query, CancellationToken ct)
         {
             return await _context.Units
                 .AsNoTracking()

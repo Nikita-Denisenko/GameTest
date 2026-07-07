@@ -26,6 +26,9 @@ namespace GameTest.Domain.Entities
             if (levels == null || !levels.Any())
                 throw new ArgumentException("Levels cannot be empty", nameof(levels));
 
+            if (stat == null) 
+                throw new ArgumentNullException(nameof(stat));
+
             StatId = stat.Id;
             Stat = stat;
             _levels.AddRange(levels);
@@ -43,6 +46,12 @@ namespace GameTest.Domain.Entities
         {
             var nextLevel = currentLevel + 1;
             return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Price;
+        }
+
+        public double? GetNextLevelValue(int currentLevel)
+        {
+            var nextLevel = currentLevel + 1;
+            return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Value;
         }
     }
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetWeapons
 {
-    public class GetWeaponsQueryHandler : IRequestHandler<GetWeaponsQuery, List<WeaponReadModel>>
+    public class GetWeaponsQueryHandler : IRequestHandler<GetWeaponsQuery, IReadOnlyCollection<WeaponReadModel>>
     {
         private readonly IAppDbContext _context;
 
@@ -14,7 +14,7 @@ namespace GameTest.Application.Features.Catalog.Queries.GetWeapons
             _context = context;
         }
 
-        public async Task<List<WeaponReadModel>> Handle(GetWeaponsQuery query, CancellationToken ct)
+        public async Task<IReadOnlyCollection<WeaponReadModel>> Handle(GetWeaponsQuery query, CancellationToken ct)
         {
             return await _context.Weapons
                 .AsNoTracking()

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameTest.Domain.Enums;
+using MediatR;
 
 namespace GameTest.Application.Features.PlayerProgression.ReadModels
 {
-    internal class PlayerWeaponListReadModel
+    public record PlayerWeaponListReadModel
     {
+        public int Id { get; init; }
+        public string Name { get; init; } = null!;
+        public WeaponType Type { get; init; }
     }
 }

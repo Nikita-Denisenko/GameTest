@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetItems
 {
-    public class GetItemsQueryHandler : IRequestHandler<GetItemsQuery, List<ItemReadModel>>
+    public class GetItemsQueryHandler : IRequestHandler<GetItemsQuery, IReadOnlyCollection<ItemReadModel>>
     {
         private readonly IAppDbContext _context;
 
@@ -14,7 +14,7 @@ namespace GameTest.Application.Features.Catalog.Queries.GetItems
             _context = context;
         }
 
-        public async Task<List<ItemReadModel>> Handle(GetItemsQuery query, CancellationToken ct)
+        public async Task<IReadOnlyCollection<ItemReadModel>> Handle(GetItemsQuery query, CancellationToken ct)
         {
             return await _context.Items
                 .AsNoTracking()

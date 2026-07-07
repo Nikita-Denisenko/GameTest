@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
-namespace GameTest.Application.Features.PlayerProfile.Commands.UpdateNickname
+namespace GameTest.Application.Features.PlayerProfile.Commands.ChangeNickname
 {
-    internal class ChangeNicknameCommand
+    public record ChangeNicknameCommand : IRequest
     {
+        public int PlayerId { get; init; }
+        public string NewNickname { get; init; } = null!;
     }
 }

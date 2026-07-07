@@ -12,6 +12,7 @@ namespace GameTest.Domain.Entities
         public int Level { get; private set; }
         public double Value { get; private set; }
         public int? NextLevelPrice { get; private set; }
+        public double? NextLevelValue { get; private set; }
         public string Name => WeaponProperty.Name;
         public WeaponStatType StatType => WeaponProperty.StatType;
 
@@ -22,11 +23,15 @@ namespace GameTest.Domain.Entities
             if (level < 1)
                 throw new ArgumentOutOfRangeException(nameof(level), "Level must be a positive number");
 
+            if (weaponProperty == null)
+                throw new ArgumentNullException(nameof(weaponProperty));
+
             WeaponPropertyId = weaponProperty.Id;
             WeaponProperty = weaponProperty;
             Level = level;
             Value = weaponProperty.GetValueAtLevel(level);
             NextLevelPrice = weaponProperty.GetNextLevelPrice(level);
+            NextLevelValue = weaponProperty.GetNextLevelValue(level);
         }
 
         public void UpLevel()
@@ -36,9 +41,11 @@ namespace GameTest.Domain.Entities
             Level++;
             RecalculateValue();
             RecalculateNextLevelPrice();
+            RecalculateNextLevelValue();
         }
 
         private void RecalculateValue() => Value = WeaponProperty.GetValueAtLevel(Level);
         private void RecalculateNextLevelPrice() => NextLevelPrice = WeaponProperty.GetNextLevelPrice(Level);
+        private void RecalculateNextLevelValue() => NextLevelValue = WeaponProperty.GetNextLevelValue(Level);
     }
 }

@@ -8,6 +8,6 @@ namespace GameTest.Application.Features.Catalog.ReadModels
         public string Name { get; init; } = string.Empty;
         public string Description { get; init; } = string.Empty;
         public WeaponType Type { get; init; }
-        public List<WeaponPropertyReadModel> Properties { get; init; } = [];
+        public IReadOnlyCollection<WeaponPropertyReadModel> Properties { get; init; } = [];
     }
 }

@@ -8,6 +8,7 @@ public class Player
     public string Nickname { get; private set; } = string.Empty;
     public string Email { get; private set; } = string.Empty;
     public string PasswordHash { get; private set; } = string.Empty;
+    public DateTime RegisteredAt {  get; private set; }
     public int Gold { get; private set; }
     public int TotalKills { get; private set; }
 
@@ -53,6 +54,7 @@ public class Player
         Nickname = nickname;
         Email = email;
         PasswordHash = passwordHash;
+        RegisteredAt = DateTime.UtcNow;
         Gold = 0;
         TotalKills = 0;
         _units.AddRange(units);
@@ -81,5 +83,12 @@ public class Player
         if (amount < 0)
             throw new ArgumentException("Kills cannot be negative", nameof(amount));
         TotalKills += amount;
+    }
+
+    public void ChangeNickname(string newNickname)
+    {
+        if (string.IsNullOrWhiteSpace(newNickname))
+            throw new ArgumentException("Nickname cannot be empty", nameof(newNickname));
+        Nickname = newNickname;
     }
 }

@@ -3,5 +3,5 @@ using MediatR;
 
 namespace GameTest.Application.Features.Catalog.Queries.GetEnemyStats
 {
-    public record GetEnemyStatsQuery : IRequest<List<EnemyStatReadModel>>;
+    public record GetEnemyStatsQuery : IRequest<IReadOnlyCollection<EnemyStatReadModel>>;
 }

@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.Runs.Queries.GetRuns
 {
-    public class GetRunsQueryHandler : IRequestHandler<GetRunsQuery, List<RunReadModel>>
+    public class GetRunsQueryHandler : IRequestHandler<GetRunsQuery, IReadOnlyCollection<RunReadModel>>
     {
         private readonly IAppDbContext _context;
 
@@ -14,7 +14,7 @@ namespace GameTest.Application.Features.Runs.Queries.GetRuns
             _context = context;
         }
 
-        public async Task<List<RunReadModel>> Handle(GetRunsQuery query, CancellationToken ct)
+        public async Task<IReadOnlyCollection<RunReadModel>> Handle(GetRunsQuery query, CancellationToken ct)
         {
             var runs = _context.Runs
                 .AsNoTracking()
