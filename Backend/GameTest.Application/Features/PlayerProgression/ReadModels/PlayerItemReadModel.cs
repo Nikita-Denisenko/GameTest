@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameTest.Domain.Entities;
+using GameTest.Domain.Enums;
 
 namespace GameTest.Application.Features.PlayerProgression.ReadModels
 {
-    internal class PlayerItemReadModel
+    public record PlayerItemReadModel
     {
+        public int Id { get; init; }
+        public string Name { get; init; } = null!;
+        public string Description { get; init; } = null!;
+        public ItemType Type { get; init; }
+        public double Bonus { get; init; }
+        public int Level { get; init; }
+        public int? NextLevelPrice { get; init; }
+        public double? NextLevelBonus { get; init; }
+        public int MaxLevel { get; init; }
+        public PlayerItemEffectReadModel Effect { get; init; } = null!;
     }
 }

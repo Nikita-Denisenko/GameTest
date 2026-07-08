@@ -35,5 +35,11 @@ namespace GameTest.Domain.ValueObjects
             var nextLevel = currentLevel + 1;
             return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Price;
         }
+
+        public double? GetNextLevelBonus(int currentLevel)
+        {
+            var nextLevel = currentLevel + 1;
+            return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Value;
+        }
     } 
 }

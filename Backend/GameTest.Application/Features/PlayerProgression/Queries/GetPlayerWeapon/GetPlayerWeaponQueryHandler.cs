@@ -29,16 +29,19 @@ namespace GameTest.Application.Features.PlayerProgression.Queries.GetWeapon
                     {
                         Id = p.Id,
                         StatId = p.WeaponProperty.StatId,
+                        StatName = p.WeaponProperty.Stat.Name,
                         StatType = p.WeaponProperty.Stat.Type,
                         Value = p.Value,
                         Level = p.Level,
                         NextLevelValue = p.NextLevelValue,
-                        NextLevelPrice = p.NextLevelPrice
+                        NextLevelPrice = p.NextLevelPrice,
+                        MaxLevel = p.WeaponProperty.Levels.Max(l => l.Level)
                     }).ToList()
-                }).FirstOrDefaultAsync(ct);
+                })
+                .FirstOrDefaultAsync(ct);
 
             if (weapon == null)
-                throw new KeyNotFoundException($"Weapon with ID {query.Id} not found");
+                throw new KeyNotFoundException($"PlayerWeapon with ID {query.Id} not found");
             
             return weapon;
         }

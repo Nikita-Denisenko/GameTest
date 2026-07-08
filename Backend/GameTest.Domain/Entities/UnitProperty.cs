@@ -44,5 +44,11 @@ namespace GameTest.Domain.Entities
             var nextLevel = currentLevel + 1;
             return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Price;
         }
+
+        public double? GetNextLevelValue(int currentLevel)
+        {
+            var nextLevel = currentLevel + 1;
+            return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Value;
+        }
     }
 }

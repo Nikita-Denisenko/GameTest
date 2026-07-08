@@ -30,7 +30,7 @@ namespace GameTest.Application.Features.Catalog.Queries.GetEnemies
                         StatId = p.StatId,
                         StatName = p.Stat.Name,
                         Value = p.Value
-                    }).ToList()
+                    }).ToList(),
                 })
                 .ToListAsync(ct);
         }

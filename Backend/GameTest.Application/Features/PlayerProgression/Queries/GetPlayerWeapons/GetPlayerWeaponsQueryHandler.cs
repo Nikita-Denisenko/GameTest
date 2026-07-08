@@ -23,15 +23,18 @@ namespace GameTest.Application.Features.PlayerProgression.Queries.GetPlayerWeapo
 
             if (query.Type != null)
                 weapons = weapons.Where(pw => pw.Weapon.Type == query.Type);
-            
-            return await weapons.Select(pw => new PlayerWeaponListReadModel
+
+            weapons = weapons.OrderBy(pw => pw.Weapon.Name);
+
+            return await weapons
+            .Skip((query.Page - 1) * query.Size)
+            .Take(query.Size)
+            .Select(pw => new PlayerWeaponListReadModel
             {
                 Id = pw.Id,
                 Name = pw.Weapon.Name,
                 Type = pw.Weapon.Type,
             })
-            .Skip((query.Page - 1) * query.Size)
-            .Take(query.Size)
             .ToListAsync(ct);
         }
     }

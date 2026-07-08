@@ -12,6 +12,7 @@ namespace GameTest.Domain.Entities
         public int Level { get; private set; }
         public double Value { get; private set; }
         public int? NextLevelPrice { get; private set; }
+        public double? NextLevelValue { get; private set; }
         public string Name => UnitProperty.Name;
         public UnitStatType StatType => UnitProperty.StatType;
 
@@ -27,6 +28,7 @@ namespace GameTest.Domain.Entities
             Level = level;
             Value = unitProperty.GetValueAtLevel(level);
             NextLevelPrice = unitProperty.GetNextLevelPrice(level);
+            NextLevelValue = unitProperty.GetNextLevelValue(level);
         }
 
         public void UpLevel()
@@ -36,10 +38,12 @@ namespace GameTest.Domain.Entities
             Level++;
             RecalculateValue();
             RecalculateNextLevelPrice();
+            RecalculateNextLevelValue();
         }
 
         private void RecalculateValue() => Value = UnitProperty.GetValueAtLevel(Level);
 
         private void RecalculateNextLevelPrice() => NextLevelPrice = UnitProperty.GetNextLevelPrice(Level);
+        private void RecalculateNextLevelValue() => NextLevelValue = UnitProperty.GetNextLevelValue(Level);
     }
 }

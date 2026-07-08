@@ -37,7 +37,8 @@ namespace GameTest.Application.Features.Runs.Queries.GetRuns
                     Kills = r.Kills,
                     GoldEarned = r.GoldEarned,
                     LevelReached = r.LevelReached
-                }).ToListAsync(ct);
+                })
+                .ToListAsync(ct);
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿using System;
+﻿using GameTest.Application.Features.PlayerProgression.ReadModels;
+using MediatR;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace GameTest.Application.Features.PlayerProgression.Queries.GetUnit
 {
-    internal class GetPlayerUnitQuery
+    public record GetPlayerUnitQuery : IRequest<PlayerUnitReadModel>
     {
+        public int Id { get; init; }
+        public int PlayerId { get; init; }
     }
 }
