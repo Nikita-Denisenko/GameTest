@@ -38,7 +38,7 @@ namespace GameTest.Infrastructure.Configurations
                         .IsRequired()
                         .HasColumnName("Level");
 
-                    levels.Property(l => l.Bonus).IsRequired()
+                    levels.Property(l => l.Value).IsRequired()
                         .IsRequired()
                         .HasColumnName("Bonus");
 

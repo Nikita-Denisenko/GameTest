@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
 namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeItem
 {
-    internal class UpgradeItemCommand
+    public record UpgradeItemCommand : IRequest
     {
+        public int Id { get; init; }
+        public int PlayerId { get; init; }
     }
 }

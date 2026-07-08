@@ -1,12 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FluentValidation;
 
 namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeItem
 {
-    internal class UpgradeItemCommandValidator
+    public class UpgradeItemCommandValidator : AbstractValidator<UpgradeItemCommand>
     {
+        public UpgradeItemCommandValidator() 
+        {
+            RuleFor(x => x.Id)
+                .GreaterThan(0)
+                .WithMessage("PlayerItemId must be greater than 0.");
+
+            RuleFor(x => x.PlayerId)
+                .GreaterThan(0)
+                .WithMessage("PlayerId must be greater than 0.");
+        }
     }
 }
