@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using GameTest.Application.Features.Auth.Responses;
+using MediatR;
 
 namespace GameTest.Application.Features.Auth.Commands.Login
 {
-    internal class LoginCommand
+    public record LoginCommand : IRequest<AuthResponse>
     {
+        public string Email { get; init; } = string.Empty;
+        public string Password { get; init; } = string.Empty;
     }
 }

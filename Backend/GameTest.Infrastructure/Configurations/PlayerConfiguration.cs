@@ -13,6 +13,9 @@ namespace GameTest.Infrastructure.Configurations
             builder.Property(p => p.Id)
                 .ValueGeneratedOnAdd();
 
+            builder.HasIndex(p => p.Email)
+                .IsUnique();
+
             builder.Navigation(p => p.Items)
                .UsePropertyAccessMode(PropertyAccessMode.Field);
 

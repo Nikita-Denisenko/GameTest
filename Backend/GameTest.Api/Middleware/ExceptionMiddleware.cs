@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Authentication;
 using System.Text.Json;
 
 namespace GameTest.Api.Middleware
@@ -34,26 +35,18 @@ namespace GameTest.Api.Middleware
                 ValidationException validationEx => (
                     400,
                     "Validation failed",
-                    validationEx.Errors.Select(e => new { field = e.PropertyName, message = e.ErrorMessage })
+                    validationEx.Errors.Select(e => new
+                    {
+                        field = e.PropertyName,
+                        message = e.ErrorMessage
+                    })
                 ),
 
-                ArgumentNullException => (
-                    400,
+                AuthenticationException => (
+                    401,
                     ex.Message,
                     null
                 ),
-
-                ArgumentOutOfRangeException => (
-                    400,
-                    ex.Message,
-                    null
-                ),
-
-                ArgumentException => (
-                   400,
-                   ex.Message,
-                   null
-               ),
 
                 UnauthorizedAccessException => (
                     401,
@@ -67,15 +60,27 @@ namespace GameTest.Api.Middleware
                     null
                 ),
 
-                InvalidOperationException => (
-                    409,
+                ArgumentException => (
+                    400,
                     ex.Message,
                     null
                 ),
 
                 DbUpdateException => (
                     409,
-                    "Database update conflict (possibly duplicate idempotency key)",
+                    "Database conflict",
+                    null
+                ),
+
+                InvalidOperationException => (
+                    400,
+                    ex.Message,
+                    null
+                ),
+
+                OperationCanceledException => (
+                    499,
+                    "Request cancelled",
                     null
                 ),
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using GameTest.Domain.Validators;
+using System.Collections.Generic;
 
 namespace GameTest.Domain.Entities;
 
@@ -28,38 +29,27 @@ public class Player
 
     public Player(
         string nickname,
-        string email, string passwordHash,
-        IEnumerable<PlayerUnit> units,
-        IEnumerable<PlayerWeapon> weapons,
-        IEnumerable<PlayerItem> items)
+        string email, 
+        string passwordHash)
+   
     {
         if (string.IsNullOrWhiteSpace(nickname))
             throw new ArgumentException("Nickname cannot be empty", nameof(nickname));
 
-        if (string.IsNullOrWhiteSpace(email))
-            throw new ArgumentException(nameof(email));
+        if (!EmailValidator.IsValid(email))
+            throw new ArgumentException(
+                "Email format is invalid",
+                nameof(email));
 
         if (string.IsNullOrWhiteSpace(passwordHash))
             throw new ArgumentException(nameof(passwordHash));
 
-        if (units == null || !units.Any())
-            throw new ArgumentException("Units cannot be null or empty", nameof(units));
-
-        if (weapons == null || !weapons.Any())
-            throw new ArgumentException(nameof(weapons));
-
-        if (items == null || !items.Any())
-            throw new ArgumentException(nameof(items));
-
         Nickname = nickname;
-        Email = email;
+        Email = email.Trim().ToLowerInvariant();
         PasswordHash = passwordHash;
         RegisteredAt = DateTime.UtcNow;
         Gold = 0;
         TotalKills = 0;
-        _units.AddRange(units);
-        _weapons.AddRange(weapons);
-        _items.AddRange(items);
     }
 
     public void AddGold(int amount)
@@ -91,4 +81,8 @@ public class Player
             throw new ArgumentException("Nickname cannot be empty", nameof(newNickname));
         Nickname = newNickname;
     }
+
+    public void AddUnit(PlayerUnit unit) => _units.Add(unit);
+    public void AddWeapon(PlayerWeapon weapon) => _weapons.Add(weapon);
+    public void AddItem(PlayerItem item) => _items.Add(item);
 }

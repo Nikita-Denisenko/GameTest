@@ -42,7 +42,6 @@ namespace GameTest.Domain.Entities
         }
 
         private void RecalculateValue() => Value = UnitProperty.GetValueAtLevel(Level);
-
         private void RecalculateNextLevelPrice() => NextLevelPrice = UnitProperty.GetNextLevelPrice(Level);
         private void RecalculateNextLevelValue() => NextLevelValue = UnitProperty.GetNextLevelValue(Level);
     }

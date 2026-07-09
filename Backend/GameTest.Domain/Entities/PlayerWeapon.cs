@@ -13,14 +13,17 @@
 
         private PlayerWeapon() { }
 
-        public PlayerWeapon(Weapon weapon, IEnumerable<PlayerWeaponProperty> properties)
+        public PlayerWeapon(Weapon weapon)
         {
-            if (properties == null || !properties.Any())
-                throw new ArgumentException("Properties cannot be empty", nameof(properties));
-
             WeaponId = weapon.Id;
             Weapon = weapon;
-            _properties.AddRange(properties);
+
+            foreach (var property in weapon.Properties)
+            {
+                _properties.Add(
+                    new PlayerWeaponProperty(property)
+                );
+            }
         }
 
         public void UpPropertyLevel(int playerWeaponPropertyId)

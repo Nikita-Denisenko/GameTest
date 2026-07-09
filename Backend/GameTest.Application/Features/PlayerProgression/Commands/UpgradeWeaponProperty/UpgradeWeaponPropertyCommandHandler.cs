@@ -1,5 +1,4 @@
 ﻿using GameTest.Application.Interfaces;
-using GameTest.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

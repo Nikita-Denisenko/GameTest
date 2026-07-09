@@ -1,9 +1,11 @@
 using FluentValidation;
 using GameTest.Api.Middleware;
 using GameTest.Application.Common.Behaviors;
+using GameTest.Application.Factories;
 using GameTest.Application.Features.Runs.Commands.SaveRun;
 using GameTest.Application.Interfaces;
 using GameTest.Infrastructure;
+using GameTest.Infrastructure.Authentication;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -32,6 +34,10 @@ builder.Services.AddValidatorsFromAssembly(
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),
     typeof(ValidationBehavior<,>));
+
+builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
+builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+builder.Services.AddScoped<IPlayerProgressFactory, PlayerProgressFactory>();
 
 
 var jwtKey = builder.Configuration["Jwt:Key"]

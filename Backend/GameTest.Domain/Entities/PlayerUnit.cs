@@ -13,14 +13,17 @@ public class PlayerUnit
 
     private PlayerUnit() { }
 
-    public PlayerUnit(Unit unit, IEnumerable<PlayerUnitProperty> properties)
+    public PlayerUnit(Unit unit)
     {
-        if (properties == null || !properties.Any())
-            throw new ArgumentException("Properties cannot be empty", nameof(properties));
-
         UnitId = unit.Id;
         Unit = unit;
-        _properties.AddRange(properties);
+
+        foreach (var property in unit.Properties)
+        {
+            _properties.Add(
+                new PlayerUnitProperty(property)
+            );
+        }
     }
 
     public void UpPropertyLevel(int playerUnitPropertyId)
