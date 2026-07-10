@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Authentication;
-using System.Text.Json;
 
 namespace GameTest.Api.Middleware
 {

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MediatR;
 
 namespace GameTest.Application.Features.Auth.Commands.ChangePassword
 {
-    internal class ChangePasswordCommand
+    public record ChangePasswordCommand : IRequest
     {
+        public int PlayerId { get; init; }
+        public string CurrentPassword { get; init; } = string.Empty;
+        public string NewPassword { get; init; } = string.Empty;
     }
 }

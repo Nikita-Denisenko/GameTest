@@ -82,6 +82,23 @@ public class Player
         Nickname = newNickname;
     }
 
+    public void ChangeEmail(string newEmail)
+    {
+        if (!EmailValidator.IsValid(newEmail))
+            throw new ArgumentException(
+                "Email format is invalid",
+                nameof(newEmail));
+
+        Email = newEmail;
+    }
+
+    public void ChangePassword(string newPassword)
+    {
+        if (string.IsNullOrWhiteSpace(newPassword))
+            throw new ArgumentException("Email cannot be empty", nameof(newPassword));
+        Email = newPassword;
+    }
+
     public void AddUnit(PlayerUnit unit) => _units.Add(unit);
     public void AddWeapon(PlayerWeapon weapon) => _weapons.Add(weapon);
     public void AddItem(PlayerItem item) => _items.Add(item);
