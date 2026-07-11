@@ -1,5 +1,6 @@
 using FluentValidation;
 using GameTest.Api.Middleware;
+using GameTest.Api.Services;
 using GameTest.Application.Common.Behaviors;
 using GameTest.Application.Factories;
 using GameTest.Application.Features.Runs.Commands.SaveRun;
@@ -34,6 +35,10 @@ builder.Services.AddValidatorsFromAssembly(
 builder.Services.AddTransient(
     typeof(IPipelineBehavior<,>),
     typeof(ValidationBehavior<,>));
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();

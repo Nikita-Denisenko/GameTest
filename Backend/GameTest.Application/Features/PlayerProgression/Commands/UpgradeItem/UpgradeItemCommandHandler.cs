@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeItem
 {
-    public class UpgradeItemCommandHandler : IRequestHandler<UpgradeItemCommand>
+    public class UpgradeItemCommandHandler : IRequestHandler<UpgradeItemCommand, UpgradeItemResult>
     {
         private readonly IAppDbContext _context;
 
@@ -14,7 +14,7 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeItem
             _context = context;
         }
 
-        public async Task Handle(UpgradeItemCommand command, CancellationToken ct)
+        public async Task<UpgradeItemResult> Handle(UpgradeItemCommand command, CancellationToken ct)
         {
             var player = await _context.Players
                 .FirstOrDefaultAsync(p => p.Id == command.PlayerId, ct);
@@ -40,6 +40,13 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeItem
             playerItem.UpLevel();
 
             await _context.SaveChangesAsync(ct);
+
+            return new UpgradeItemResult
+            {
+                PlayerItemId = playerItem.Id,
+                NewLevel = playerItem.Level,
+                NewEffectBonus = playerItem.Bonus,
+            };
         }
     }
 }

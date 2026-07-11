@@ -3,7 +3,7 @@ using MediatR;
 
 namespace GameTest.Application.Features.Runs.Commands.SaveRun
 {
-    public record SaveRunCommand : IRequest
+    public record SaveRunCommand : IRequest<SaveRunResult>
     {
         public Guid IdempotencyKey { get; init; }
         public int PlayerId { get; init; }

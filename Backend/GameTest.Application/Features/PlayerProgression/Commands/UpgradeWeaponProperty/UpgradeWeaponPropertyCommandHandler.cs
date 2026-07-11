@@ -1,10 +1,11 @@
 ﻿using GameTest.Application.Interfaces;
+using GameTest.Domain.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeWeaponProperty
 {
-    public class UpgradeWeaponPropertyCommandHandler : IRequestHandler<UpgradeWeaponPropertyCommand>
+    public class UpgradeWeaponPropertyCommandHandler : IRequestHandler<UpgradeWeaponPropertyCommand, UpgradeWeaponPropertyResult>
     {
         private readonly IAppDbContext _context;
 
@@ -13,7 +14,7 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeWeapon
             _context = context;
         }
 
-        public async Task Handle(UpgradeWeaponPropertyCommand command, CancellationToken ct)
+        public async Task<UpgradeWeaponPropertyResult> Handle(UpgradeWeaponPropertyCommand command, CancellationToken ct)
         {
             var player = await _context.Players
                 .FirstOrDefaultAsync(p => p.Id == command.PlayerId, ct);
@@ -39,6 +40,14 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeWeapon
             playerWeaponProperty.UpLevel();
 
             await _context.SaveChangesAsync(ct);
+
+            return new UpgradeWeaponPropertyResult
+            {
+                PlayerWeaponPropertyId = playerWeaponProperty.Id,
+                NewLevel = playerWeaponProperty.Level,
+                NewValue = playerWeaponProperty.Value,
+                NewPlayerGold = player.Gold
+            };
         }
     }
 }

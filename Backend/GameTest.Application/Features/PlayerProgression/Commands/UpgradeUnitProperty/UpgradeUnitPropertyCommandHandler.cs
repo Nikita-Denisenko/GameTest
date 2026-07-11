@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeUnitProperty
 {
-    public class UpgradeUnitPropertyCommandHandler : IRequestHandler<UpgradeUnitPropertyCommand>
+    public class UpgradeUnitPropertyCommandHandler : IRequestHandler<UpgradeUnitPropertyCommand, UpgradeUnitPropertyResult>
     {
         private readonly IAppDbContext _context;
 
@@ -13,7 +13,7 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeUnitPr
             _context = context;
         }
 
-        public async Task Handle(UpgradeUnitPropertyCommand command, CancellationToken ct)
+        public async Task<UpgradeUnitPropertyResult> Handle(UpgradeUnitPropertyCommand command, CancellationToken ct)
         {
             var player = await _context.Players
                 .FirstOrDefaultAsync(p => p.Id == command.PlayerId, ct);
@@ -39,6 +39,14 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeUnitPr
             playerUnitProperty.UpLevel();
 
             await _context.SaveChangesAsync(ct);
+
+            return new UpgradeUnitPropertyResult
+            {
+                PlayerUnitPropertyId = playerUnitProperty.Id,
+                NewLevel = playerUnitProperty.Level,
+                NewValue = playerUnitProperty.Value,
+                NewPlayerGold = player.Gold
+            };
         }
     }
 }

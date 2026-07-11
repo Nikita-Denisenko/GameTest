@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GameTest.Application.Features.Runs.Commands.SaveRun
 {
-    public class SaveRunCommandHandler : IRequestHandler<SaveRunCommand>
+    public class SaveRunCommandHandler : IRequestHandler<SaveRunCommand, SaveRunResult>
     {
         private readonly IAppDbContext _context;    
 
@@ -14,7 +14,7 @@ namespace GameTest.Application.Features.Runs.Commands.SaveRun
             _context = context;
         }
 
-        public async Task Handle(SaveRunCommand command, CancellationToken ct)
+        public async Task<SaveRunResult> Handle(SaveRunCommand command, CancellationToken ct)
         {
             bool runAlreadyExists = await _context.Runs
                .AnyAsync(r => r.IdempotencyKey == command.IdempotencyKey, ct);
@@ -37,10 +37,17 @@ namespace GameTest.Application.Features.Runs.Commands.SaveRun
                 command.LevelReached);
 
             player.AddGold(command.GoldEarned);
-            player.AddKills(command.LevelReached);
+            player.AddKills(command.Kills);
 
             await _context.Runs.AddAsync(run, ct);
             await _context.SaveChangesAsync(ct);
+
+            return new SaveRunResult
+            {
+                RunId = run.Id,
+                NewTotalKills = player.TotalKills,
+                NewGold = player.Gold,
+            };
         }
     }
 }
