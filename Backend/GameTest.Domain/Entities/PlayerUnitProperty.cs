@@ -1,4 +1,4 @@
-﻿using GameTest.Domain.Enums;
+﻿using GameTest.Domain.Exceptions;
 
 namespace GameTest.Domain.Entities
 {
@@ -13,15 +13,16 @@ namespace GameTest.Domain.Entities
         public double Value { get; private set; }
         public int? NextLevelPrice { get; private set; }
         public double? NextLevelValue { get; private set; }
-        public string Name => UnitProperty.Name;
-        public UnitStatType StatType => UnitProperty.StatType;
 
         private PlayerUnitProperty() { }
 
         public PlayerUnitProperty(UnitProperty unitProperty, int level = 1)
         {
+            if (unitProperty == null)
+                throw new DomainException("Unit property cannot be null");
+
             if (level < 1)
-                throw new ArgumentOutOfRangeException(nameof(level), "Level must be a positive number");
+                throw new DomainException("Level must be a positive number");
 
             UnitPropertyId = unitProperty.Id;
             UnitProperty = unitProperty;
@@ -34,15 +35,24 @@ namespace GameTest.Domain.Entities
         public void UpLevel()
         {
             if (Level >= UnitProperty.MaxLevel)
-                throw new InvalidOperationException("You have reached the maximum level for this unit property.");
+                throw new DomainException("You have reached the maximum level for this unit property.");
+
             Level++;
+
             RecalculateValue();
             RecalculateNextLevelPrice();
             RecalculateNextLevelValue();
         }
 
-        private void RecalculateValue() => Value = UnitProperty.GetValueAtLevel(Level);
-        private void RecalculateNextLevelPrice() => NextLevelPrice = UnitProperty.GetNextLevelPrice(Level);
-        private void RecalculateNextLevelValue() => NextLevelValue = UnitProperty.GetNextLevelValue(Level);
+        private void RecalculateValue() =>
+            Value = UnitProperty.GetValueAtLevel(Level);
+
+        private void RecalculateNextLevelPrice() =>
+            NextLevelPrice = UnitProperty.GetNextLevelPrice(Level);
+
+        private void RecalculateNextLevelValue() =>
+            NextLevelValue = UnitProperty.GetNextLevelValue(Level);
+
+        public bool CanUpgrade => NextLevelPrice.HasValue;
     }
 }

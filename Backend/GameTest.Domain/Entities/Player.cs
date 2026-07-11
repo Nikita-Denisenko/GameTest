@@ -1,4 +1,5 @@
-﻿using GameTest.Domain.Validators;
+﻿using GameTest.Domain.Exceptions;
+using GameTest.Domain.Validators;
 using System.Collections.Generic;
 
 namespace GameTest.Domain.Entities;
@@ -34,15 +35,13 @@ public class Player
    
     {
         if (string.IsNullOrWhiteSpace(nickname))
-            throw new ArgumentException("Nickname cannot be empty", nameof(nickname));
+            throw new DomainException("Nickname cannot be empty");
 
         if (!EmailValidator.IsValid(email))
-            throw new ArgumentException(
-                "Email format is invalid",
-                nameof(email));
+            throw new DomainException("Email format is invalid");
 
         if (string.IsNullOrWhiteSpace(passwordHash))
-            throw new ArgumentException(nameof(passwordHash));
+            throw new DomainException("Password hash cannot be empty");
 
         Nickname = nickname;
         Email = email.Trim().ToLowerInvariant();
@@ -55,48 +54,46 @@ public class Player
     public void AddGold(int amount)
     {
         if (amount < 0)
-            throw new ArgumentException("Gold cannot be negative", nameof(amount));
+            throw new DomainException("Gold cannot be negative");
         Gold += amount;
     }
 
     public void SpendGold(int amount)
     {
         if (amount < 0)
-            throw new ArgumentException("Gold cannot be negative", nameof(amount));
+            throw new DomainException("Gold cannot be negative");
         if (Gold < amount)
-            throw new InvalidOperationException("Not enough gold");
+            throw new DomainException("Not enough gold");
         Gold -= amount;
     }
 
     public void AddKills(int amount)
     {
         if (amount < 0)
-            throw new ArgumentException("Kills cannot be negative", nameof(amount));
+            throw new DomainException("Kills cannot be negative");
         TotalKills += amount;
     }
 
     public void ChangeNickname(string newNickname)
     {
         if (string.IsNullOrWhiteSpace(newNickname))
-            throw new ArgumentException("Nickname cannot be empty", nameof(newNickname));
+            throw new DomainException("Nickname cannot be empty");
         Nickname = newNickname;
     }
 
     public void ChangeEmail(string newEmail)
     {
         if (!EmailValidator.IsValid(newEmail))
-            throw new ArgumentException(
-                "Email format is invalid",
-                nameof(newEmail));
+            throw new DomainException("Email format is invalid");
 
-        Email = newEmail;
+        Email = newEmail.Trim().ToLowerInvariant();
     }
 
-    public void ChangePassword(string newPassword)
+    public void ChangePassword(string newPasswordHash)
     {
-        if (string.IsNullOrWhiteSpace(newPassword))
-            throw new ArgumentException("Email cannot be empty", nameof(newPassword));
-        Email = newPassword;
+        if (string.IsNullOrWhiteSpace(newPasswordHash))
+            throw new DomainException("Password hash cannot be empty");
+        PasswordHash = newPasswordHash;
     }
 
     public void AddUnit(PlayerUnit unit) => _units.Add(unit);

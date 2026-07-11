@@ -1,5 +1,6 @@
 ﻿using GameTest.Application.Features.Runs.ReadModels;
 using GameTest.Application.Interfaces;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,7 +15,7 @@ namespace GameTest.Application.Features.Runs.Queries.GetRun
             _context = context;
         }
 
-        public async Task<RunReadModel> Handle(GetRunQuery query, CancellationToken cancellationToken)
+        public async Task<RunReadModel> Handle(GetRunQuery query, CancellationToken ct)
         {
             var run = await _context.Runs
                 .AsNoTracking()
@@ -30,10 +31,10 @@ namespace GameTest.Application.Features.Runs.Queries.GetRun
                     GoldEarned = r.GoldEarned,
                     LevelReached = r.LevelReached
                 })
-                .FirstOrDefaultAsync(cancellationToken);
+                .FirstOrDefaultAsync(ct);
 
             if (run == null)
-                throw new KeyNotFoundException($"Run with ID {query.Id} not found.");
+                throw new NotFoundException($"Run with ID {query.Id} not found.");
 
             return run;
         }

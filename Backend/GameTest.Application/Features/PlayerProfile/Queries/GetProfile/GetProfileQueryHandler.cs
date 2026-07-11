@@ -1,5 +1,6 @@
 ﻿using GameTest.Application.Features.PlayerProfile.ReadModels;
 using GameTest.Application.Interfaces;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -29,7 +30,7 @@ namespace GameTest.Application.Features.PlayerProfile.Queries.GetProfile
                 .FirstOrDefaultAsync(ct);
 
             if (profile == null)
-                throw new KeyNotFoundException($"Player with ID {query.PlayerId} not found.");
+                throw new NotFoundException($"Player with ID {query.PlayerId} not found.");
             
             return profile;
         }

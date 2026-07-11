@@ -1,4 +1,5 @@
 ﻿using GameTest.Domain.Enums;
+using GameTest.Domain.Exceptions;
 
 namespace GameTest.Domain.Entities
 {
@@ -14,13 +15,13 @@ namespace GameTest.Domain.Entities
         public WeaponStat(string name, string description, WeaponStatType type)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty", nameof(name));
+                throw new DomainException("Name cannot be empty");
 
             if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Description cannot be empty", nameof(description));
+                throw new DomainException("Description cannot be empty");
 
             if (!Enum.IsDefined(typeof(WeaponStatType), type))
-                throw new ArgumentException("Invalid WeaponStatType", nameof(type));
+                throw new DomainException("Invalid WeaponStatType");
 
             Name = name;
             Description = description;

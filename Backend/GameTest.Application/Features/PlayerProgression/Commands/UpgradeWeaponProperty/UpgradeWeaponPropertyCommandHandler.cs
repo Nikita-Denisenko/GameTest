@@ -1,5 +1,5 @@
 ﻿using GameTest.Application.Interfaces;
-using GameTest.Domain.Entities;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +20,7 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeWeapon
                 .FirstOrDefaultAsync(p => p.Id == command.PlayerId, ct);
 
             if (player == null)
-                throw new KeyNotFoundException($"Player with ID {command.PlayerId} not found");
+                throw new NotFoundException($"Player with ID {command.PlayerId} not found");
 
             var playerWeaponProperty = await _context.PlayerWeaponProperties
                 .Include(pwp => pwp.WeaponProperty)
@@ -30,13 +30,12 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeWeapon
                 ct);
 
             if (playerWeaponProperty == null)
-                throw new KeyNotFoundException($"PlayerWeaponProperty with ID {command.Id} not found");
+                throw new NotFoundException($"PlayerWeaponProperty with ID {command.Id} not found");
 
-            var upgradePrice = playerWeaponProperty.NextLevelPrice
-                ?? throw new InvalidOperationException("You have reached the maximum level for this weapon property.");
+            if (!playerWeaponProperty.CanUpgrade)
+                throw new DomainException("You have reached the maximum level for this weapon property.");
 
-            player.SpendGold(upgradePrice);
-
+            player.SpendGold(playerWeaponProperty.NextLevelPrice!.Value);
             playerWeaponProperty.UpLevel();
 
             await _context.SaveChangesAsync(ct);
@@ -46,7 +45,9 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeWeapon
                 PlayerWeaponPropertyId = playerWeaponProperty.Id,
                 NewLevel = playerWeaponProperty.Level,
                 NewValue = playerWeaponProperty.Value,
-                NewPlayerGold = player.Gold
+                NewPlayerGold = player.Gold,
+                NextLevelPrice = playerWeaponProperty.NextLevelPrice,
+                NextLevelValue = playerWeaponProperty.NextLevelValue,
             };
         }
     }

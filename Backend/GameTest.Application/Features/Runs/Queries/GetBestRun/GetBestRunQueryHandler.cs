@@ -1,5 +1,6 @@
 ﻿using GameTest.Application.Features.Runs.ReadModels;
 using GameTest.Application.Interfaces;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -17,7 +18,7 @@ namespace GameTest.Application.Features.Runs.Queries.GetBestRun
         public async Task<RunReadModel> Handle(GetBestRunQuery query, CancellationToken ct)
         {
             if (!await _context.Players.AnyAsync(p => p.Id == query.PlayerId, ct))
-                throw new UnauthorizedAccessException();
+                throw new NotFoundException($"Player with ID {query.PlayerId} not found.");
 
             return await _context.Runs
                 .AsNoTracking()
@@ -38,7 +39,7 @@ namespace GameTest.Application.Features.Runs.Queries.GetBestRun
                     LevelReached = r.LevelReached
                 })
                 .FirstOrDefaultAsync(ct)
-                ?? throw new KeyNotFoundException($"Player with ID {query.PlayerId} has not runs.");
+                ?? throw new NotFoundException($"Player with ID {query.PlayerId} has not runs.");
         }
     }
 }

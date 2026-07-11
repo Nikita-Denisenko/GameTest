@@ -1,5 +1,6 @@
 ﻿using GameTest.Application.Interfaces;
 using GameTest.Domain.Entities;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,7 +21,7 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeItem
                 .FirstOrDefaultAsync(p => p.Id == command.PlayerId, ct);
 
             if (player == null)
-                throw new KeyNotFoundException($"Player with ID {command.PlayerId} not found");
+                throw new NotFoundException($"Player with ID {command.PlayerId} not found");
 
             var playerItem = await _context.PlayerItems
                .Include(pi => pi.Item)
@@ -30,13 +31,12 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeItem
                ct);
 
             if (playerItem == null)
-                throw new KeyNotFoundException($"PlayerItem with ID {command.Id} not found");
+                throw new NotFoundException($"PlayerItem with ID {command.Id} not found");
 
-            var upgradePrice = playerItem.NextLevelPrice 
-                ?? throw new InvalidOperationException("You have reached the maximum level for this item.");
+            if (!playerItem.CanUpgrade)
+                throw new DomainException("You have reached the maximum level for this item.");
 
-            player.SpendGold(upgradePrice);
-
+            player.SpendGold(playerItem.NextLevelPrice!.Value); 
             playerItem.UpLevel();
 
             await _context.SaveChangesAsync(ct);
@@ -46,6 +46,9 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeItem
                 PlayerItemId = playerItem.Id,
                 NewLevel = playerItem.Level,
                 NewEffectBonus = playerItem.Bonus,
+                NewPlayerGold = player.Gold,
+                NextLevelPrice = playerItem.NextLevelPrice,
+                NextLevelEffectBonus = playerItem.NextLevelBonus,
             };
         }
     }

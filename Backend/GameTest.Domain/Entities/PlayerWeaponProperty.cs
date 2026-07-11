@@ -1,4 +1,4 @@
-﻿using GameTest.Domain.Enums;
+﻿using GameTest.Domain.Exceptions;
 
 namespace GameTest.Domain.Entities
 {
@@ -13,18 +13,16 @@ namespace GameTest.Domain.Entities
         public double Value { get; private set; }
         public int? NextLevelPrice { get; private set; }
         public double? NextLevelValue { get; private set; }
-        public string Name => WeaponProperty.Name;
-        public WeaponStatType StatType => WeaponProperty.StatType;
 
         private PlayerWeaponProperty() { }
 
         public PlayerWeaponProperty(WeaponProperty weaponProperty, int level = 1)
         {
-            if (level < 1)
-                throw new ArgumentOutOfRangeException(nameof(level), "Level must be a positive number");
-
             if (weaponProperty == null)
-                throw new ArgumentNullException(nameof(weaponProperty));
+                throw new DomainException("Weapon property cannot be null");
+
+            if (level < 1)
+                throw new DomainException("Level must be a positive number");
 
             WeaponPropertyId = weaponProperty.Id;
             WeaponProperty = weaponProperty;
@@ -37,7 +35,7 @@ namespace GameTest.Domain.Entities
         public void UpLevel()
         {
             if (Level >= WeaponProperty.MaxLevel)
-                throw new InvalidOperationException("You have reached the maximum level for this weapon property.");
+                throw new DomainException("You have reached the maximum level for this weapon property.");
             Level++;
             RecalculateValue();
             RecalculateNextLevelPrice();
@@ -47,5 +45,7 @@ namespace GameTest.Domain.Entities
         private void RecalculateValue() => Value = WeaponProperty.GetValueAtLevel(Level);
         private void RecalculateNextLevelPrice() => NextLevelPrice = WeaponProperty.GetNextLevelPrice(Level);
         private void RecalculateNextLevelValue() => NextLevelValue = WeaponProperty.GetNextLevelValue(Level);
+
+        public bool CanUpgrade => NextLevelPrice.HasValue;
     }
 }

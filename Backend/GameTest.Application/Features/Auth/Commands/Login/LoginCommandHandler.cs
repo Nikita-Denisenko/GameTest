@@ -1,5 +1,6 @@
 ﻿using GameTest.Application.Features.Auth.Responses;
 using GameTest.Application.Interfaces;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Authentication;
@@ -30,10 +31,10 @@ namespace GameTest.Application.Features.Auth.Commands.Login
                 .Players
                 .AsNoTracking()
                 .FirstOrDefaultAsync(p => p.Email == email, ct)
-                ?? throw new AuthenticationException("Invalid email or password");
+                ?? throw new UnauthorizedException("Invalid email or password");
 
             if (!_passwordHasher.Verify(command.Password, player.PasswordHash))
-                throw new AuthenticationException("Invalid email or password");
+                throw new UnauthorizedException("Invalid email or password");
 
             return new AuthResponse
             {

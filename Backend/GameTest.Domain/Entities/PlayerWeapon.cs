@@ -1,4 +1,6 @@
-﻿namespace GameTest.Domain.Entities
+﻿using GameTest.Domain.Exceptions;
+
+namespace GameTest.Domain.Entities
 {
     public class PlayerWeapon
     {
@@ -30,7 +32,7 @@
         {
             var property = _properties.FirstOrDefault(p => p.Id == playerWeaponPropertyId);
             if (property == null)
-                throw new KeyNotFoundException($"Property with id {playerWeaponPropertyId} was not found!");
+                throw new NotFoundException($"Property with id {playerWeaponPropertyId} was not found!");
             property.UpLevel();
         }
     }

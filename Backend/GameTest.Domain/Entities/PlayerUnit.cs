@@ -1,4 +1,6 @@
-﻿namespace GameTest.Domain.Entities;
+﻿using GameTest.Domain.Exceptions;
+
+namespace GameTest.Domain.Entities;
 
 public class PlayerUnit
 {
@@ -30,7 +32,7 @@ public class PlayerUnit
     {
         var property = _properties.FirstOrDefault(p => p.Id == playerUnitPropertyId);
         if (property == null)
-            throw new KeyNotFoundException($"Property with id {playerUnitPropertyId} was not found!");
+            throw new NotFoundException($"Property with id {playerUnitPropertyId} was not found!");
         property.UpLevel();
     }
 }

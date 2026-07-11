@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
+using GameTest.Domain.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Authentication;
 
 namespace GameTest.Api.Middleware
 {
@@ -32,7 +32,7 @@ namespace GameTest.Api.Middleware
             var (statusCode, message, errors) = ex switch
             {
                 ValidationException validationEx => (
-                    400,
+                    StatusCodes.Status400BadRequest,
                     "Validation failed",
                     validationEx.Errors.Select(e => new
                     {
@@ -41,51 +41,45 @@ namespace GameTest.Api.Middleware
                     })
                 ),
 
-                AuthenticationException => (
-                    401,
+                DomainException => (
+                    StatusCodes.Status400BadRequest,
                     ex.Message,
                     null
                 ),
 
-                UnauthorizedAccessException => (
-                    401,
+                UnauthorizedException => (
+                    StatusCodes.Status401Unauthorized,
                     ex.Message,
                     null
                 ),
 
-                KeyNotFoundException => (
-                    404,
+                NotFoundException => (
+                    StatusCodes.Status404NotFound,
                     ex.Message,
                     null
                 ),
 
-                ArgumentException => (
-                    400,
+                ConflictException => (
+                    StatusCodes.Status409Conflict,
                     ex.Message,
                     null
                 ),
 
                 DbUpdateException => (
-                    409,
-                    "Database conflict",
-                    null
-                ),
-
-                InvalidOperationException => (
-                    400,
-                    ex.Message,
+                    StatusCodes.Status409Conflict,
+                    "Database conflict.",
                     null
                 ),
 
                 OperationCanceledException => (
                     499,
-                    "Request cancelled",
+                    "Request cancelled.",
                     null
                 ),
 
                 _ => (
-                    500,
-                    "Internal server error",
+                    StatusCodes.Status500InternalServerError,
+                    "Internal server error.",
                     null
                 )
             };

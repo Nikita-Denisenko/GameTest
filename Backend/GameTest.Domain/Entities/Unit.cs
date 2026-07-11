@@ -1,4 +1,5 @@
 ﻿using GameTest.Domain.Enums;
+using GameTest.Domain.Exceptions;
 using GameTest.Domain.ValueObjects;
 using System.Collections.Generic;
 
@@ -30,28 +31,28 @@ public class Unit
         IEnumerable<UnitProperty> properties)
     {
         if (string.IsNullOrWhiteSpace(name))
-            throw new ArgumentException("Name cannot be empty", nameof(name));
+            throw new DomainException("Name cannot be empty");
 
         if (string.IsNullOrWhiteSpace(description))
-            throw new ArgumentException("Description cannot be empty", nameof(description));
+            throw new DomainException("Description cannot be empty");
 
         if (!Enum.IsDefined(typeof(UnitType), type))
-            throw new ArgumentException("Invalid UnitType", nameof(type));
+            throw new DomainException("Invalid UnitType");
 
         if (string.IsNullOrWhiteSpace(passiveAbilityName))
-            throw new ArgumentException("Passive ability name cannot be empty", nameof(passiveAbilityName));
+            throw new DomainException("Passive ability name cannot be empty");
 
         if (string.IsNullOrWhiteSpace(passiveAbilityDescription))
-            throw new ArgumentException("Passive ability description cannot be empty", nameof(passiveAbilityDescription));
+            throw new DomainException("Passive ability description cannot be empty");
 
         if (passiveAbilityBonus < 0)
-            throw new ArgumentOutOfRangeException(nameof(passiveAbilityBonus), "Passive ability bonus cannot be negative");
+            throw new DomainException("Passive ability bonus cannot be negative");
 
         if (!Enum.IsDefined(typeof(PassiveAbilityType), passiveAbilityType))
-            throw new ArgumentException("Invalid PassiveAbilityType", nameof(passiveAbilityType));
+            throw new DomainException("Invalid PassiveAbilityType");
 
         if (properties == null || !properties.Any())
-            throw new ArgumentException("Properties cannot be null or empty", nameof(properties));
+            throw new DomainException("Properties cannot be null or empty");
 
         Name = name;
         Description = description;

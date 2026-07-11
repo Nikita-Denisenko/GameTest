@@ -1,5 +1,6 @@
 ﻿using GameTest.Application.Features.PlayerProgression.ReadModels;
 using GameTest.Application.Interfaces;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -41,7 +42,7 @@ namespace GameTest.Application.Features.PlayerProgression.Queries.GetWeapon
                 .FirstOrDefaultAsync(ct);
 
             if (weapon == null)
-                throw new KeyNotFoundException($"PlayerWeapon with ID {query.Id} not found");
+                throw new NotFoundException($"PlayerWeapon with ID {query.Id} not found");
             
             return weapon;
         }

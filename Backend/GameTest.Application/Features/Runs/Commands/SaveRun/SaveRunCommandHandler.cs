@@ -1,5 +1,6 @@
 ﻿using GameTest.Application.Interfaces;
 using GameTest.Domain.Entities;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -20,11 +21,11 @@ namespace GameTest.Application.Features.Runs.Commands.SaveRun
                .AnyAsync(r => r.IdempotencyKey == command.IdempotencyKey, ct);
 
             if (runAlreadyExists)
-                throw new InvalidOperationException("You cannot save a run that already exists.");
+                throw new RunAlreadyProcessedException();
 
             var player = await _context.Players
                 .FirstOrDefaultAsync(p => p.Id  == command.PlayerId, ct)
-                ?? throw new KeyNotFoundException($"Player with ID {command.PlayerId} not found");
+                ?? throw new NotFoundException($"Player with ID {command.PlayerId} not found");
 
             var run = new Run(
                 command.IdempotencyKey,

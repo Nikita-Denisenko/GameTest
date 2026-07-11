@@ -1,4 +1,5 @@
 ﻿using GameTest.Application.Interfaces;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,7 +17,7 @@ namespace GameTest.Application.Features.PlayerProfile.Commands.ChangeNickname
         public async Task Handle(ChangeNicknameCommand query, CancellationToken ct)
         {
             var player = await _context.Players.FirstOrDefaultAsync(p => p.Id == query.PlayerId, ct)
-                ?? throw new KeyNotFoundException("Player with ID {query.PlayerId} not found");
+                ?? throw new NotFoundException("Player with ID {query.PlayerId} not found");
 
             player.ChangeNickname(query.NewNickname);
 

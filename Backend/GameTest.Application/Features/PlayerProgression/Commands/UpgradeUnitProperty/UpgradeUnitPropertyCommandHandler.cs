@@ -1,4 +1,5 @@
 ﻿using GameTest.Application.Interfaces;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +20,7 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeUnitPr
                 .FirstOrDefaultAsync(p => p.Id == command.PlayerId, ct);
 
             if (player == null)
-                throw new KeyNotFoundException($"Player with ID {command.PlayerId} not found");
+                throw new NotFoundException($"Player with ID {command.PlayerId} not found");
 
             var playerUnitProperty = await _context.PlayerUnitProperties
                 .Include(pup => pup.UnitProperty)
@@ -29,12 +30,12 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeUnitPr
                 ct);
 
             if (playerUnitProperty == null)
-                throw new KeyNotFoundException($"PlayerUnitProperty with ID {command.Id} not found");
+                throw new NotFoundException($"PlayerUnitProperty with ID {command.Id} not found");
 
-            var upgradePrice = playerUnitProperty.NextLevelPrice
-                ?? throw new InvalidOperationException("You have reached the maximum level for this unit property.");
+            if (!playerUnitProperty.CanUpgrade)
+                throw new DomainException("You have reached the maximum level for this unit property.");
 
-            player.SpendGold(upgradePrice);
+            player.SpendGold(playerUnitProperty.NextLevelPrice!.Value);
 
             playerUnitProperty.UpLevel();
 
@@ -45,7 +46,9 @@ namespace GameTest.Application.Features.PlayerProgression.Commands.UpgradeUnitPr
                 PlayerUnitPropertyId = playerUnitProperty.Id,
                 NewLevel = playerUnitProperty.Level,
                 NewValue = playerUnitProperty.Value,
-                NewPlayerGold = player.Gold
+                NewPlayerGold = player.Gold,
+                NextLevelPrice = playerUnitProperty.NextLevelPrice,
+                NextLevelValue = playerUnitProperty.NextLevelValue
             };
         }
     }

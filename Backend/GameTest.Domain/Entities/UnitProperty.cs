@@ -1,4 +1,5 @@
 ﻿using GameTest.Domain.Enums;
+using GameTest.Domain.Exceptions;
 using GameTest.Domain.ValueObjects;
 
 namespace GameTest.Domain.Entities
@@ -24,7 +25,7 @@ namespace GameTest.Domain.Entities
             IEnumerable<LevelProgression> levels)
         {
             if (levels == null || !levels.Any())
-                throw new ArgumentException("Levels cannot be empty", nameof(levels));
+                throw new DomainException("Levels cannot be empty");
 
             StatId = stat.Id;
             Stat = stat;
@@ -35,7 +36,7 @@ namespace GameTest.Domain.Entities
         {
             var levelInfo = _levels.FirstOrDefault(l => l.Level == level);
             if (levelInfo == null)
-                throw new ArgumentException($"Level {level} does not exist.");
+                throw new DomainException($"Level {level} does not exist.");
             return levelInfo.Value;
         }
 

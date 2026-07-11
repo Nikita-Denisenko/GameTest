@@ -1,4 +1,5 @@
 ﻿using GameTest.Application.Interfaces;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,10 +22,10 @@ namespace GameTest.Application.Features.Auth.Commands.ChangePassword
         {
             var player = await _context.Players
                 .FirstOrDefaultAsync(p => p.Id == command.PlayerId, ct)
-                ?? throw new KeyNotFoundException($"Player with ID {command.PlayerId} not found");
+                ?? throw new NotFoundException($"Player with ID {command.PlayerId} not found");
 
             if (!_passwordHasher.Verify(command.CurrentPassword, player.PasswordHash))
-                throw new InvalidOperationException("Invalid Current password");
+                throw new UnauthorizedException("Invalid Current password");
 
             player.ChangePassword(_passwordHasher.Hash(command.NewPassword));
 

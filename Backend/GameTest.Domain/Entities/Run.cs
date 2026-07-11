@@ -1,4 +1,5 @@
 ﻿using GameTest.Domain.Enums;
+using GameTest.Domain.Exceptions;
 
 namespace GameTest.Domain.Entities
 {
@@ -29,25 +30,25 @@ namespace GameTest.Domain.Entities
             int levelReached)
         {
             if (playerId <= 0)
-                throw new ArgumentOutOfRangeException(nameof(playerId), "Player ID cannot be zero or negative");
+                throw new DomainException("Player ID cannot be zero or negative");
 
             if (unitId <= 0)
-                throw new ArgumentOutOfRangeException(nameof(unitId), "Unit ID cannot be zero or negative");
+                throw new DomainException("Unit ID cannot be zero or negative");
 
             if (startedAt == default)
-                throw new ArgumentException("StartedAt cannot be default", nameof(startedAt));
+                throw new DomainException("StartedAt cannot be default");
 
             if (durationSeconds <= 0)
-                throw new ArgumentOutOfRangeException(nameof(durationSeconds), "Duration must be a positive number");
+                throw new DomainException("Duration must be a positive number");
 
             if (kills < 0)
-                throw new ArgumentOutOfRangeException(nameof(kills), "Kills cannot be negative");
+                throw new DomainException("Kills cannot be negative");
 
             if (goldEarned < 0)
-                throw new ArgumentOutOfRangeException(nameof(goldEarned), "Gold earned cannot be negative");
+                throw new DomainException("Gold earned cannot be negative");
 
             if (levelReached < 0)
-                throw new ArgumentOutOfRangeException(nameof(levelReached), "Level reached cannot be negative");
+                throw new DomainException("Level reached cannot be negative");
 
             IdempotencyKey = idempotencyKey;
             PlayerId = playerId;

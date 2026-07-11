@@ -1,6 +1,7 @@
 ﻿using GameTest.Application.Features.Auth.Responses;
 using GameTest.Application.Interfaces;
 using GameTest.Domain.Entities;
+using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -27,14 +28,16 @@ namespace GameTest.Application.Features.Auth.Commands.Register
 
         public async Task<AuthResponse> Handle(RegisterCommand command, CancellationToken ct)
         {
-            bool emailExists = await _context.Players.AnyAsync(p => p.Email == command.Email, ct);
+            var email = command.Email.Trim().ToLowerInvariant();
+
+            bool emailExists = await _context.Players.AnyAsync(p => p.Email == email, ct);
 
             if (emailExists)
-                throw new InvalidOperationException($"This email address is already in use");
+                throw new ConflictException($"This email address is already in use");
 
             var passwordHash = _passwordHasher.Hash(command.Password);
 
-            var player = new Player(command.Nickname, command.Email, passwordHash);
+            var player = new Player(command.Nickname, email, passwordHash);
 
             await _context.Players.AddAsync(player, ct);
             await _playerProgressFactory.CreateInitialProgressAsync(player, ct);

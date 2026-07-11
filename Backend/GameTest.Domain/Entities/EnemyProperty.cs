@@ -1,4 +1,6 @@
-﻿namespace GameTest.Domain.Entities
+﻿using GameTest.Domain.Exceptions;
+
+namespace GameTest.Domain.Entities
 {
     public class EnemyProperty
     {
@@ -14,7 +16,7 @@
         public EnemyProperty(EnemyStat stat, double value)
         {
             if (value < 0)
-                throw new ArgumentOutOfRangeException(nameof(value), "Value must be a non-negative number");
+                throw new DomainException("Value must be a non-negative number");
 
             StatId = stat.Id;
             Stat = stat;

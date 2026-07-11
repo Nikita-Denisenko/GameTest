@@ -1,4 +1,5 @@
 ﻿using GameTest.Domain.Enums;
+using GameTest.Domain.Exceptions;
 using GameTest.Domain.ValueObjects;
 
 namespace GameTest.Domain.Entities
@@ -26,25 +27,25 @@ namespace GameTest.Domain.Entities
         )
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty", nameof(name));
+                throw new DomainException("Name cannot be empty");
 
             if (string.IsNullOrWhiteSpace(description)) 
-                throw new ArgumentException("Description cannot be empty", nameof(description));
+                throw new DomainException("Description cannot be empty");
 
             if (!Enum.IsDefined(typeof(ItemType), type)) 
-                throw new ArgumentException("Invalid item type", nameof(type));
+                throw new DomainException("Invalid item type");
 
             if (string.IsNullOrWhiteSpace(effectName))
-                throw new ArgumentException("Effect name cannot be empty", nameof(effectName));
+                throw new DomainException("Effect name cannot be empty");
 
             if (string.IsNullOrWhiteSpace(effectDescription))
-                throw new ArgumentException("Effect description cannot be empty", nameof(effectDescription));
+                throw new DomainException("Effect description cannot be empty");
 
             if (!Enum.IsDefined(typeof(ItemEffectType), effectType))
-                throw new ArgumentException("Invalid item effect type", nameof(effectType));
+                throw new DomainException("Invalid item effect type");
 
             if (levels == null || !levels.Any())
-                throw new ArgumentException("Levels cannot be null or empty", nameof(levels));
+                throw new DomainException("Levels cannot be null or empty");
 
             Name = name;
             Description = description;

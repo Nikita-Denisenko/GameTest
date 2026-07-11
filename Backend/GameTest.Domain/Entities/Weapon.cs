@@ -1,4 +1,5 @@
 ﻿using GameTest.Domain.Enums;
+using GameTest.Domain.Exceptions;
 
 namespace GameTest.Domain.Entities
 {
@@ -17,33 +18,21 @@ namespace GameTest.Domain.Entities
         public Weapon(string name, string description, WeaponType type, IEnumerable<WeaponProperty> properties)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty", nameof(name));
+                throw new DomainException("Name cannot be empty");
 
             if (string.IsNullOrWhiteSpace(description))
-                throw new ArgumentException("Description cannot be empty", nameof(description));
+                throw new DomainException("Description cannot be empty");
 
             if (!Enum.IsDefined(typeof(WeaponType), type))
-                throw new ArgumentException("Invalid WeaponType", nameof(type));
+                throw new DomainException("Invalid WeaponType");
 
             if (properties == null || !properties.Any())
-                throw new ArgumentException("Properties cannot be empty", nameof(properties));
+                throw new DomainException("Properties cannot be empty");
 
             Name = name;
             Description = description;
             Type = type;
             _properties.AddRange(properties);
-        }
-
-        public void UpdateName(string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty");
-            Name = name;
-        }
-
-        public void UpdateDescription(string description)
-        {
-            Description = description;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿
 
 using GameTest.Domain.Enums;
+using GameTest.Domain.Exceptions;
 
 namespace GameTest.Domain.Entities
 {
@@ -16,13 +17,13 @@ namespace GameTest.Domain.Entities
         public EnemyStat(string name, string description, EnemyStatType type)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentException("Name cannot be empty", nameof(name));
+                throw new DomainException("Name cannot be empty");
             
             if (string.IsNullOrWhiteSpace(description)) 
-                throw new ArgumentException("Description cannot be empty", nameof(description));
+                throw new DomainException("Description cannot be empty");
 
             if (!Enum.IsDefined(typeof(EnemyStatType), type))
-                throw new ArgumentException("Invalid enemy stat type", nameof(type));
+                throw new DomainException("Invalid enemy stat type");
 
             Name = name;
             Description = description;
