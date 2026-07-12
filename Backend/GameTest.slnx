@@ -1,10 +1,10 @@
 <Solution>
   <Folder Name="/Tests/">
-    <Project Path="GameTest.Application.Tests/GameTest.Application.Tests.csproj" Id="e06ce507-f266-48b5-9ab1-385deeeacfaa" />
-    <Project Path="GameTest.Domain.Tests/GameTest.Domain.Tests.csproj" Id="71b4d2bf-e9c0-4cf1-a91d-65f1a8b89a91" />
+    <Project Path="tests/GameTest.Application.Tests/GameTest.Application.Tests.csproj" />
+    <Project Path="tests/GameTest.Domain.Tests/GameTest.Domain.Tests.csproj" />
   </Folder>
-  <Project Path="GameTest.Api/GameTest.Api.csproj" />
-  <Project Path="GameTest.Application/GameTest.Application.csproj" />
-  <Project Path="GameTest.Domain/GameTest.Domain.csproj" />
-  <Project Path="GameTest.Infrastructure/GameTest.Infrastructure.csproj" />
+  <Project Path="src/GameTest.Api/GameTest.Api.csproj" />
+  <Project Path="src/GameTest.Application/GameTest.Application.csproj" />
+  <Project Path="src/GameTest.Domain/GameTest.Domain.csproj" />
+  <Project Path="src/GameTest.Infrastructure/GameTest.Infrastructure.csproj" />
 </Solution>
