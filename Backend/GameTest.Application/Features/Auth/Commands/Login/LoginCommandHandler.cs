@@ -3,7 +3,6 @@ using GameTest.Application.Interfaces;
 using GameTest.Domain.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Authentication;
 
 namespace GameTest.Application.Features.Auth.Commands.Login
 {

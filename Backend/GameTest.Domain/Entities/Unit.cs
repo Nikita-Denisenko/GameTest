@@ -1,7 +1,6 @@
 ﻿using GameTest.Domain.Enums;
 using GameTest.Domain.Exceptions;
 using GameTest.Domain.ValueObjects;
-using System.Collections.Generic;
 
 namespace GameTest.Domain.Entities;
 

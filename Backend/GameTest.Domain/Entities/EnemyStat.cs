@@ -1,6 +1,4 @@
-﻿
-
-using GameTest.Domain.Enums;
+﻿using GameTest.Domain.Enums;
 using GameTest.Domain.Exceptions;
 
 namespace GameTest.Domain.Entities

@@ -1,6 +1,5 @@
 ﻿using GameTest.Domain.Exceptions;
 using GameTest.Domain.Validators;
-using System.Collections.Generic;
 
 namespace GameTest.Domain.Entities;
 

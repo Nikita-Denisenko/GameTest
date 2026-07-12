@@ -27,14 +27,6 @@ namespace GameTest.Domain.Entities
                 );
             }
         }
-
-        public void UpPropertyLevel(int playerWeaponPropertyId)
-        {
-            var property = _properties.FirstOrDefault(p => p.Id == playerWeaponPropertyId);
-            if (property == null)
-                throw new NotFoundException($"Property with id {playerWeaponPropertyId} was not found!");
-            property.UpLevel();
-        }
     }
 }
  

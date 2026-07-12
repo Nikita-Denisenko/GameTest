@@ -27,12 +27,5 @@ public class PlayerUnit
             );
         }
     }
-
-    public void UpPropertyLevel(int playerUnitPropertyId)
-    {
-        var property = _properties.FirstOrDefault(p => p.Id == playerUnitPropertyId);
-        if (property == null)
-            throw new NotFoundException($"Property with id {playerUnitPropertyId} was not found!");
-        property.UpLevel();
-    }
 }
+
