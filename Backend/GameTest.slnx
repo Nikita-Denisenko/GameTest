@@ -1,6 +1,5 @@
 <Solution>
   <Folder Name="/Tests/">
-    <Project Path="tests/GameTest.Application.Tests/GameTest.Application.Tests.csproj" />
     <Project Path="tests/GameTest.Domain.Tests/GameTest.Domain.Tests.csproj" />
   </Folder>
   <Project Path="src/GameTest.Api/GameTest.Api.csproj" />

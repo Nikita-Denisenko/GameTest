@@ -1,4 +1,5 @@
 ﻿using GameTest.Domain.Enums;
+using GameTest.Domain.Exceptions;
 
 namespace GameTest.Domain.ValueObjects
 {
@@ -14,19 +15,44 @@ namespace GameTest.Domain.ValueObjects
         private ItemEffect() { }
 
 
-        public ItemEffect(string name, string description, ItemEffectType type, IEnumerable<LevelProgression> levels)
+        public ItemEffect(
+            string name,
+            string description,
+            ItemEffectType type,
+            IEnumerable<LevelProgression> levels)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new DomainException("Name cannot be empty");
+
+            if (string.IsNullOrWhiteSpace(description))
+                throw new DomainException("Description cannot be empty");
+
+            ArgumentNullException.ThrowIfNull(levels);
+
+            var levelList = levels.ToList();
+
+            if (levelList.Count == 0)
+                throw new DomainException("Levels cannot be empty");
+
+            if (levelList
+                .GroupBy(x => x.Level)
+                .Any(x => x.Count() > 1))
+            {
+                throw new DomainException("Levels cannot contain duplicates");
+            }
+
             Name = name;
             Description = description;
             Type = type;
-            _levels.AddRange(levels);
+
+            _levels.AddRange(levelList);
         }
 
         public double GetValueAtLevel(int level)
         {
             var itemLevel = _levels.FirstOrDefault(l => l.Level == level);
             if (itemLevel == null)
-                throw new ArgumentException($"Level {level} does not exist for this effect.");
+                throw new DomainException($"Level {level} does not exist for this effect.");
             return itemLevel.Value;
         }
 

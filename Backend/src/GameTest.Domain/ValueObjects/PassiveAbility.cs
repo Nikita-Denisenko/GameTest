@@ -1,4 +1,5 @@
 ﻿using GameTest.Domain.Enums;
+using GameTest.Domain.Exceptions;
 
 namespace GameTest.Domain.ValueObjects
 {
@@ -9,14 +10,21 @@ namespace GameTest.Domain.ValueObjects
         public double Bonus { get; private set; }
         public PassiveAbilityType Type { get; private set; }
 
-        public PassiveAbility
-        (
+        public PassiveAbility(
             string name,
             double bonus,
             string description,
-            PassiveAbilityType type
-        )
+            PassiveAbilityType type)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new DomainException("Name cannot be empty");
+
+            if (string.IsNullOrWhiteSpace(description))
+                throw new DomainException("Description cannot be empty");
+
+            if (bonus < 0)
+                throw new DomainException("Bonus cannot be negative");
+
             Name = name;
             Bonus = bonus;
             Description = description;
