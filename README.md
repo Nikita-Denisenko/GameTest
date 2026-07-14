@@ -1,141 +1,279 @@
-# ⚔️ SURVIVOR-LIKE PROTOTYPE
+<h1 align="center">🎮 GameTest Backend API</h1>
 
----
+<hr>
 
-<div align="center">
+<h2>📖 О ПРОЕКТЕ</h2>
+<p>Бэкенд для игры в жанре Survivor-like. Построен на <strong>Clean Architecture</strong>, <strong>DDD</strong> и <strong>CQRS + MediatR</strong>.</p>
 
-| Статус | Жанр | Движок |
-|--------|------|--------|
-| 🟡 В разработке | Survivor-like | Unity 2021.3 LTS |
+<p><strong>Стек:</strong> ASP.NET Core 9, Entity Framework Core 9, MySQL 8, JWT, FluentValidation</p>
 
-</div>
+<hr>
 
----
+<h2>📁 СТРУКТУРА ПРОЕКТА</h2>
 
-## 📖 О ПРОЕКТЕ
+<ul>
+  <li><strong>GameTest.Domain</strong> — Сущности, Value Objects, Enums, Exceptions</li>
+  <li><strong>GameTest.Domain.Tests</strong> — Модульные тесты для доменных сущностей (xUnit)</li>
+  <li><strong>GameTest.Application</strong> — CQRS, MediatR, Handlers, DTOs, Interfaces</li>
+  <li><strong>GameTest.Infrastructure</strong> — DbContext, Configurations, Migrations</li>
+  <li><strong>GameTest.API</strong> — Controllers, Middleware, Swagger</li>
+</ul>
 
-Прототип игры в стиле Vampire Survivors.  
-Цель — выживать, уничтожать врагов, прокачивать персонажа.
+<hr>
 
----
+<h2>📡 API ENDPOINTS</h2>
 
-## 🎮 ПЕРСОНАЖИ
+<h3>🔓 Auth (Публичные)</h3>
 
-<div align="center">
+<h4>POST /api/auth/register</h4>
+<pre>
+{
+  "nickname": "Vasya",
+  "email": "vasya@mail.com",
+  "password": "password123"
+}
+</pre>
 
-| ⚔️ ВОИН | 🔮 МАГ |
-|---------|--------|
-| +25% здоровья | +30% урона |
-| Броня за убийства | Крит раз в 8 сек |
-| Старт: Меч | Старт: Огненный шар |
+<h4>POST /api/auth/login</h4>
+<pre>
+{
+  "email": "vasya@mail.com",
+  "password": "password123"
+}
+</pre>
 
-</div>
+<strong>Response:</strong>
+<pre>
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+</pre>
 
-**Характеристики:**  
-HP · Скорость · Броня · Регенерация · Урон · Скорость атаки · Крит · Вампиризм · Удача
+<hr>
 
----
+<h3>🔒 PlayerProfile (Требуется JWT)</h3>
 
-## ⚔️ ОРУЖИЕ
+<h4>GET /api/player-profile</h4>
+<strong>Response:</strong>
+<pre>
+{
+  "nickname": "Vasya",
+  "email": "vasya@mail.com",
+  "registeredAt": "2026-07-14T12:00:00Z",
+  "gold": 1000,
+  "totalKills": 0
+}
+</pre>
 
-<div align="center">
+<h4>PATCH /api/player-profile/nickname</h4>
+<pre>
+{
+  "newNickname": "VasyaPro"
+}
+</pre>
+<strong>Response:</strong> <code>204 No Content</code>
 
-| | Оружие | Тип |
-|-|--------|-----|
-| 1 | Меч | Ближний бой |
-| 2 | Кинжал | Снаряд |
-| 3 | Огненный шар | Снаряд |
-| 4 | Молния | Снаряд |
-| 5 | Орбитальные сферы | Пассивное |
-| 6 | Лук | Снаряд |
+<hr>
 
-</div>
+<h3>📦 Catalog (Требуется JWT)</h3>
 
-**Уровни:** до 5 улучшений  
-**Эволюции:** Меч + Огненный шар → Пылающий клинок · Лук + Молния → Громовой выстрел
+<ul>
+  <li><code>GET /api/catalog/weapons</code></li>
+  <li><code>GET /api/catalog/items</code></li>
+  <li><code>GET /api/catalog/units</code></li>
+  <li><code>GET /api/catalog/enemies</code></li>
+  <li><code>GET /api/catalog/weapon-stats</code></li>
+  <li><code>GET /api/catalog/unit-stats</code></li>
+  <li><code>GET /api/catalog/enemy-stats</code></li>
+</ul>
 
----
+<hr>
 
-## 📦 ПРЕДМЕТЫ
+<h3>🎮 PlayerProgression (Требуется JWT)</h3>
 
-<div align="center">
+<h4>GET /api/player-progression/player-items?Page=1&Size=20&Type=Gloves</h4>
 
-| | Предмет | Эффект | | Предмет | Эффект |
-|-|---------|--------|-|---------|--------|
-| 1 | Перчатки | +скорость атаки | 9 | Кольцо | +радиус подбора |
-| 2 | Сапоги | +скорость движения | 10 | Сфера | +размер атак |
-| 3 | Книга | +опыт | 11 | Часы | +длительность |
-| 4 | Кошелек | +золото | 12 | Череп | +враги (+награда) |
-| 5 | Амулет | +урон | 13 | Клевер | +удача |
-| 6 | Кристалл | +шанс крита | 14 | Маска | +вампиризм |
-| 7 | Плащ | +броня | 15 | Перо | +скорость снарядов |
-| 8 | Сердце | +HP | 16 | Компас | +дальность атак |
+<h4>GET /api/player-progression/player-items/{id}</h4>
 
-</div>
+<h4>PATCH /api/player-progression/player-items/{id}/upgrade</h4>
+<strong>Response:</strong>
+<pre>
+{
+  "playerItemId": 1,
+  "newLevel": 2,
+  "newEffectBonus": 10.0,
+  "newPlayerGold": 900,
+  "nextLevelPrice": 200,
+  "nextLevelEffectBonus": 15.0
+}
+</pre>
 
----
+<h4>GET /api/player-progression/player-units</h4>
+<h4>GET /api/player-progression/player-units/{id}</h4>
+<h4>GET /api/player-progression/player-weapons</h4>
+<h4>GET /api/player-progression/player-weapons/{id}</h4>
 
-## 📈 ПРОГРЕССИЯ
+<h4>PATCH /api/player-progression/player-unit-properties/{id}/upgrade</h4>
+<strong>Response:</strong>
+<pre>
+{
+  "playerUnitPropertyId": 1,
+  "newLevel": 2,
+  "newValue": 15.0,
+  "newPlayerGold": 900,
+  "nextLevelPrice": 200,
+  "nextLevelValue": 20.0
+}
+</pre>
 
-```
-Убивай врагов → Получай опыт → Повышай уровень → Выбирай улучшение (1 из 3)
-```
+<h4>PATCH /api/player-progression/player-weapon-properties/{id}/upgrade</h4>
+<strong>Response:</strong>
+<pre>
+{
+  "playerWeaponPropertyId": 1,
+  "newLevel": 2,
+  "newValue": 15.0,
+  "newPlayerGold": 900,
+  "nextLevelPrice": 200,
+  "nextLevelValue": 20.0
+}
+</pre>
 
-**Ограничения:** 6 оружий · 6 предметов  
-**Золото:** тратится на сундуки и магазин
+<hr>
 
----
+<h3>🏃 Runs (Требуется JWT)</h3>
 
-## 👾 ВРАГИ И ВОЛНЫ
+<h4>POST /api/runs</h4>
+<strong>Request:</strong>
+<pre>
+{
+  "idempotencyKey": "550e8400-e29b-41d4-a716-446655440000",
+  "unitId": 1,
+  "startedAt": "2026-07-14T12:00:00Z",
+  "durationSeconds": 300,
+  "kills": 150,
+  "goldEarned": 500,
+  "levelReached": 10
+}
+</pre>
+<strong>Response (201 Created):</strong>
+<pre>
+{
+  "runId": 1,
+  "unitId": 1,
+  "unitName": "Warrior",
+  "startedAt": "2026-07-14T12:00:00Z",
+  "durationSeconds": 300,
+  "kills": 150,
+  "goldEarned": 500,
+  "levelReached": 10
+}
+</pre>
 
-**Типы:** Обычный · Быстрый · Танк · Дальнобойный · Элитный
+<h4>GET /api/runs?Page=1&Size=20&NewestFirst=true</h4>
+<h4>GET /api/runs/{id}</h4>
+<h4>GET /api/runs/best</h4>
 
-<div align="center">
+<hr>
 
-| Время | Враги |
-|-------|-------|
-| 0–2 мин | Обычные |
-| 2–5 мин | + Быстрые |
-| 5–8 мин | + Элитные |
-| 8–10 мин | Орда |
-| 10+ мин | Мини-босс |
+<h2>🧪 ТЕСТИРОВАНИЕ</h2>
 
-</div>
+<p>Проект покрыт модульными тестами для доменных сущностей (GameTest.Domain.Tests).</p>
 
----
+<strong>Запуск тестов:</strong>
+<pre>
+dotnet test GameTest.Domain.Tests
+</pre>
 
-## 🎁 БОНУСЫ
+<hr>
 
-<div align="center">
+<h2>🛠️ УСТАНОВКА И ЗАПУСК</h2>
 
-| ❤️ Лечение | 🧲 Магнит | ⚔️ Урон | 🛡️ Неуязвимость | 💥 Бомба |
+<h3>1. Клонировать репозиторий</h3>
+<pre>
+git clone https://github.com/yourusername/gametest-backend.git
+cd gametest-backend
+</pre>
 
-</div>
+<h3>2. Настроить базу данных (Docker)</h3>
+<pre>
+docker-compose up -d
+</pre>
+<p>Или вручную:</p>
+<pre>
+docker run -d --name gametest-mysql -e MYSQL_DATABASE=gametest -e MYSQL_USER=gametest -e MYSQL_PASSWORD=gametest_password -e MYSQL_ROOT_PASSWORD=root_password -p 3307:3306 mysql:8.0
+</pre>
 
----
+<h3>3. Настроить appsettings.json</h3>
+<pre>
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server=localhost;Port=3307;Database=gametest;User=root;Password=root_password;"
+  },
+  "Jwt": {
+    "Key": "your-super-secret-key-at-least-32-characters-long",
+    "Issuer": "gametest-api"
+  }
+}
+</pre>
 
-## 🖥️ ИНТЕРФЕЙС
+<h3>4. Применить миграции</h3>
+<pre>
+dotnet ef database update --project GameTest.Infrastructure --startup-project GameTest.API
+</pre>
 
-<div align="center">
+<h3>5. Запустить API</h3>
+<pre>
+cd GameTest.API
+dotnet run
+</pre>
 
-| HP | Опыт | Таймер | Золото | Иконки оружий | Иконки предметов | Меню выбора | Экран смерти |
+<hr>
 
-</div>
+<h2>📦 УСТАНОВКА ПАКЕТОВ</h2>
 
----
+<h3>GameTest.API</h3>
+<pre>
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer --version 9.0.0
+dotnet add package Swashbuckle.AspNetCore --version 7.2.0
+</pre>
 
-## 🏗️ АРХИТЕКТУРА
+<h3>GameTest.Application</h3>
+<pre>
+dotnet add package MediatR --version 12.4.1
+dotnet add package FluentValidation --version 11.11.0
+</pre>
 
-<div align="center">
+<h3>GameTest.Infrastructure</h3>
+<pre>
+dotnet add package Microsoft.EntityFrameworkCore --version 9.0.0
+dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.0
+dotnet add package Pomelo.EntityFrameworkCore.MySql --version 9.0.0-preview.1
+</pre>
 
-| ✅ ScriptableObject | ✅ Object Pooling | ✅ Модульность | ✅ Расширяемость |
+<h3>GameTest.Domain.Tests</h3>
+<pre>
+dotnet add package xunit --version 2.6.6
+dotnet add package xunit.runner.visualstudio --version 2.5.6
+dotnet add package Moq --version 4.20.70
+dotnet add package FluentAssertions --version 6.12.0
+</pre>
 
-</div>
+<hr>
 
----
+<h2>💡 КЛЮЧЕВЫЕ ФИЧИ</h2>
 
-<div align="center">
+<ul>
+  <li><strong>CQRS + MediatR</strong> — строгое разделение команд и запросов</li>
+  <li><strong>Clean Architecture</strong> — независимость от внешних слоёв</li>
+  <li><strong>Гибкая система прокачки</strong> — один механизм для оружия, предметов и юнитов</li>
+  <li><strong>Idempotency</strong> — защита от дублирования забегов</li>
+  <li><strong>Глобальная обработка ошибок</strong> — единый middleware</li>
+  <li><strong>JWT Authentication</strong> — авторизация через токены</li>
+  <li><strong>Domain Tests</strong> — модульные тесты (xUnit, Moq, FluentAssertions)</li>
+</ul>
 
-**В РАЗРАБОТКЕ**  
+<hr>
 
-</div>
+<p align="center"><strong>Разработчик:</strong> Денисенко Никита</p>
+<p align="center">Проект готов к интеграции с клиентской частью (Unity).</p>
