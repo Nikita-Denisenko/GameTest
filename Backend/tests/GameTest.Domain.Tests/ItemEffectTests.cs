@@ -71,7 +71,7 @@ public class ItemEffectTests
             CreateLevels());
 
 
-        Assert.Throws<ArgumentException>(() =>
+        Assert.Throws<DomainException>(() =>
             effect.GetValueAtLevel(99));
     }
 
