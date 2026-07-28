@@ -9,10 +9,10 @@ namespace GameTest.Domain.Entities
         public Player Player { get; private set; } = null!;
         public int ItemId { get; private set; }
         public Item Item { get; private set; } = null!;
-        public double Bonus { get; private set; }
+        public float Bonus { get; private set; }
         public int Level { get; private set; }
         public int? NextLevelPrice { get; private set; }
-        public double? NextLevelBonus { get; private set; }
+        public float? NextLevelBonus { get; private set; }
 
         private PlayerItem() { }
 

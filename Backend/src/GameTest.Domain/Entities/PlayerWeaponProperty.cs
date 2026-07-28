@@ -10,9 +10,9 @@ namespace GameTest.Domain.Entities
         public int WeaponPropertyId { get; private set; }
         public WeaponProperty WeaponProperty { get; private set; } = null!;
         public int Level { get; private set; }
-        public double Value { get; private set; }
+        public float Value { get; private set; }
         public int? NextLevelPrice { get; private set; }
-        public double? NextLevelValue { get; private set; }
+        public float? NextLevelValue { get; private set; }
 
         private PlayerWeaponProperty() { }
 

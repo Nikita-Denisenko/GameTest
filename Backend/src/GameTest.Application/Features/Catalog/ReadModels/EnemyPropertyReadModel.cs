@@ -6,6 +6,6 @@ namespace GameTest.Application.Features.Catalog.ReadModels
     {
         public int StatId { get; init; }
         public string StatName { get; init; } = string.Empty;
-        public double Value { get; init; }
+        public float Value { get; init; }
     }
 }

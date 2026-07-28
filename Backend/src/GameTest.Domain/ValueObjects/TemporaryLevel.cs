@@ -2,13 +2,13 @@
 
 namespace GameTest.Domain.ValueObjects
 {
-    public record LevelProgression
+    public record TemporaryLevel
     {
-        public int Level { get; }
-        public float Value { get; }
-        public int Price { get; }
+        public int Level { get; init; }
+        public float Value { get; init; }
+        public int Price { get; init; }
 
-        public LevelProgression(int level, float value, int price)
+        public TemporaryLevel(int level, float value, int price)
         {
             if (level < 1)
                 throw new DomainException("Level must be greater than 0");

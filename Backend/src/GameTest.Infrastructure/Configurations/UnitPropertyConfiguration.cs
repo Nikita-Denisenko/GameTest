@@ -23,7 +23,7 @@ namespace GameTest.Infrastructure.Configurations
                 .HasForeignKey(up => up.StatId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.OwnsMany(wp => wp.Levels, levels =>
+            builder.OwnsMany(up => up.Levels, levels =>
             {
                 levels.WithOwner().HasForeignKey("UnitPropertyId");
 
@@ -43,6 +43,28 @@ namespace GameTest.Infrastructure.Configurations
             });
 
             builder.Navigation(up => up.Levels)
+               .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.OwnsMany(up => up.TemporaryLevels, temporaryLevels =>
+            {
+                temporaryLevels.WithOwner().HasForeignKey("UnitPropertyId");
+
+                temporaryLevels.HasKey("UnitPropertyId", "Level");
+
+                temporaryLevels.Property(l => l.Level)
+                   .IsRequired()
+                   .HasColumnName("Level");
+
+                temporaryLevels.Property(l => l.Value)
+                    .IsRequired()
+                    .HasColumnName("Value");
+
+                temporaryLevels.Property(l => l.Price)
+                    .IsRequired()
+                    .HasColumnName("Price");
+            });
+
+            builder.Navigation(up => up.TemporaryLevels)
                .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }

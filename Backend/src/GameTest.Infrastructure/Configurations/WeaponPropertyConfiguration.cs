@@ -44,6 +44,28 @@ namespace GameTest.Infrastructure.Configurations
 
             builder.Navigation(wp => wp.Levels)
                .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.OwnsMany(wp => wp.TemporaryLevels, temporaryLevels =>
+            {
+                temporaryLevels.WithOwner().HasForeignKey("UnitPropertyId");
+
+                temporaryLevels.HasKey("UnitPropertyId", "Level");
+
+                temporaryLevels.Property(l => l.Level)
+                   .IsRequired()
+                   .HasColumnName("Level");
+
+                temporaryLevels.Property(l => l.Value)
+                    .IsRequired()
+                    .HasColumnName("Value");
+
+                temporaryLevels.Property(l => l.Price)
+                    .IsRequired()
+                    .HasColumnName("Price");
+            });
+
+            builder.Navigation(wp => wp.TemporaryLevels)
+               .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

@@ -9,11 +9,11 @@ namespace GameTest.Domain.Entities
         public Enemy Enemy { get; private set; } = null!;
         public int StatId { get; private set; }
         public EnemyStat Stat { get; private set; } = null!;
-        public double Value { get; private set; }
+        public float Value { get; private set; }
 
         private EnemyProperty() { }
 
-        public EnemyProperty(EnemyStat stat, double value)
+        public EnemyProperty(EnemyStat stat, float value)
         {
             if (value < 0)
                 throw new DomainException("Value must be a non-negative number");

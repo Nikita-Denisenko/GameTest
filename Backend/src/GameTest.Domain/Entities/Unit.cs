@@ -25,7 +25,7 @@ public class Unit
         Weapon startWeapon,
         string passiveAbilityName, 
         string passiveAbilityDescription, 
-        double passiveAbilityBonus, 
+        float passiveAbilityBonus, 
         PassiveAbilityType passiveAbilityType,
         IEnumerable<UnitProperty> properties)
     {

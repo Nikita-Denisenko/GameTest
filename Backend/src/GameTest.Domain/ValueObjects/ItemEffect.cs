@@ -48,7 +48,7 @@ namespace GameTest.Domain.ValueObjects
             _levels.AddRange(levelList);
         }
 
-        public double GetValueAtLevel(int level)
+        public float GetValueAtLevel(int level)
         {
             var itemLevel = _levels.FirstOrDefault(l => l.Level == level);
             if (itemLevel == null)
@@ -62,7 +62,7 @@ namespace GameTest.Domain.ValueObjects
             return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Price;
         }
 
-        public double? GetNextLevelBonus(int currentLevel)
+        public float? GetNextLevelBonus(int currentLevel)
         {
             var nextLevel = currentLevel + 1;
             return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Value;

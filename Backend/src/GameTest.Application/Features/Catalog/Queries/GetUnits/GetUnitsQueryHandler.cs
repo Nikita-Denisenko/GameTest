@@ -42,6 +42,12 @@ namespace GameTest.Application.Features.Catalog.Queries.GetUnits
                             Level = l.Level,
                             Value = l.Value,
                             Price = l.Price,
+                        }).ToList(),
+                        TemporaryLevels = p.TemporaryLevels.Select(tl => new TemporaryLevelReadModel
+                        {
+                            Level = tl.Level,
+                            Value = tl.Value,
+                            Price = tl.Price,
                         }).ToList()
                     }).ToList(),
                 })

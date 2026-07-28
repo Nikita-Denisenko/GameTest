@@ -14,6 +14,9 @@ namespace GameTest.Domain.Entities
 
         private readonly List<LevelProgression> _levels = [];
         public IReadOnlyCollection<LevelProgression> Levels => _levels;
+
+        private readonly List<TemporaryLevel> _temporaryLevels = [];
+        public IReadOnlyCollection<TemporaryLevel> TemporaryLevels => _temporaryLevels;
         public int MaxLevel => _levels.Count > 0 ? _levels.Max(l => l.Level) : 0;
         public string Name => Stat.Name;
         public UnitStatType StatType => Stat.Type;
@@ -22,17 +25,22 @@ namespace GameTest.Domain.Entities
 
         public UnitProperty(
             UnitStat stat,
-            IEnumerable<LevelProgression> levels)
+            IEnumerable<LevelProgression> levels,
+            IEnumerable<TemporaryLevel> temporaryLevels)
         {
             if (levels == null || !levels.Any())
                 throw new DomainException("Levels cannot be empty");
 
+            if (temporaryLevels == null || !temporaryLevels.Any())
+                throw new DomainException("Temporary levels cannot be empty");
+
             StatId = stat.Id;
             Stat = stat;
             _levels.AddRange(levels);
+            _temporaryLevels.AddRange(temporaryLevels);
         }
 
-        public double GetValueAtLevel(int level)
+        public float GetValueAtLevel(int level)
         {
             var levelInfo = _levels.FirstOrDefault(l => l.Level == level);
             if (levelInfo == null)
@@ -46,7 +54,7 @@ namespace GameTest.Domain.Entities
             return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Price;
         }
 
-        public double? GetNextLevelValue(int currentLevel)
+        public float? GetNextLevelValue(int currentLevel)
         {
             var nextLevel = currentLevel + 1;
             return _levels.FirstOrDefault(l => l.Level == nextLevel)?.Value;

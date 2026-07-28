@@ -7,12 +7,12 @@ namespace GameTest.Domain.ValueObjects
     {
         public string Name { get; private set; } = string.Empty;
         public string Description { get; private set; } = string.Empty;
-        public double Bonus { get; private set; }
+        public float Bonus { get; private set; }
         public PassiveAbilityType Type { get; private set; }
 
         public PassiveAbility(
             string name,
-            double bonus,
+            float bonus,
             string description,
             PassiveAbilityType type)
         {

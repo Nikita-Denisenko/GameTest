@@ -1,7 +1,6 @@
 ﻿using GameTest.Application.Features.PlayerProgression.ReadModels;
 using MediatR;
-using System;
-using System.Collections.Generic;
+
 namespace GameTest.Application.Features.PlayerProgression.Queries.GetUnit
 {
     public record GetPlayerUnitQuery : IRequest<PlayerUnitReadModel>
