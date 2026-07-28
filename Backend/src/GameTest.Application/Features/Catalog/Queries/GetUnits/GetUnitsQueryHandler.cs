@@ -25,7 +25,6 @@ namespace GameTest.Application.Features.Catalog.Queries.GetUnits
                     Description = unit.Description,
                     Type = unit.Type,
                     StartWeaponId = unit.StartWeaponId,
-                    StartWeaponName = unit.StartWeapon.Name,
                     PassiveAbility = new PassiveAbilityReadModel
                     {
                         Name = unit.PassiveAbility.Name,

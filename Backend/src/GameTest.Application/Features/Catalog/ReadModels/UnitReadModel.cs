@@ -1,5 +1,4 @@
 ﻿using GameTest.Domain.Enums;
-using GameTest.Domain.ValueObjects;
 
 namespace GameTest.Application.Features.Catalog.ReadModels
 {
@@ -10,7 +9,6 @@ namespace GameTest.Application.Features.Catalog.ReadModels
         public string Description { get; init; } = string.Empty;
         public UnitType Type { get; init; }
         public int StartWeaponId { get; init; }
-        public string StartWeaponName { get; init; } = string.Empty;
         public PassiveAbilityReadModel PassiveAbility { get; init; } = null!;
         public IReadOnlyCollection<UnitPropertyReadModel> Properties { get; init; } = [];
     }

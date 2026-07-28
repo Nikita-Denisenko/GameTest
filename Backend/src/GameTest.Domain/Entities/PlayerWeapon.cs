@@ -1,6 +1,4 @@
-﻿using GameTest.Domain.Exceptions;
-
-namespace GameTest.Domain.Entities
+﻿namespace GameTest.Domain.Entities
 {
     public class PlayerWeapon
     {

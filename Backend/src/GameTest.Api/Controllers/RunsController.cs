@@ -2,6 +2,7 @@
 using GameTest.Application.Features.Runs.Commands.SaveRun;
 using GameTest.Application.Features.Runs.Queries.GetBestRun;
 using GameTest.Application.Features.Runs.Queries.GetRun;
+using GameTest.Application.Features.Runs.Queries.GetRunPreparation;
 using GameTest.Application.Features.Runs.Queries.GetRuns;
 using GameTest.Application.Interfaces;
 using MediatR;
@@ -89,6 +90,20 @@ namespace GameTest.Api.Controllers
             var newRun = await _mediator.Send(command, ct);
 
             return CreatedAtAction(nameof(GetRun), new {id = newRun.RunId}, newRun);
+        }
+
+        [HttpGet("preparation")]
+        public async Task<IActionResult> GetRunPreparation(
+            [FromQuery] GetRunPreparationRequest request,
+            CancellationToken ct)
+        {
+            var query = new GetRunPreparationQuery
+            {
+                PlayerId = _currentUserService.PlayerId,
+                PlayerUnitId = request.PlayerUnitId
+            };
+
+            return Ok(await _mediator.Send(query, ct));
         }
     }
 }
