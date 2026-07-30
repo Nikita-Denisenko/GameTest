@@ -4,19 +4,18 @@ namespace Assets.Scripts.ValueObjects
 {
     public class NextLevelWeaponInfo
     {
-        public int NextLevel { get; private set; }
-        public int? NextLevelPrice { get; private set; }
-
-        public IReadOnlyCollection<NextLevelWeaponPropertyInfo> NextLevelPropertiesInfo;
+        public int NextLevel { get; }
+        public int? NextLevelPrice { get; }
+        public IReadOnlyCollection<NextLevelWeaponPropertyInfo> NextLevelPropertiesInfo { get; }
 
         public NextLevelWeaponInfo(
             int nextLevel, 
             int? nextLevelPrice, 
-            IReadOnlyCollection<NextLevelWeaponPropertyInfo> nextLevelWeaponPropertiesInfo)
+            IReadOnlyCollection<NextLevelWeaponPropertyInfo> nextLevelPropertiesInfo)
         {
             NextLevel = nextLevel;
             NextLevelPrice = nextLevelPrice;
-            NextLevelPropertiesInfo = nextLevelWeaponPropertiesInfo;
+            NextLevelPropertiesInfo = nextLevelPropertiesInfo;
         }
     }
 }

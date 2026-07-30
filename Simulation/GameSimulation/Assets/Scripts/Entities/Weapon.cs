@@ -1,4 +1,5 @@
 using Assets.Scripts.Entities;
+using Assets.Scripts.Enums;
 using Assets.Scripts.Exceptions;
 using Assets.Scripts.ValueObjects;
 using System.Collections.Generic;
@@ -7,10 +8,9 @@ using System.Linq;
 public class Weapon
 {
     public int Id { get; private set; }
-    public int GameSessionId { get; private set; }
-    public GameSession Session { get; private set; }
     public string Name { get; private set; }
     public int Level { get; private set; }
+    public WeaponType Type { get; private set; }
 
     private readonly List<WeaponProperty> _properties
         = new List<WeaponProperty>();
@@ -23,6 +23,22 @@ public class Weapon
 
     public IReadOnlyCollection<UpgradeLevel> Levels 
         => _levels;
+
+    public Weapon(
+        int id,
+        string name,
+        int level,
+        WeaponType type,
+        IEnumerable<WeaponProperty> properties,
+        IEnumerable<UpgradeLevel> levels)
+    {
+        Id = id;
+        Name = name;
+        Level = level;
+        Type = type;
+        _properties.AddRange(properties);
+        _levels.AddRange(levels);
+    }
 
     public void UpLevel()
     {
@@ -64,5 +80,17 @@ public class Weapon
             ).ToList();
 
         return new NextLevelWeaponInfo(Level + 1, GetNextLevelPrice(), propertiesInfo);
+    }
+
+    public float GetPropertyTotalValue(WeaponStatType statType)
+    {
+        var property = _properties
+            .FirstOrDefault(p => p.StatType == statType);
+
+        if (property == null)
+            throw new SimulationException(
+                $"Weapon does not have property with type {statType}");
+
+        return property.TotalValue;
     }
 }

@@ -2,8 +2,8 @@
 {
     public class UpgradeLevel
     {
-        public int Level { get; private set; }
-        public int Price { get; private set; }
+        public int Level { get; }
+        public int Price { get; }
 
         public UpgradeLevel(int level, int price) 
         {

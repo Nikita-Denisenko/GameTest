@@ -2,8 +2,8 @@
 {
     public class PropertyLevel
     {
-        public int Level { get; private set; }
-        public float Bonus { get; private set; }
+        public int Level { get; }
+        public float Bonus { get; }
 
         public PropertyLevel(
             int level, 

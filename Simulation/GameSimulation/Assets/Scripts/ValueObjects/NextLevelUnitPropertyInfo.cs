@@ -1,16 +1,17 @@
 ﻿using Assets.Scripts.Enums;
 
+
 namespace Assets.Scripts.ValueObjects
 {
-    public class NextLevelWeaponPropertyInfo
+    public class NextLevelUnitPropertyInfo
     {
         public string PropertyName { get; }
-        public WeaponStatType StatType { get; }
+        public UnitStatType StatType { get; }
         public float? Bonus { get; }
 
-        public NextLevelWeaponPropertyInfo(
-            string propertyName, 
-            WeaponStatType statType, 
+        public NextLevelUnitPropertyInfo(
+            string propertyName,
+            UnitStatType statType,
             float? bonus)
         {
             PropertyName = propertyName;
