@@ -1,5 +1,4 @@
 ﻿using GameTest.Domain.Enums;
-using GameTest.Domain.ValueObjects;
 
 namespace GameTest.Application.Features.Catalog.ReadModels
 {

@@ -38,7 +38,13 @@ namespace GameTest.Application.Features.Catalog.Queries.GetItems
                                 Price = level.Price
                             })
                             .ToList()
-                    }
+                    },
+                    TemporaryLevels = item.TemporaryLevels.Select(tl => new TemporaryLevelReadModel
+                    {
+                        Level = tl.Level,
+                        Value = tl.Value,
+                        Price =tl.Price
+                    }).ToList()
                 })
                 .ToListAsync(ct);
         }

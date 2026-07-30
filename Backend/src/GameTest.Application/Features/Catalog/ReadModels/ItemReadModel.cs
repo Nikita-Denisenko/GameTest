@@ -1,5 +1,4 @@
 ﻿using GameTest.Domain.Enums;
-using GameTest.Domain.ValueObjects;
 
 namespace GameTest.Application.Features.Catalog.ReadModels
 {
@@ -11,5 +10,6 @@ namespace GameTest.Application.Features.Catalog.ReadModels
         public ItemType Type { get; init; }
         public int MaxLevel { get; init; }
         public ItemEffectReadModel Effect { get; init; } = null!;
+        public IReadOnlyCollection<TemporaryLevelReadModel> TemporaryLevels { get; init; } = null!;
     }
 }

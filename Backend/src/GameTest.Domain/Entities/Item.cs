@@ -13,6 +13,9 @@ namespace GameTest.Domain.Entities
         public ItemEffect Effect { get; private set; } = null!;
         public int MaxLevel => Effect.Levels.Count > 0 ? Effect.Levels.Max(l => l.Level) : 0;
 
+        private readonly List<TemporaryLevel> _temporaryLevels = [];
+        public IReadOnlyCollection<TemporaryLevel> TemporaryLevels => _temporaryLevels;
+
         private Item() { }
 
         public Item
@@ -23,7 +26,8 @@ namespace GameTest.Domain.Entities
             string effectName,
             string effectDescription,
             ItemEffectType effectType,
-            IEnumerable<LevelProgression> levels
+            IEnumerable<LevelProgression> levels,
+            IEnumerable<TemporaryLevel> temporaryLevels
         )
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -47,10 +51,14 @@ namespace GameTest.Domain.Entities
             if (levels == null || !levels.Any())
                 throw new DomainException("Levels cannot be null or empty");
 
+            if (temporaryLevels == null || !temporaryLevels.Any())
+                throw new DomainException("Temporary Levels cannot be empty");
+
             Name = name;
             Description = description;
             Type = type;
             Effect = new ItemEffect(effectName, effectDescription, effectType, levels);
+            _temporaryLevels.AddRange(temporaryLevels);
         }
     }
 }

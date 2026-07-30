@@ -47,6 +47,28 @@ namespace GameTest.Infrastructure.Configurations
                         .HasColumnName("Price");
                 });
             });
+
+            builder.OwnsMany(up => up.TemporaryLevels, temporaryLevels =>
+            {
+                temporaryLevels.WithOwner().HasForeignKey("ItemId");
+
+                temporaryLevels.HasKey("ItemId", "Level");
+
+                temporaryLevels.Property(l => l.Level)
+                   .IsRequired()
+                   .HasColumnName("Level");
+
+                temporaryLevels.Property(l => l.Value)
+                    .IsRequired()
+                    .HasColumnName("Value");
+
+                temporaryLevels.Property(l => l.Price)
+                    .IsRequired()
+                    .HasColumnName("Price");
+            });
+
+            builder.Navigation(up => up.TemporaryLevels)
+               .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
