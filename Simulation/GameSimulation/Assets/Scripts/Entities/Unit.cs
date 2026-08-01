@@ -42,5 +42,13 @@ public abstract class Unit
             CurrentHealth + hp);
     }
 
+    public void Move(Vector2 direction, float distance)
+    {
+        if (direction == Vector2.zero)
+            return;
+
+        Position += direction.normalized * distance;
+    }
+
     protected abstract float GetMaxHealth();
 }

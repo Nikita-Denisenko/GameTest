@@ -1,5 +1,6 @@
 using Assets.Scripts.Enums;
 using Assets.Scripts.Exceptions;
+using Assets.Scripts.Interfaces;
 using Assets.Scripts.ValueObjects;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,18 +19,22 @@ namespace Assets.Scripts.Entities
         public IReadOnlyCollection<EnemyStaticProperty> StaticProperties
             => _staticProperties;
 
+        public IMovementStrategy MovementStrategy { get; }
+
         public Enemy(
             int id,
             Vector2 position,
             string name,
             EnemyType type,
             EnemyAttackType attackType,
-            IReadOnlyCollection<EnemyStaticProperty> staticProperties) 
+            IReadOnlyCollection<EnemyStaticProperty> staticProperties,
+            IMovementStrategy movementStrategy) 
             : base(id, name, position, GetMaxHealth(staticProperties))
         {
             Type = type;
             AttackType = attackType;
             _staticProperties.AddRange(staticProperties);
+            MovementStrategy = movementStrategy;
         }
 
         public float GetPropertyValue(EnemyStatType statType)
