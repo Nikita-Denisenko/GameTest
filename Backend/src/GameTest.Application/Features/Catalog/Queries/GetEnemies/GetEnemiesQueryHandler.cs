@@ -31,6 +31,25 @@ namespace GameTest.Application.Features.Catalog.Queries.GetEnemies
                         StatName = p.Stat.Name,
                         Value = p.Value
                     }).ToList(),
+                    MovementType = e.MovementType,
+                    Loot = new EnemyLootReadModel
+                    {
+                        Gold = new GoldRangeReadModel
+                        {
+                            Min = e.Loot.Gold.Min,
+                            Max = e.Loot.Gold.Max
+                        },
+                        Experience = new ExperienceRangeReadModel
+                        {
+                            Min = e.Loot.Experience.Min,
+                            Max = e.Loot.Experience.Max
+                        },
+                        Items = e.Loot.Items.Select(i => new ItemDropReadModel
+                        {
+                            ItemId = i.ItemId,
+                            Chance = i.Chance
+                        }).ToList()
+                    }
                 })
                 .ToListAsync(ct);
         }

@@ -10,5 +10,7 @@ namespace GameTest.Application.Features.Catalog.ReadModels
         public EnemyType EnemyType { get; init; }
         public EnemyAttackType AttackType { get; init; }
         public IReadOnlyCollection<EnemyPropertyReadModel> Properties { get; init; } = [];
+        public EnemyMovementType MovementType { get; init; }
+        public EnemyLootReadModel Loot { get; init; } = null!;
     }
 }

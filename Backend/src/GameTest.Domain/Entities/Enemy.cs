@@ -1,5 +1,6 @@
 ﻿using GameTest.Domain.Enums;
 using GameTest.Domain.Exceptions;
+using GameTest.Domain.ValueObjects;
 
 namespace GameTest.Domain.Entities
 {
@@ -10,7 +11,9 @@ namespace GameTest.Domain.Entities
         public string Description { get; private set; } = string.Empty;
         public EnemyType Type { get; private set; }
         public EnemyAttackType AttackType { get; private set; }
-        
+        public EnemyMovementType MovementType { get; private set; }
+        public EnemyLoot Loot { get; private set; } = null!;
+
         private readonly List<EnemyProperty> _properties = [];
         public IReadOnlyCollection<EnemyProperty> Properties => _properties;
 
@@ -21,7 +24,9 @@ namespace GameTest.Domain.Entities
             string description, 
             EnemyType type, 
             EnemyAttackType attackType, 
-            IEnumerable<EnemyProperty> properties)
+            EnemyMovementType movementType,
+            IEnumerable<EnemyProperty> properties,
+            EnemyLoot loot)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new DomainException("Name cannot be empty");
@@ -35,6 +40,9 @@ namespace GameTest.Domain.Entities
             if (!Enum.IsDefined(typeof(EnemyAttackType), attackType))
                 throw new DomainException("Invalid enemy attack type");
 
+            if (!Enum.IsDefined(typeof(EnemyMovementType), movementType))
+                throw new DomainException("Invalid enemy movement type");
+
             if (properties == null || !properties.Any())
                 throw new DomainException("Properties cannot be empty");
 
@@ -42,7 +50,9 @@ namespace GameTest.Domain.Entities
             Description = description;
             Type = type;
             AttackType = attackType;
+            MovementType = movementType;
             _properties.AddRange(properties);
+            Loot = loot;
         }
     }
 }
