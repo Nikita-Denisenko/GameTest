@@ -6,18 +6,18 @@ namespace Assets.Scripts.ValueObjects
     {
         public string Name { get; private set; }
         public int StatId { get; private set; }
-        public EnemyStatType Type { get; private set; }
+        public EnemyStatType StatType { get; private set; }
         public float Value { get; private set; }
 
         public EnemyStaticProperty(
             string name,
             int statId,
-            EnemyStatType type,
+            EnemyStatType statType,
             float value)
         {
             Name = name;
             StatId = statId;
-            Type = type; 
+            StatType = statType; 
             Value = value;
         }
     }

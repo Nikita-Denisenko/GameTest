@@ -8,6 +8,6 @@ namespace Assets.Scripts.Enums
 {
     public enum UnitStatType
     {
-
+        MaxHealth,
     }
 }

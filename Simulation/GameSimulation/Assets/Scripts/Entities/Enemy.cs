@@ -1,16 +1,14 @@
 using Assets.Scripts.Enums;
+using Assets.Scripts.Exceptions;
 using Assets.Scripts.ValueObjects;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace Assets.Scripts.Entities
 {
-    public class Enemy
+    public class Enemy : Unit
     {
-        public int Id { get; private set; }
-        public Vector2 Position { get; private set; }
-        public string Name { get; private set; } = string.Empty;
-        public string Description { get; private set; } = string.Empty;
         public EnemyType Type { get; private set; }
         public EnemyAttackType AttackType { get; private set; }
 
@@ -24,19 +22,43 @@ namespace Assets.Scripts.Entities
             int id,
             Vector2 position,
             string name,
-            string description,
             EnemyType type,
             EnemyAttackType attackType,
-            IEnumerable<EnemyStaticProperty> staticProperties)
+            IReadOnlyCollection<EnemyStaticProperty> staticProperties) 
+            : base(id, name, position, GetMaxHealth(staticProperties))
         {
-            Id = id;
-            Position = position;
-            Name = name;
-            Description = description;
             Type = type;
             AttackType = attackType;
-
             _staticProperties.AddRange(staticProperties);
+        }
+
+        public float GetPropertyValue(EnemyStatType statType)
+        {
+            var property = _staticProperties
+                .FirstOrDefault(x => x.StatType == statType);
+            if (property == null)
+            {
+                throw new SimulationException(
+                    $"Enemy with ID {Id} does not have static property with StatType {statType}");
+            }
+            return property.Value;
+        }
+
+        private static float GetMaxHealth(IEnumerable<EnemyStaticProperty> properties)
+        {
+            var property = properties
+                .FirstOrDefault(p => p.StatType == EnemyStatType.MaxHealth);
+
+            if (property == null)
+                throw new SimulationException(
+                    "Enemy must have MaxHealth property");
+
+            return property.Value;
+        }
+
+        protected override float GetMaxHealth()
+        {
+            return GetPropertyValue(EnemyStatType.MaxHealth);
         }
     }
 }

@@ -1,99 +1,46 @@
-using Assets.Scripts.Entities;
-using Assets.Scripts.Enums;
-using Assets.Scripts.Exceptions;
-using Assets.Scripts.ValueObjects;
-using System.Collections.Generic;
-using System.Linq;
+﻿using Assets.Scripts.Exceptions;
+using System;
+using UnityEngine;
 
-public class Unit
+public abstract class Unit
 {
     public int Id { get; private set; }
     public string Name { get; private set; }
-    public int Level { get; private set; }
-    public UnitType Type { get; private set; }
-    public PassiveAbility PassiveAbility { get; private set; }
+    public Vector2 Position { get; private set; }
+    public float CurrentHealth { get; private set; }
+    public float MaxHealth => GetMaxHealth();
 
-    private readonly List<UnitProperty> _properties
-        = new List<UnitProperty>();
-
-    public IReadOnlyCollection<UnitProperty> Properties
-        => _properties;
-
-    private readonly List<UpgradeLevel> _levels
-        = new List<UpgradeLevel>();
-
-    public IReadOnlyCollection<UpgradeLevel> Levels
-        => _levels;
-
-    public Unit(
+    protected Unit(
         int id,
-        string name, 
-        int level, 
-        UnitType type,
-        PassiveAbility passiveAbility,
-        IEnumerable<UnitProperty> properties,
-        IEnumerable<UpgradeLevel> levels)
+        string name,
+        Vector2 position,
+        float maxHealth)
     {
         Id = id;
         Name = name;
-        Level = level;
-        Type = type;
-        PassiveAbility = passiveAbility;
-        _properties.AddRange(properties);
-        _levels.AddRange(levels);
+        Position = position;
+        CurrentHealth = maxHealth;
     }
 
-    public void UpLevel()
+    public void TakeDamage(float damage)
     {
-        if (!HasNextLevel())
+        if (damage <= 0)
             throw new SimulationException(
-                $"You already have maximum level for unit with ID {Id}");
+                "Damage must be greater than 0");
 
-        Level++;
-
-        foreach (var property in _properties)
-        {
-            property.SetBonusAtUnitLevel(Level);
-        }
+        CurrentHealth = Math.Max(0, CurrentHealth - damage);
     }
 
-    private bool HasNextLevel()
+    public void Heal(float hp)
     {
-        return _levels.Any(x => x.Level == Level + 1);
-    }
-
-    private int? GetNextLevelPrice()
-    {
-        var nextLevel = _levels
-            .FirstOrDefault(l => l.Level == Level + 1);
-
-        return nextLevel?.Price;
-    }
-
-    public NextLevelUnitInfo GetNextLevelInfo()
-    {
-        if (!HasNextLevel())
-            return null;
-
-        var propertiesInfo = _properties
-            .Select(p => new NextLevelUnitPropertyInfo(
-                p.Name,
-                p.StatType,
-                p.GetNextLevelBonus(Level))
-            ).ToList();
-
-        return new NextLevelUnitInfo(Level + 1, GetNextLevelPrice(), propertiesInfo);
-    }
-
-    public float GetPropertyTotalValue(UnitStatType statType)
-    {
-        var property = _properties
-            .FirstOrDefault(p => p.StatType == statType);
-
-        if (property == null)
+        if (hp <= 0)
             throw new SimulationException(
-                $"Unit does not have property with type {statType}");
+                "Heal amount must be greater than 0");
 
-        return property.TotalValue;
+        CurrentHealth = Math.Min(
+            MaxHealth,
+            CurrentHealth + hp);
     }
+
+    protected abstract float GetMaxHealth();
 }

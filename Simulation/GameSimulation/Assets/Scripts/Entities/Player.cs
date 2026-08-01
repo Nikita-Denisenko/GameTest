@@ -3,15 +3,12 @@ using Assets.Scripts.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
-
 
 public class Player
 {
     public Guid Id { get; private set; }
     public string Nickname { get; private set; }
-    public Vector2 Position { get; private set; }
-    public Unit Unit { get; private set; }
+    public PlayerUnit Unit { get; private set; }
 
     private readonly List<PlayerLevel> _levels 
         = new List<PlayerLevel>();
@@ -38,8 +35,7 @@ public class Player
     public Player(
         Guid id,
         string nickname,
-        Vector2 position,
-        Unit unit,
+        PlayerUnit unit,
         IEnumerable<PlayerLevel> levels,
         IEnumerable<Weapon> weapons,
         IEnumerable<Item> items,
@@ -47,7 +43,6 @@ public class Player
     {
         Id = id;
         Nickname = nickname;
-        Position = position;
         Unit = unit;
         _levels.AddRange(levels);
         _weapons.AddRange(weapons);
@@ -94,4 +89,18 @@ public class Player
     }
 
     public void ChangeWeapon(Weapon weapon) => CurrentWeapon = weapon;
+
+    public void PickItem(Item item)
+    {
+        if (_items.Any(i => i.Id == item.Id))
+            throw new SimulationException($"You already picked Item {item.Name}.");
+        _items.Add(item);
+    }
+
+    public void TakeWeapon(Weapon weapon)
+    {
+        if (_weapons.Any(w => w.Id == weapon.Id))
+            throw new SimulationException($"You already have Weapon {weapon.Name}.");
+        _weapons.Add(weapon);
+    }
 }
