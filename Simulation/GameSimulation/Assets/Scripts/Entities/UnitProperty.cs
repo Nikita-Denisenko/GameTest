@@ -30,6 +30,26 @@ namespace Assets.Scripts.Entities
             float temporaryBonus,
             IEnumerable<PropertyLevel> temporaryLevels)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new InvalidUnitStateException(
+                    "Unit property name cannot be empty.");
+
+            if (statId <= 0)
+                throw new InvalidUnitStateException(
+                    "Unit property StatId must be greater than 0.");
+
+            if (staticValue < 0)
+                throw new InvalidUnitStateException(
+                    "Unit property static value cannot be negative.");
+
+            if (temporaryBonus < 0)
+                throw new InvalidUnitStateException(
+                    "Unit property temporary bonus cannot be negative.");
+
+            if (temporaryLevels == null || !temporaryLevels.Any())
+                throw new InvalidUnitStateException(
+                    "Unit property must have at least one temporary level.");
+
             Name = name;
             StatId = statId;
             StatType = statType;
@@ -45,8 +65,8 @@ namespace Assets.Scripts.Entities
 
             if (level == null)
             {
-                throw new SimulationException(
-                    $"Unit Level {unitLevel} does not exists");
+                throw new InvalidUnitStateException(
+                    $"Unit level {unitLevel} does not exist.");
             }
 
             TemporaryBonus = level.Bonus;

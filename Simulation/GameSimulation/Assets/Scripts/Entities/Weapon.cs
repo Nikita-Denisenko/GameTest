@@ -1,96 +1,124 @@
-using Assets.Scripts.Entities;
 using Assets.Scripts.Enums;
 using Assets.Scripts.Exceptions;
 using Assets.Scripts.ValueObjects;
 using System.Collections.Generic;
 using System.Linq;
 
-public class Weapon
+namespace Assets.Scripts.Entities
 {
-    public int Id { get; private set; }
-    public string Name { get; private set; }
-    public int Level { get; private set; }
-    public WeaponType Type { get; private set; }
-
-    private readonly List<WeaponProperty> _properties
-        = new List<WeaponProperty>();
-
-    public IReadOnlyCollection<WeaponProperty> Properties 
-        => _properties;
-
-    private readonly List<UpgradeLevel> _levels 
-        = new List<UpgradeLevel>();
-
-    public IReadOnlyCollection<UpgradeLevel> Levels 
-        => _levels;
-
-    public Weapon(
-        int id,
-        string name,
-        int level,
-        WeaponType type,
-        IEnumerable<WeaponProperty> properties,
-        IEnumerable<UpgradeLevel> levels)
+    public class Weapon
     {
-        Id = id;
-        Name = name;
-        Level = level;
-        Type = type;
-        _properties.AddRange(properties);
-        _levels.AddRange(levels);
-    }
+        public int Id { get; private set; }
+        public string Name { get; private set; } = string.Empty;
+        public int Level { get; private set; }
+        public WeaponType Type { get; private set; }
 
-    public void UpLevel()
-    {
-        if (!HasNextLevel())
-            throw new SimulationException(
-                $"You already have maximum level for weapon with ID {Id}");
+        private readonly List<WeaponProperty> _properties =
+            new List<WeaponProperty>();
 
-        Level++;
-        
-        foreach (var property in _properties)
+        public IReadOnlyCollection<WeaponProperty> Properties
+            => _properties;
+
+        private readonly List<UpgradeLevel> _levels =
+            new List<UpgradeLevel>();
+
+        public IReadOnlyCollection<UpgradeLevel> Levels
+            => _levels;
+
+        public Weapon(
+            int id,
+            string name,
+            int level,
+            WeaponType type,
+            IEnumerable<WeaponProperty> properties,
+            IEnumerable<UpgradeLevel> levels)
         {
-            property.SetBonusAtWeaponLevel(Level);
+            if (id <= 0)
+                throw new InvalidWeaponStateException(
+                    "Weapon ID must be greater than 0.");
+
+            if (string.IsNullOrWhiteSpace(name))
+                throw new InvalidWeaponStateException(
+                    "Weapon name cannot be empty.");
+
+            if (level <= 0)
+                throw new InvalidWeaponStateException(
+                    "Weapon level must be greater than 0.");
+
+            if (properties == null || !properties.Any())
+                throw new InvalidWeaponStateException(
+                    "Weapon must have at least one property.");
+
+            if (levels == null || !levels.Any())
+                throw new InvalidWeaponStateException(
+                    "Weapon must have at least one upgrade level.");
+
+            Id = id;
+            Name = name;
+            Level = level;
+            Type = type;
+
+            _properties.AddRange(properties);
+            _levels.AddRange(levels);
         }
-    }
 
-    private bool HasNextLevel()
-    {
-        return _levels.Any(x => x.Level == Level + 1);
-    }
+        public void UpLevel()
+        {
+            if (!HasNextLevel())
+                throw new InvalidWeaponStateException(
+                    $"Weapon with ID {Id} already has maximum level.");
 
-    private int? GetNextLevelPrice()
-    {
-        var nextLevel = _levels
-            .FirstOrDefault(l => l.Level == Level + 1);
+            Level++;
 
-        return nextLevel?.Price;
-    }
+            foreach (var property in _properties)
+            {
+                property.SetBonusAtWeaponLevel(Level);
+            }
+        }
 
-    public NextLevelWeaponInfo GetNextLevelInfo()
-    {
-        if (!HasNextLevel())
-            return null;
+        private bool HasNextLevel()
+        {
+            return _levels.Any(x => x.Level == Level + 1);
+        }
 
-        var propertiesInfo = _properties
-            .Select(p => new NextLevelWeaponPropertyInfo(
-                p.Name, 
-                p.StatType, 
-                p.GetNextLevelBonus(Level))
-            ).ToList();
+        private int? GetNextLevelPrice()
+        {
+            var nextLevel = _levels
+                .FirstOrDefault(l => l.Level == Level + 1);
 
-        return new NextLevelWeaponInfo(Level + 1, GetNextLevelPrice(), propertiesInfo);
-    }
+            return nextLevel?.Price;
+        }
 
-    public float GetPropertyTotalValue(WeaponStatType statType)
-    {
-        var property = _properties
-            .FirstOrDefault(p => p.StatType == statType);
+        public NextLevelWeaponInfo GetNextLevelInfo()
+        {
+            if (!HasNextLevel())
+                return null;
 
-        if (property == null)
-            throw new SimulationException(
-                $"Weapon does not have property with type {statType}");
+            var propertiesInfo = _properties
+                .Select(p => new NextLevelWeaponPropertyInfo(
+                    p.Name,
+                    p.StatType,
+                    p.GetNextLevelBonus(Level)))
+                .ToList();
 
-        return property.TotalValue;
+            return new NextLevelWeaponInfo(
+                Level + 1,
+                GetNextLevelPrice(),
+                propertiesInfo);
+        }
+
+        public float GetPropertyTotalValue(WeaponStatType statType)
+        {
+            var property = _properties
+                .FirstOrDefault(p => p.StatType == statType);
+
+            if (property == null)
+            {
+                throw new InvalidWeaponStateException(
+                    $"Weapon does not have property with type {statType}.");
+            }
+
+            return property.TotalValue;
+        }
     }
 }

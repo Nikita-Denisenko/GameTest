@@ -1,4 +1,6 @@
-﻿namespace Assets.Scripts.ValueObjects
+﻿using Assets.Scripts.Exceptions;
+
+namespace Assets.Scripts.ValueObjects
 {
     public class PropertyLevel
     {
@@ -6,9 +8,17 @@
         public float Bonus { get; }
 
         public PropertyLevel(
-            int level, 
+            int level,
             float bonus)
         {
+            if (level <= 0)
+                throw new InvalidValueObjectException(
+                    "Level must be greater than 0.");
+
+            if (bonus < 0)
+                throw new InvalidValueObjectException(
+                    "Bonus cannot be negative.");
+
             Level = level;
             Bonus = bonus;
         }

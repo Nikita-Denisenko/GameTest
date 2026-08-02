@@ -32,6 +32,30 @@ public class Item
         float temporaryBonus,
         IEnumerable<ItemUpgradeLevel> levels)
     {
+        if (id <= 0)
+            throw new InvalidItemStateException(
+                $"Item ID must be greater than 0.");
+
+        if (string.IsNullOrWhiteSpace(name))
+            throw new InvalidItemStateException(
+                $"Item name cannot be empty.");
+
+        if (level < 1)
+            throw new InvalidItemStateException(
+                $"Item level must be greater than or equal to 1.");
+
+        if (staticBonus < 0)
+            throw new InvalidItemStateException(
+                $"Item static bonus must be greater than or equal to 0.");
+
+        if (temporaryBonus < 0)
+            throw new InvalidItemStateException(
+                $"Item temporary bonus must be greater than or equal to 0.");
+
+        if (levels == null || !levels.Any())
+            throw new InvalidItemStateException(
+                $"Item with ID {id} must have at least one upgrade level");
+
         Id = id;
         Name = name;
         Type = type;
@@ -49,7 +73,7 @@ public class Item
 
         if (level == null)
         {
-            throw new SimulationException(
+            throw new InvalidItemStateException(
                 $"You already have maximum level for Item with ID {Id}");
         }
 

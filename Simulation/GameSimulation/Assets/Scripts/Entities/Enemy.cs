@@ -19,6 +19,7 @@ namespace Assets.Scripts.Entities
         public IReadOnlyCollection<EnemyStaticProperty> StaticProperties
             => _staticProperties;
 
+        public EnemyLoot Loot { get; private set; }
         public IMovementStrategy MovementStrategy { get; }
 
         public Enemy(
@@ -28,12 +29,28 @@ namespace Assets.Scripts.Entities
             EnemyType type,
             EnemyAttackType attackType,
             IReadOnlyCollection<EnemyStaticProperty> staticProperties,
+            EnemyLoot loot,
             IMovementStrategy movementStrategy) 
             : base(id, name, position, GetMaxHealth(staticProperties))
         {
+            if (staticProperties == null || !staticProperties.Any())
+                throw new InvalidEnemyStateException(
+                    $"Enemy with ID {id} must have at least one static property");
+
+            if (loot == null)
+                throw new InvalidEnemyStateException(
+                    $"Enemy loot cannot be null.");
+
+            if (movementStrategy == null)
+            {
+                throw new InvalidEnemyStateException(
+                    "Enemy movement strategy cannot be null.");
+            }
+
             Type = type;
             AttackType = attackType;
             _staticProperties.AddRange(staticProperties);
+            Loot = loot;
             MovementStrategy = movementStrategy;
         }
 
@@ -42,10 +59,9 @@ namespace Assets.Scripts.Entities
             var property = _staticProperties
                 .FirstOrDefault(x => x.StatType == statType);
             if (property == null)
-            {
-                throw new SimulationException(
+                throw new InvalidEnemyStateException(
                     $"Enemy with ID {Id} does not have static property with StatType {statType}");
-            }
+
             return property.Value;
         }
 
@@ -55,7 +71,7 @@ namespace Assets.Scripts.Entities
                 .FirstOrDefault(p => p.StatType == EnemyStatType.MaxHealth);
 
             if (property == null)
-                throw new SimulationException(
+                throw new InvalidEnemyStateException(
                     "Enemy must have MaxHealth property");
 
             return property.Value;

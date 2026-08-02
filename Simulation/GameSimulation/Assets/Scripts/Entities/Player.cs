@@ -41,6 +41,34 @@ public class Player
         IEnumerable<Item> items,
         Weapon currentWeapon)
     {
+        if (id == Guid.Empty)
+            throw new InvalidPlayerStateException(
+                $"Player ID cannot be empty.");
+
+        if (string.IsNullOrWhiteSpace(nickname))
+            throw new InvalidPlayerStateException(
+                $"Player nickname cannot be empty.");
+
+        if (unit == null)
+            throw new InvalidPlayerStateException(
+                $"Player unit cannot be null.");
+
+        if (levels == null || !levels.Any())
+            throw new InvalidPlayerStateException(
+                $"Player must have at least one level.");
+
+        if (weapons == null || !weapons.Any())
+            throw new InvalidPlayerStateException(
+                $"Player must have at least one weapon.");
+
+        if (items == null || !items.Any())
+            throw new InvalidPlayerStateException(
+                $"Player must have at least one item.");
+
+        if (currentWeapon == null)
+            throw new InvalidPlayerStateException(
+                $"Player current weapon cannot be null.");
+
         Id = id;
         Nickname = nickname;
         Unit = unit;
@@ -56,7 +84,7 @@ public class Player
     public void AddGold(int gold)
     {
         if (gold <= 0)
-            throw new SimulationException("Gold must be greater than 0");
+            throw new InvalidPlayerStateException("Gold must be greater than 0");
 
         EarnedGold += gold;
     }
@@ -64,10 +92,10 @@ public class Player
     public void SpendGold(int gold)
     {
         if (gold <= 0)
-            throw new SimulationException("Gold must be greater than 0");
+            throw new InvalidPlayerStateException("Gold must be greater than 0");
 
         if (EarnedGold < gold)
-            throw new SimulationException($"You have not {gold} Gold to spend it.");
+            throw new InvalidPlayerStateException($"You have not {gold} Gold to spend it.");
 
         EarnedGold -= gold;
     }
@@ -75,7 +103,7 @@ public class Player
     public void AddKills(int kills)
     {
         if (kills <= 0)
-            throw new SimulationException("Kills must be greater than 0");
+            throw new InvalidPlayerStateException("Kills must be greater than 0");
 
         Kills += kills;
     }
@@ -83,24 +111,38 @@ public class Player
     public void AddExperience(int experience)
     {
         if (experience <= 0)
-            throw new SimulationException("Experience must be greater than 0");
+            throw new InvalidPlayerStateException("Experience must be greater than 0");
 
        Experience += experience;
     }
 
-    public void ChangeWeapon(Weapon weapon) => CurrentWeapon = weapon;
+    public void ChangeWeapon(Weapon weapon)
+    {
+        if (weapon == null)
+            throw new InvalidPlayerStateException(
+                "Weapon cannot be null.");
+
+        CurrentWeapon = weapon;
+    }
 
     public void PickItem(Item item)
     {
+        if (item == null)
+        {
+            throw new InvalidPlayerStateException(
+                "Item cannot be null.");
+        }
+
         if (_items.Any(i => i.Id == item.Id))
-            throw new SimulationException($"You already picked Item {item.Name}.");
+            throw new InvalidPlayerStateException($"You already picked Item {item.Name}.");
+
         _items.Add(item);
     }
 
     public void TakeWeapon(Weapon weapon)
     {
         if (_weapons.Any(w => w.Id == weapon.Id))
-            throw new SimulationException($"You already have Weapon {weapon.Name}.");
+            throw new InvalidPlayerStateException($"You already have Weapon {weapon.Name}.");
         _weapons.Add(weapon);
     }
 }

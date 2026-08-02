@@ -30,11 +30,32 @@ namespace Assets.Scripts.Entities
             float temporaryBonus,
             IEnumerable<PropertyLevel> temporaryLevels)
         {
+            if (string.IsNullOrWhiteSpace(name))
+                throw new InvalidWeaponStateException(
+                    "Weapon property name cannot be empty.");
+
+            if (statId <= 0)
+                throw new InvalidWeaponStateException(
+                    "Weapon property StatId must be greater than 0.");
+
+            if (staticValue < 0)
+                throw new InvalidWeaponStateException(
+                    "Weapon property static value cannot be negative.");
+
+            if (temporaryBonus < 0)
+                throw new InvalidWeaponStateException(
+                    "Weapon property temporary bonus cannot be negative.");
+
+            if (temporaryLevels == null || !temporaryLevels.Any())
+                throw new InvalidWeaponStateException(
+                    "Weapon property must have at least one temporary level.");
+
             Name = name;
             StatId = statId;
             StatType = statType;
             StaticValue = staticValue;
             TemporaryBonus = temporaryBonus;
+
             _temporaryLevels.AddRange(temporaryLevels);
         }
 
@@ -45,8 +66,8 @@ namespace Assets.Scripts.Entities
 
             if (level == null)
             {
-                throw new SimulationException(
-                    $"Weapon Level {weaponLevel} does not exists");
+                throw new InvalidWeaponStateException(
+                    $"Weapon level {weaponLevel} does not exist.");
             }
 
             TemporaryBonus = level.Bonus;

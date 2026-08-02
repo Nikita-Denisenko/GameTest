@@ -35,6 +35,22 @@ public class PlayerUnit : Unit
         IEnumerable<UpgradeLevel> levels) 
         : base(id, name, position, GetMaxHealth(properties))
     {
+        if (level <= 0)
+            throw new InvalidUnitStateException(
+                $"Unit with ID {id} must have a positive level");
+
+        if (passiveAbility == null)
+            throw new InvalidUnitStateException(
+                $"Unit with ID {id} must have a passive ability");
+
+        if (properties == null || !properties.Any())
+            throw new InvalidUnitStateException(
+                $"Unit with ID {id} must have at least one property");
+        
+        if (levels == null || !levels.Any())
+            throw new InvalidUnitStateException(
+                $"Unit with ID {id} must have at least one upgrade level");
+
         Level = level;
         Type = type;
         PassiveAbility = passiveAbility;
@@ -45,7 +61,7 @@ public class PlayerUnit : Unit
     public void UpLevel()
     {
         if (!HasNextLevel())
-            throw new SimulationException(
+            throw new InvalidUnitStateException(
                 $"You already have maximum level for unit with ID {Id}");
 
         Level++;
@@ -90,7 +106,7 @@ public class PlayerUnit : Unit
             .FirstOrDefault(p => p.StatType == statType);
 
         if (property == null)
-            throw new SimulationException(
+            throw new InvalidUnitStateException(
                 $"Unit does not have property with type {statType}");
 
         return property.TotalValue;
@@ -102,7 +118,7 @@ public class PlayerUnit : Unit
             .FirstOrDefault(p => p.StatType == UnitStatType.MaxHealth);
 
         if (property == null)
-            throw new SimulationException(
+            throw new InvalidUnitStateException(
                 "Unit must have MaxHealth property");
 
         return property.TotalValue;

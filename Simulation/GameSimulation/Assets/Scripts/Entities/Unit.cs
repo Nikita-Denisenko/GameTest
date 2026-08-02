@@ -16,6 +16,14 @@ public abstract class Unit
         Vector2 position,
         float maxHealth)
     {
+        if (id <= 0)
+            throw new InvalidUnitStateException(
+                $"Unit ID must be greater than 0.");
+
+        if (string.IsNullOrWhiteSpace(name))
+            throw new InvalidUnitStateException(
+                $"Unit name cannot be empty.");
+
         Id = id;
         Name = name;
         Position = position;
@@ -25,7 +33,7 @@ public abstract class Unit
     public void TakeDamage(float damage)
     {
         if (damage <= 0)
-            throw new SimulationException(
+            throw new InvalidUnitStateException(
                 "Damage must be greater than 0");
 
         CurrentHealth = Math.Max(0, CurrentHealth - damage);
@@ -34,7 +42,7 @@ public abstract class Unit
     public void Heal(float hp)
     {
         if (hp <= 0)
-            throw new SimulationException(
+            throw new InvalidUnitStateException(
                 "Heal amount must be greater than 0");
 
         CurrentHealth = Math.Min(
