@@ -33,6 +33,7 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<EnemyProperty> EnemyProperties { get; set; } = null!;
 
     public DbSet<Run> Runs { get; set; } = null!;
+    public DbSet<Wave> Waves { get; set; } = null!;
 
     public new DatabaseFacade Database => base.Database;
 

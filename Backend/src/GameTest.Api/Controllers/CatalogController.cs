@@ -3,6 +3,7 @@ using GameTest.Application.Features.Catalog.Queries.GetEnemyStats;
 using GameTest.Application.Features.Catalog.Queries.GetItems;
 using GameTest.Application.Features.Catalog.Queries.GetUnits;
 using GameTest.Application.Features.Catalog.Queries.GetUnitStats;
+using GameTest.Application.Features.Catalog.Queries.GetWavesInfo;
 using GameTest.Application.Features.Catalog.Queries.GetWeapons;
 using GameTest.Application.Features.Catalog.Queries.GetWeaponStats;
 using MediatR;
@@ -48,5 +49,9 @@ namespace GameTest.Api.Controllers
         [HttpGet("weapon-stats")]
         public async Task<IActionResult> GetWeaponStats(CancellationToken ct)
             => Ok(await _mediator.Send(new GetWeaponStatsQuery(), ct));
+
+        [HttpGet("waves")]
+        public async Task<IActionResult> GetWaves(CancellationToken ct)
+            => Ok(await _mediator.Send(new GetWavesQuery(), ct));  
     }
 }
