@@ -20,6 +20,7 @@ namespace Assets.Scripts.Entities
             => _staticProperties;
 
         public EnemyLoot Loot { get; private set; }
+        public EnemyMovementType MovementType { get; private set; }
         public IMovementStrategy MovementStrategy { get; }
 
         public Enemy(
@@ -30,6 +31,7 @@ namespace Assets.Scripts.Entities
             EnemyAttackType attackType,
             IReadOnlyCollection<EnemyStaticProperty> staticProperties,
             EnemyLoot loot,
+            EnemyMovementType movementType,
             IMovementStrategy movementStrategy) 
             : base(id, name, position, GetMaxHealth(staticProperties))
         {
@@ -51,6 +53,7 @@ namespace Assets.Scripts.Entities
             AttackType = attackType;
             _staticProperties.AddRange(staticProperties);
             Loot = loot;
+            MovementType = movementType;
             MovementStrategy = movementStrategy;
         }
 
