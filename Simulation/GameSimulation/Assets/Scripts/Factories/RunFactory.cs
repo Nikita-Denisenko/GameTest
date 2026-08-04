@@ -9,7 +9,7 @@ namespace Assets.Scripts.Factories
     {
         private readonly Catalog _catalog;
 
-        private readonly UnitFactory _unitFactory;
+        private readonly PlayerUnitFactory _unitFactory;
         private readonly WeaponFactory _weaponFactory;
         private readonly ItemFactory _itemFactory;
         private readonly WaveFactory _waveFactory;
@@ -17,7 +17,7 @@ namespace Assets.Scripts.Factories
 
         public RunFactory(
             Catalog catalog,
-            UnitFactory unitFactory,
+            PlayerUnitFactory unitFactory,
             WeaponFactory weaponFactory,
             ItemFactory itemFactory,
             WaveFactory waveFactory)

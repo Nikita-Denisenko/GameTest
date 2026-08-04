@@ -28,7 +28,6 @@ namespace Assets.Scripts.Entities
         public Weapon(
             int id,
             string name,
-            int level,
             WeaponType type,
             IEnumerable<WeaponProperty> properties,
             IEnumerable<UpgradeLevel> levels)
@@ -41,10 +40,6 @@ namespace Assets.Scripts.Entities
                 throw new InvalidWeaponStateException(
                     "Weapon name cannot be empty.");
 
-            if (level <= 0)
-                throw new InvalidWeaponStateException(
-                    "Weapon level must be greater than 0.");
-
             if (properties == null || !properties.Any())
                 throw new InvalidWeaponStateException(
                     "Weapon must have at least one property.");
@@ -55,7 +50,7 @@ namespace Assets.Scripts.Entities
 
             Id = id;
             Name = name;
-            Level = level;
+            Level = 1;
             Type = type;
 
             _properties.AddRange(properties);

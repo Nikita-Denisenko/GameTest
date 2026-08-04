@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Exceptions;
+using Assets.Scripts.GameData.StaticData;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.StaticData
@@ -7,13 +8,11 @@ namespace Assets.Scripts.StaticData
     {
         public int StatId { get; }
         public string StatName { get; }
-        public IReadOnlyCollection<LevelProgressionData> Levels { get; }
         public IReadOnlyCollection<TemporaryLevelData> TemporaryLevels { get; }
 
         public WeaponPropertyData(
             int statId,
             string statName,
-            IReadOnlyCollection<LevelProgressionData> levels,
             IReadOnlyCollection<TemporaryLevelData> temporaryLevels)
         {
             if (statId <= 0)
@@ -24,7 +23,6 @@ namespace Assets.Scripts.StaticData
 
             StatId = statId;
             StatName = statName;
-            Levels = levels ?? throw new InvalidWeaponStateException("Levels cannot be null.");
             TemporaryLevels = temporaryLevels ?? throw new InvalidWeaponStateException("Temporary levels cannot be null.");
         }
     }

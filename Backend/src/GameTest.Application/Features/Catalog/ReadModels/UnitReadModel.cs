@@ -11,5 +11,6 @@ namespace GameTest.Application.Features.Catalog.ReadModels
         public int StartWeaponId { get; init; }
         public PassiveAbilityReadModel PassiveAbility { get; init; } = null!;
         public IReadOnlyCollection<UnitPropertyReadModel> Properties { get; init; } = [];
+        public IReadOnlyCollection<TemporaryUpgradeLevelReadModel> TemporaryUpgradeLevels { get; init; } = [];
     }
 }

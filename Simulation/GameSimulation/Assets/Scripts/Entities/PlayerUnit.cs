@@ -27,7 +27,6 @@ public class PlayerUnit : Unit
     public PlayerUnit(
         int id,
         string name, 
-        int level, 
         Vector2 position,
         UnitType type,
         PassiveAbility passiveAbility,
@@ -35,9 +34,6 @@ public class PlayerUnit : Unit
         IEnumerable<UpgradeLevel> levels) 
         : base(id, name, position, GetMaxHealth(properties))
     {
-        if (level <= 0)
-            throw new InvalidUnitStateException(
-                $"Unit with ID {id} must have a positive level");
 
         if (passiveAbility == null)
             throw new InvalidUnitStateException(
@@ -51,7 +47,7 @@ public class PlayerUnit : Unit
             throw new InvalidUnitStateException(
                 $"Unit with ID {id} must have at least one upgrade level");
 
-        Level = level;
+        Level = 1;
         Type = type;
         PassiveAbility = passiveAbility;
         _properties.AddRange(properties);

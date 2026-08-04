@@ -37,8 +37,27 @@ namespace GameTest.Infrastructure.Configurations
                     .HasColumnName("PassiveAbilityType");
             });
 
+            builder.OwnsMany(u => u.TemporaryUpgradeLevels, levels =>
+            {
+                levels.WithOwner()
+                    .HasForeignKey("UnitId");
+
+                levels.HasKey("UnitId", "Level");
+
+                levels.Property(l => l.Level)
+                    .IsRequired()
+                    .HasColumnName("Level");
+
+                levels.Property(l => l.Price)
+                    .IsRequired()
+                    .HasColumnName("Price");
+            });
+
             builder.Navigation(u => u.Properties)
-               .UsePropertyAccessMode(PropertyAccessMode.Field);
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
+
+            builder.Navigation(u => u.TemporaryUpgradeLevels)
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }

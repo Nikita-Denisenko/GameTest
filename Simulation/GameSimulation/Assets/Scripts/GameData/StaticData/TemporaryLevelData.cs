@@ -1,27 +1,27 @@
 ﻿using Assets.Scripts.Exceptions;
 
-namespace Assets.Scripts.StaticData
+namespace Assets.Scripts.GameData.StaticData
 {
     public class TemporaryLevelData
     {
         public int Level { get; }
-        public float Value { get; }
-        public int Price { get; }
+        public float Bonus { get; }
+
 
         public TemporaryLevelData(
             int level,
-            float value,
-            int price)
+            float bonus)
         {
             if (level <= 0)
-                throw new InvalidValueObjectException("Level must be greater than zero.");
+                throw new InvalidValueObjectException(
+                    "Level must be greater than zero.");
 
-            if (price <= 0)
-                throw new InvalidValueObjectException("Price must be greater than zero.");
+            if (bonus < 0)
+                throw new InvalidValueObjectException(
+                    "Bonus cannot be negative.");
 
             Level = level;
-            Value = value;
-            Price = price;
+            Bonus = bonus;
         }
     }
 }

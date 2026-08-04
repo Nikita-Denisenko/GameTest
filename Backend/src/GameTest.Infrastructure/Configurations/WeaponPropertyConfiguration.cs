@@ -55,13 +55,9 @@ namespace GameTest.Infrastructure.Configurations
                    .IsRequired()
                    .HasColumnName("Level");
 
-                temporaryLevels.Property(l => l.Value)
+                temporaryLevels.Property(l => l.Bonus)
                     .IsRequired()
-                    .HasColumnName("Value");
-
-                temporaryLevels.Property(l => l.Price)
-                    .IsRequired()
-                    .HasColumnName("Price");
+                    .HasColumnName("Bonus");
             });
 
             builder.Navigation(wp => wp.TemporaryLevels)

@@ -27,7 +27,6 @@ namespace Assets.Scripts.Entities
             int statId,
             WeaponStatType statType,
             float staticValue,
-            float temporaryBonus,
             IEnumerable<PropertyLevel> temporaryLevels)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -42,10 +41,6 @@ namespace Assets.Scripts.Entities
                 throw new InvalidWeaponStateException(
                     "Weapon property static value cannot be negative.");
 
-            if (temporaryBonus < 0)
-                throw new InvalidWeaponStateException(
-                    "Weapon property temporary bonus cannot be negative.");
-
             if (temporaryLevels == null || !temporaryLevels.Any())
                 throw new InvalidWeaponStateException(
                     "Weapon property must have at least one temporary level.");
@@ -54,8 +49,7 @@ namespace Assets.Scripts.Entities
             StatId = statId;
             StatType = statType;
             StaticValue = staticValue;
-            TemporaryBonus = temporaryBonus;
-
+            TemporaryBonus = 0;
             _temporaryLevels.AddRange(temporaryLevels);
         }
 

@@ -58,9 +58,9 @@ namespace GameTest.Infrastructure.Configurations
                    .IsRequired()
                    .HasColumnName("Level");
 
-                temporaryLevels.Property(l => l.Value)
+                temporaryLevels.Property(l => l.Bonus)
                     .IsRequired()
-                    .HasColumnName("Value");
+                    .HasColumnName("Bonus");
 
                 temporaryLevels.Property(l => l.Price)
                     .IsRequired()

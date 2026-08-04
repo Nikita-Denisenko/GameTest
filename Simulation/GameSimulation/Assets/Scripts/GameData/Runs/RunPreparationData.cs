@@ -6,11 +6,8 @@ namespace Assets.Scripts.GameData.Runs
     public class RunPreparationData
     {
         public int PlayerId { get; }
-
         public RunUnitData Unit { get; }
-
         public IReadOnlyCollection<RunWeaponData> Weapons { get; }
-
         public IReadOnlyCollection<RunItemData> Items { get; }
 
 

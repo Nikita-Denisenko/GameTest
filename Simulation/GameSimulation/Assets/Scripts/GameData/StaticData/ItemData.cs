@@ -12,7 +12,7 @@ namespace Assets.Scripts.StaticData
         public ItemType Type { get; }
         public int MaxLevel { get; }
         public ItemEffectData Effect { get; }
-        public IReadOnlyCollection<TemporaryLevelData> TemporaryLevels { get; }
+        public IReadOnlyCollection<ItemTemporaryLevelData> TemporaryLevels { get; }
 
         public ItemData(
             int id,
@@ -21,7 +21,7 @@ namespace Assets.Scripts.StaticData
             ItemType type,
             int maxLevel,
             ItemEffectData effect,
-            IReadOnlyCollection<TemporaryLevelData> temporaryLevels)
+            IReadOnlyCollection<ItemTemporaryLevelData> temporaryLevels)
         {
             if (id <= 0)
                 throw new InvalidValueObjectException("Item id must be greater than zero.");

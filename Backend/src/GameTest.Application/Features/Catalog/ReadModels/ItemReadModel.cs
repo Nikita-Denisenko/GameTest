@@ -10,6 +10,6 @@ namespace GameTest.Application.Features.Catalog.ReadModels
         public ItemType Type { get; init; }
         public int MaxLevel { get; init; }
         public ItemEffectReadModel Effect { get; init; } = null!;
-        public IReadOnlyCollection<TemporaryLevelReadModel> TemporaryLevels { get; init; } = null!;
+        public IReadOnlyCollection<ItemTemporaryLevelReadModel> TemporaryLevels { get; init; } = null!;
     }
 }

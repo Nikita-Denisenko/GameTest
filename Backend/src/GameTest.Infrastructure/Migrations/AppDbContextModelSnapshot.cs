@@ -641,34 +641,6 @@ namespace GameTest.Infrastructure.Migrations
 
             modelBuilder.Entity("GameTest.Domain.Entities.Item", b =>
                 {
-                    b.OwnsMany("GameTest.Domain.ValueObjects.TemporaryLevel", "TemporaryLevels", b1 =>
-                        {
-                            b1.Property<int>("ItemId")
-                                .HasColumnType("int");
-
-                            b1.Property<int>("Level")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasColumnName("Level");
-
-                            MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b1.Property<int>("Level"));
-
-                            b1.Property<int>("Price")
-                                .HasColumnType("int")
-                                .HasColumnName("Price");
-
-                            b1.Property<float>("Value")
-                                .HasColumnType("float")
-                                .HasColumnName("Value");
-
-                            b1.HasKey("ItemId", "Level");
-
-                            b1.ToTable("Items_TemporaryLevels");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ItemId");
-                        });
-
                     b.OwnsOne("GameTest.Domain.ValueObjects.ItemEffect", "Effect", b1 =>
                         {
                             b1.Property<int>("ItemId")
@@ -724,6 +696,34 @@ namespace GameTest.Infrastructure.Migrations
                                 });
 
                             b1.Navigation("Levels");
+                        });
+
+                    b.OwnsMany("GameTest.Domain.ValueObjects.ItemTemporaryLevel", "TemporaryLevels", b1 =>
+                        {
+                            b1.Property<int>("ItemId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Level")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasColumnName("Level");
+
+                            MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b1.Property<int>("Level"));
+
+                            b1.Property<float>("Bonus")
+                                .HasColumnType("float")
+                                .HasColumnName("Bonus");
+
+                            b1.Property<int>("Price")
+                                .HasColumnType("int")
+                                .HasColumnName("Price");
+
+                            b1.HasKey("ItemId", "Level");
+
+                            b1.ToTable("ItemTemporaryLevel");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ItemId");
                         });
 
                     b.Navigation("Effect")
@@ -854,6 +854,30 @@ namespace GameTest.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.OwnsMany("GameTest.Domain.ValueObjects.TemporaryUpgradeLevel", "TemporaryUpgradeLevels", b1 =>
+                        {
+                            b1.Property<int>("UnitId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Level")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasColumnName("Level");
+
+                            MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b1.Property<int>("Level"));
+
+                            b1.Property<int>("Price")
+                                .HasColumnType("int")
+                                .HasColumnName("Price");
+
+                            b1.HasKey("UnitId", "Level");
+
+                            b1.ToTable("Units_TemporaryUpgradeLevels");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UnitId");
+                        });
+
                     b.OwnsOne("GameTest.Domain.ValueObjects.PassiveAbility", "PassiveAbility", b1 =>
                         {
                             b1.Property<int>("UnitId")
@@ -889,6 +913,8 @@ namespace GameTest.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("StartWeapon");
+
+                    b.Navigation("TemporaryUpgradeLevels");
                 });
 
             modelBuilder.Entity("GameTest.Domain.Entities.UnitProperty", b =>
@@ -945,13 +971,9 @@ namespace GameTest.Infrastructure.Migrations
 
                             MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b1.Property<int>("Level"));
 
-                            b1.Property<int>("Price")
-                                .HasColumnType("int")
-                                .HasColumnName("Price");
-
-                            b1.Property<float>("Value")
+                            b1.Property<float>("Bonus")
                                 .HasColumnType("float")
-                                .HasColumnName("Value");
+                                .HasColumnName("Bonus");
 
                             b1.HasKey("UnitPropertyId", "Level");
 
@@ -1031,6 +1053,35 @@ namespace GameTest.Infrastructure.Migrations
                     b.Navigation("Enemies");
                 });
 
+            modelBuilder.Entity("GameTest.Domain.Entities.Weapon", b =>
+                {
+                    b.OwnsMany("GameTest.Domain.ValueObjects.TemporaryUpgradeLevel", "TemporaryUpgradeLevels", b1 =>
+                        {
+                            b1.Property<int>("WeaponId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Level")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasColumnName("Level");
+
+                            MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b1.Property<int>("Level"));
+
+                            b1.Property<int>("Price")
+                                .HasColumnType("int")
+                                .HasColumnName("Price");
+
+                            b1.HasKey("WeaponId", "Level");
+
+                            b1.ToTable("Weapons_TemporaryUpgradeLevels");
+
+                            b1.WithOwner()
+                                .HasForeignKey("WeaponId");
+                        });
+
+                    b.Navigation("TemporaryUpgradeLevels");
+                });
+
             modelBuilder.Entity("GameTest.Domain.Entities.WeaponProperty", b =>
                 {
                     b.HasOne("GameTest.Domain.Entities.WeaponStat", "Stat")
@@ -1057,13 +1108,9 @@ namespace GameTest.Infrastructure.Migrations
 
                             MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b1.Property<int>("Level"));
 
-                            b1.Property<int>("Price")
-                                .HasColumnType("int")
-                                .HasColumnName("Price");
-
-                            b1.Property<float>("Value")
+                            b1.Property<float>("Bonus")
                                 .HasColumnType("float")
-                                .HasColumnName("Value");
+                                .HasColumnName("Bonus");
 
                             b1.HasKey("UnitPropertyId", "Level");
 

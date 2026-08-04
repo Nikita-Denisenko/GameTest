@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Enums;
 using Assets.Scripts.Exceptions;
+using Assets.Scripts.GameData.StaticData;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.StaticData
@@ -13,6 +14,7 @@ namespace Assets.Scripts.StaticData
         public int StartWeaponId { get; }
         public PassiveAbilityData PassiveAbility { get; }
         public IReadOnlyCollection<UnitPropertyData> Properties { get; }
+        public IReadOnlyCollection<TemporaryUpgradeLevelData> TemporaryUpgradeLevels { get; }
 
         public UnitData(
             int id,
@@ -21,7 +23,8 @@ namespace Assets.Scripts.StaticData
             UnitType type,
             int startWeaponId,
             PassiveAbilityData passiveAbility,
-            IReadOnlyCollection<UnitPropertyData> properties)
+            IReadOnlyCollection<UnitPropertyData> properties,
+            IReadOnlyCollection<TemporaryUpgradeLevelData> temporaryUpgradeLevels)
         {
             if (id <= 0)
                 throw new InvalidUnitStateException("Unit id must be greater than zero.");
@@ -39,6 +42,7 @@ namespace Assets.Scripts.StaticData
             StartWeaponId = startWeaponId;
             PassiveAbility = passiveAbility ?? throw new InvalidUnitStateException("Passive ability cannot be null.");
             Properties = properties ?? throw new InvalidUnitStateException("Properties cannot be null.");
+            TemporaryUpgradeLevels = temporaryUpgradeLevels;
         }
     }
 }

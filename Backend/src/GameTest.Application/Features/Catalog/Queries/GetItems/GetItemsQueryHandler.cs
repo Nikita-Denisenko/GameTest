@@ -39,11 +39,11 @@ namespace GameTest.Application.Features.Catalog.Queries.GetItems
                             })
                             .ToList()
                     },
-                    TemporaryLevels = item.TemporaryLevels.Select(tl => new TemporaryLevelReadModel
+                    TemporaryLevels = item.TemporaryLevels.Select(tl => new ItemTemporaryLevelReadModel
                     {
                         Level = tl.Level,
-                        Value = tl.Value,
-                        Price =tl.Price
+                        Bonus = tl.Bonus,
+                        Price = tl.Price
                     }).ToList()
                 })
                 .ToListAsync(ct);

@@ -1,16 +1,14 @@
 ﻿using Assets.Scripts.Exceptions;
 
-namespace Assets.Scripts.StaticData
+namespace Assets.Scripts.GameData.StaticData
 {
-    public class LevelProgressionData
+    public class TemporaryUpgradeLevelData
     {
         public int Level { get; }
-        public float Value { get; }
-        public int Price { get; }
+        public int Price { get;}
 
-        public LevelProgressionData(
+        public TemporaryUpgradeLevelData(
             int level,
-            float value,
             int price)
         {
             if (level <= 0)
@@ -20,7 +18,6 @@ namespace Assets.Scripts.StaticData
                 throw new InvalidValueObjectException("Price must be greater than zero.");
 
             Level = level;
-            Value = value;
             Price = price;
         }
     }

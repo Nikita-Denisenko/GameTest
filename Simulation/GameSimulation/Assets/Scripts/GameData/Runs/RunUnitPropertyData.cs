@@ -5,11 +5,8 @@ namespace Assets.Scripts.GameData.Runs
     public class RunUnitPropertyData
     {
         public int StatId { get; }
-
         public int Level { get; }
-
         public float Value { get; }
-
 
         public RunUnitPropertyData(
             int statId,

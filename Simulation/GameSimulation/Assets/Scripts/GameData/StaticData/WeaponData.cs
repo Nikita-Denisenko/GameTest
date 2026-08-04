@@ -1,5 +1,6 @@
 ﻿using Assets.Scripts.Enums;
 using Assets.Scripts.Exceptions;
+using Assets.Scripts.GameData.StaticData;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.StaticData
@@ -11,13 +12,15 @@ namespace Assets.Scripts.StaticData
         public string Description { get; }
         public WeaponType Type { get; }
         public IReadOnlyCollection<WeaponPropertyData> Properties { get; }
+        public IReadOnlyCollection<TemporaryUpgradeLevelData> TemporaryUpgradeLevels { get; }
 
         public WeaponData(
             int id,
             string name,
             string description,
             WeaponType type,
-            IReadOnlyCollection<WeaponPropertyData> properties)
+            IReadOnlyCollection<WeaponPropertyData> properties,
+            IReadOnlyCollection<TemporaryUpgradeLevelData> temporaryUpgradeLevels)
         {
             if (id <= 0)
                 throw new InvalidWeaponStateException("Weapon id must be greater than zero.");
@@ -30,6 +33,7 @@ namespace Assets.Scripts.StaticData
             Description = description ?? string.Empty;
             Type = type;
             Properties = properties ?? throw new InvalidWeaponStateException("Properties cannot be null.");
+            TemporaryUpgradeLevels = temporaryUpgradeLevels;
         }
     }
 }

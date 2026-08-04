@@ -17,6 +17,9 @@ public class Unit
     private readonly List<UnitProperty> _properties = [];
     public IReadOnlyCollection<UnitProperty> Properties => _properties;
 
+    private readonly List<TemporaryUpgradeLevel> _temporaryUpgradeLevels = [];
+    public IReadOnlyCollection<TemporaryUpgradeLevel> TemporaryUpgradeLevels => _temporaryUpgradeLevels;
+
     private Unit() { }
 
     public Unit(string name,
@@ -27,7 +30,8 @@ public class Unit
         string passiveAbilityDescription, 
         float passiveAbilityBonus, 
         PassiveAbilityType passiveAbilityType,
-        IEnumerable<UnitProperty> properties)
+        IEnumerable<UnitProperty> properties,
+        IEnumerable<TemporaryUpgradeLevel> temporaryUpgradeLevels)
     {
         if (string.IsNullOrWhiteSpace(name))
             throw new DomainException("Name cannot be empty");
@@ -53,6 +57,9 @@ public class Unit
         if (properties == null || !properties.Any())
             throw new DomainException("Properties cannot be null or empty");
 
+        if (temporaryUpgradeLevels == null || !temporaryUpgradeLevels.Any())
+            throw new DomainException("TemporaryUpgradeLevels cannot be null or empty");
+
         Name = name;
         Description = description;
         Type = type;
@@ -60,5 +67,6 @@ public class Unit
         StartWeapon = startWeapon;
         PassiveAbility = new PassiveAbility(passiveAbilityName, passiveAbilityBonus, passiveAbilityDescription, passiveAbilityType);
         _properties.AddRange(properties);
+        _temporaryUpgradeLevels.AddRange(temporaryUpgradeLevels);
     }
 }

@@ -36,13 +36,16 @@ namespace GameTest.Application.Features.Catalog.Queries.GetWeapons
                         TemporaryLevels = p.TemporaryLevels.Select(tl => new TemporaryLevelReadModel
                         {
                             Level = tl.Level,
-                            Value = tl.Value,
-                            Price = tl.Price,
+                            Bonus = tl.Bonus
                         }).ToList()
+                    }).ToList(),
+                    TemporaryUpgradeLevels = w.TemporaryUpgradeLevels.Select(tul => new TemporaryUpgradeLevelReadModel
+                    {
+                        Level = tul.Level,
+                        Price = tul.Price
                     }).ToList()
                 })
                 .ToListAsync(ct);
         }
     }
 }
-        

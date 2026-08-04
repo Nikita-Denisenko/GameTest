@@ -9,13 +9,11 @@ namespace Assets.Scripts.StaticData
         public string Name { get; }
         public string Description { get; }
         public ItemEffectType Type { get; }
-        public IReadOnlyCollection<LevelProgressionData> Levels { get; }
 
         public ItemEffectData(
             string name,
             string description,
-            ItemEffectType type,
-            IReadOnlyCollection<LevelProgressionData> levels)
+            ItemEffectType type)
         {
             if (string.IsNullOrWhiteSpace(name))
                 throw new InvalidValueObjectException("Effect name cannot be empty.");
@@ -23,7 +21,6 @@ namespace Assets.Scripts.StaticData
             Name = name;
             Description = description ?? string.Empty;
             Type = type;
-            Levels = levels ?? throw new InvalidValueObjectException("Levels cannot be null.");
         }
     }
 }

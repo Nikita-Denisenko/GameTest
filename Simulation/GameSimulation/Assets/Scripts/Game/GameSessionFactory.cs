@@ -1,18 +1,14 @@
 ﻿using Assets.Scripts.Entities;
-using System.Collections.Generic;
+using Assets.Scripts.Factories;
+using Assets.Scripts.GameData.Runs;
+using Assets.Scripts.GameData.StaticData;
 using System.Linq;
+using UnityEngine;
 
 namespace Assets.Scripts.Game
 {
     public class GameSessionFactory
     {
-        public GameSession Create(
-            Player player,
-            IEnumerable<Wave> waves)
-        {
-            return new GameSession(
-                player,
-                waves.OrderBy(x => x.StartSecond).ToList());
-        }
+       
     }
 }
