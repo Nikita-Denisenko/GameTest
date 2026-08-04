@@ -9,6 +9,7 @@ using GameTest.Application.Features.Catalog.Queries.GetWeaponStats;
 using GameTest.Application.Features.Catalog.Queries.GetCatalog;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using GameTest.Application.Features.Catalog.Queries.GetPlayerLevels;
 
 namespace GameTest.Api.Controllers
 {
@@ -54,6 +55,10 @@ namespace GameTest.Api.Controllers
         [HttpGet("waves")]
         public async Task<IActionResult> GetWaves(CancellationToken ct)
             => Ok(await _mediator.Send(new GetWavesQuery(), ct));
+
+        [HttpGet("player-levels")]
+        public async Task<IActionResult> GetPlayerLevels(CancellationToken ct)
+            => Ok(await _mediator.Send(new GetPlayerLevelsQuery(), ct));
 
         [HttpGet]
         public async Task<IActionResult> GetCatalog(CancellationToken ct)

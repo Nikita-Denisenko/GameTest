@@ -14,5 +14,7 @@
         public IReadOnlyCollection<WeaponStatReadModel> WeaponStats { get; init; } = [];
 
         public IReadOnlyCollection<WaveReadModel> Waves { get; init; } = [];
+
+        public IReadOnlyCollection<PlayerLevelReadModel> PlayerLevels { get; init; } = [];
     }
 }
