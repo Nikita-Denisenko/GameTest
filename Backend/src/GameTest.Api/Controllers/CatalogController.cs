@@ -6,6 +6,7 @@ using GameTest.Application.Features.Catalog.Queries.GetUnitStats;
 using GameTest.Application.Features.Catalog.Queries.GetWavesInfo;
 using GameTest.Application.Features.Catalog.Queries.GetWeapons;
 using GameTest.Application.Features.Catalog.Queries.GetWeaponStats;
+using GameTest.Application.Features.Catalog.Queries.GetCatalog;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -52,6 +53,10 @@ namespace GameTest.Api.Controllers
 
         [HttpGet("waves")]
         public async Task<IActionResult> GetWaves(CancellationToken ct)
-            => Ok(await _mediator.Send(new GetWavesQuery(), ct));  
+            => Ok(await _mediator.Send(new GetWavesQuery(), ct));
+
+        [HttpGet]
+        public async Task<IActionResult> GetCatalog(CancellationToken ct)
+            => Ok(await _mediator.Send(new GetCatalogQuery(), ct));
     }
 }
