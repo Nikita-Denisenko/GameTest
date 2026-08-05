@@ -26,10 +26,8 @@ public class Item
         int id, 
         string name, 
         ItemType type, 
-        int level, 
         ItemEffectType effectType, 
         float staticBonus, 
-        float temporaryBonus,
         IEnumerable<ItemUpgradeLevel> levels)
     {
         if (id <= 0)
@@ -40,17 +38,9 @@ public class Item
             throw new InvalidItemStateException(
                 $"Item name cannot be empty.");
 
-        if (level < 1)
-            throw new InvalidItemStateException(
-                $"Item level must be greater than or equal to 1.");
-
         if (staticBonus < 0)
             throw new InvalidItemStateException(
                 $"Item static bonus must be greater than or equal to 0.");
-
-        if (temporaryBonus < 0)
-            throw new InvalidItemStateException(
-                $"Item temporary bonus must be greater than or equal to 0.");
 
         if (levels == null || !levels.Any())
             throw new InvalidItemStateException(
@@ -59,10 +49,10 @@ public class Item
         Id = id;
         Name = name;
         Type = type;
-        Level = level;
+        Level = 1;
         EffectType = effectType;
         StaticBonus = staticBonus;
-        TemporaryBonus = temporaryBonus;
+        TemporaryBonus = 0;
         _levels.AddRange(levels);
     }
 

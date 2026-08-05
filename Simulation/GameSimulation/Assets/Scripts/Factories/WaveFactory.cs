@@ -8,10 +8,16 @@ namespace Assets.Scripts.Factories
 {
     public class WaveFactory
     {
-        public Wave Create(WaveData data)
+        public Wave Create(
+            WaveData data)
         {
             var enemies = data.Enemies
-                .Select(CreateWaveEnemy)
+                .Select(x => new WaveEnemy(
+                    x.EnemyId,
+                    new EnemyQuantityRange(
+                        x.QuantityRange.Min,
+                        x.QuantityRange.Max),
+                    x.SpawnInterval))
                 .ToList();
 
             return new Wave(
@@ -22,25 +28,13 @@ namespace Assets.Scripts.Factories
                 enemies);
         }
 
+
         public IReadOnlyCollection<Wave> CreateMany(
             IEnumerable<WaveData> data)
         {
             return data
                 .Select(Create)
                 .ToList();
-        }
-
-        private WaveEnemy CreateWaveEnemy(
-            WaveEnemyData data)
-        {
-            var quantityRange = new EnemyQuantityRange(
-                data.QuantityRange.Min,
-                data.QuantityRange.Max);
-
-            return new WaveEnemy(
-                data.EnemyId,
-                quantityRange,
-                data.SpawnInterval);
         }
     }
 }

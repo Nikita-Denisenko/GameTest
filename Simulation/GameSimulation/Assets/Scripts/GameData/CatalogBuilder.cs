@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.StaticData;
+﻿using Assets.Scripts.GameData.StaticData;
+using Assets.Scripts.StaticData;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -14,7 +15,8 @@ namespace Assets.Scripts.GameData
             IReadOnlyCollection<UnitStatData> unitStats,
             IReadOnlyCollection<WeaponData> weapons,
             IReadOnlyCollection<WeaponStatData> weaponStats,
-            IReadOnlyCollection<WaveData> waves)
+            IReadOnlyCollection<WaveData> waves,
+            IReadOnlyCollection<PlayerLevelData> playerLevels)
         {
             return new Catalog(
                 enemies.ToDictionary(x => x.Id),
@@ -24,7 +26,8 @@ namespace Assets.Scripts.GameData
                 unitStats.ToDictionary(x => x.Id),
                 weapons.ToDictionary(x => x.Id),
                 weaponStats.ToDictionary(x => x.Id),
-                waves.ToDictionary(x => x.Id));
+                waves.ToDictionary(x => x.Id),
+                playerLevels.ToDictionary(x => x.Id));
         }
     }
 }

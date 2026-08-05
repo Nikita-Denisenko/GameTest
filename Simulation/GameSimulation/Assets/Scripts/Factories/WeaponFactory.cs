@@ -1,9 +1,9 @@
 ﻿using Assets.Scripts.Entities;
 using Assets.Scripts.GameData.Runs;
-using Assets.Scripts.GameData.StaticData;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.StaticData;
 using Assets.Scripts.ValueObjects;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Assets.Scripts.Factories
@@ -12,7 +12,8 @@ namespace Assets.Scripts.Factories
     {
         private readonly IIdGenerator _idGenerator;
 
-        public WeaponFactory(IIdGenerator idGenerator)
+        public WeaponFactory(
+            IIdGenerator idGenerator)
         {
             _idGenerator = idGenerator;
         }
@@ -20,18 +21,18 @@ namespace Assets.Scripts.Factories
         public Weapon Create(
             RunWeaponData runWeapon,
             WeaponData weaponData,
-            CatalogData catalog)
+            IReadOnlyCollection<WeaponStatData> stats)
         {
             var properties = runWeapon.Properties
                 .Select(runProperty =>
                 {
-                    var stat = catalog.WeaponStats
+                    var stat = stats
                         .First(x => x.Id == runProperty.StatId);
 
                     var propertyData = weaponData.Properties
                         .First(x => x.StatId == runProperty.StatId);
 
-                    var temporaryLevels = propertyData.TemporaryLevels
+                    var levels = propertyData.TemporaryLevels
                         .Select(x => new PropertyLevel(
                             x.Level,
                             x.Bonus))
@@ -42,12 +43,12 @@ namespace Assets.Scripts.Factories
                         stat.Id,
                         stat.Type,
                         runProperty.Value,
-                        temporaryLevels);
+                        levels);
                 })
                 .ToList();
 
 
-            var levels = weaponData.TemporaryUpgradeLevels
+            var upgradeLevels = weaponData.TemporaryUpgradeLevels
                 .Select(x => new UpgradeLevel(
                     x.Level,
                     x.Price))
@@ -59,7 +60,7 @@ namespace Assets.Scripts.Factories
                 weaponData.Name,
                 weaponData.Type,
                 properties,
-                levels);
+                upgradeLevels);
         }
     }
 }

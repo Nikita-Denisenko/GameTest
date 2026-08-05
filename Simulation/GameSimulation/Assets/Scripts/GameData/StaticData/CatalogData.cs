@@ -17,5 +17,6 @@ namespace Assets.Scripts.GameData.StaticData
         public IReadOnlyCollection<WeaponStatData> WeaponStats { get; }
 
         public IReadOnlyCollection<WaveData> Waves { get; }
+        public IReadOnlyCollection<PlayerLevelData> PlayerLevels { get; }
     }
 }

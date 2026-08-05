@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Exceptions;
+using Assets.Scripts.GameData.StaticData;
 using Assets.Scripts.StaticData;
 using System.Collections.Generic;
 
@@ -19,6 +20,8 @@ namespace Assets.Scripts.GameData
 
         public IReadOnlyDictionary<int, WaveData> Waves { get; }
 
+        public IReadOnlyDictionary<int, PlayerLevelData> PlayerLevels { get; }
+
 
         public Catalog(
             IReadOnlyDictionary<int, EnemyData> enemies,
@@ -28,7 +31,8 @@ namespace Assets.Scripts.GameData
             IReadOnlyDictionary<int, UnitStatData> unitStats,
             IReadOnlyDictionary<int, WeaponData> weapons,
             IReadOnlyDictionary<int, WeaponStatData> weaponStats,
-            IReadOnlyDictionary<int, WaveData> waves)
+            IReadOnlyDictionary<int, WaveData> waves,
+            IReadOnlyDictionary<int, PlayerLevelData> playerLevels)
         {
             Enemies = enemies
                 ?? throw new CatalogException("Enemies cannot be null.");
@@ -53,6 +57,9 @@ namespace Assets.Scripts.GameData
 
             Waves = waves
                 ?? throw new CatalogException("Waves cannot be null.");
+
+            PlayerLevels = playerLevels
+                ?? throw new CatalogException("Player levels cannot be null.");
         }
     }
 }

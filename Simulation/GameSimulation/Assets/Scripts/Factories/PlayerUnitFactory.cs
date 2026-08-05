@@ -1,9 +1,9 @@
 ﻿using Assets.Scripts.Entities;
 using Assets.Scripts.GameData.Runs;
-using Assets.Scripts.GameData.StaticData;
 using Assets.Scripts.Interfaces;
 using Assets.Scripts.StaticData;
 using Assets.Scripts.ValueObjects;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -13,47 +13,44 @@ namespace Assets.Scripts.Factories
     {
         private readonly IIdGenerator _idGenerator;
 
-        public PlayerUnitFactory(IIdGenerator idGenerator)
+        public PlayerUnitFactory(
+            IIdGenerator idGenerator)
         {
             _idGenerator = idGenerator;
         }
 
-
         public PlayerUnit Create(
             RunUnitData runUnit,
             UnitData unitData,
-            CatalogData catalog,
+            IReadOnlyCollection<UnitStatData> stats,
             Vector2 position)
         {
             var properties = runUnit.Properties
                 .Select(runProperty =>
                 {
-                    var stat = catalog.UnitStats
+                    var stat = stats
                         .First(x => x.Id == runProperty.StatId);
-
 
                     var propertyData = unitData.Properties
                         .First(x => x.StatId == runProperty.StatId);
 
-
-                    var temporaryLevels = propertyData.TemporaryLevels
+                    var levels = propertyData.TemporaryLevels
                         .Select(x => new PropertyLevel(
                             x.Level,
                             x.Bonus))
                         .ToList();
-
 
                     return new UnitProperty(
                         stat.Name,
                         stat.Id,
                         stat.Type,
                         runProperty.Value,
-                        temporaryLevels);
+                        levels);
                 })
                 .ToList();
 
 
-            var levels = unitData.TemporaryUpgradeLevels
+            var upgradeLevels = unitData.TemporaryUpgradeLevels
                 .Select(x => new UpgradeLevel(
                     x.Level,
                     x.Price))
@@ -73,7 +70,7 @@ namespace Assets.Scripts.Factories
                 unitData.Type,
                 passiveAbility,
                 properties,
-                levels);
+                upgradeLevels);
         }
     }
 }

@@ -1,4 +1,5 @@
 using Assets.Scripts.Entities;
+using Assets.Scripts.Exceptions;
 using Assets.Scripts.GameData.Runs;
 using System.Collections.Generic;
 
@@ -33,14 +34,30 @@ namespace Assets.Scripts.Game
             Player player,
             IEnumerable<Wave> waves)
         {
+            if (preparation == null)
+                throw new InvalidGameSessionStateException(
+                    "Preparation cannot be null.");
+
+            if (player == null)
+                throw new InvalidGameSessionStateException(
+                    "Player cannot be null.");
+
+            if (waves == null)
+                throw new InvalidGameSessionStateException(
+                    "Waves cannot be null.");
+
             Preparation = preparation;
             Player = player;
 
             _waves.AddRange(waves);
+
+            CurrentTime = 0;
+            IsPaused = false;
         }
 
 
-        public void Tick(float deltaTime)
+        public void Tick(
+            float deltaTime)
         {
             if (IsPaused)
                 return;
@@ -49,13 +66,19 @@ namespace Assets.Scripts.Game
         }
 
 
-        public void AddEnemy(Enemy enemy)
+        public void AddEnemy(
+            Enemy enemy)
         {
+            if (enemy == null)
+                throw new InvalidGameSessionStateException(
+                    "Enemy cannot be null.");
+
             _enemies.Add(enemy);
         }
 
 
-        public void RemoveEnemy(Enemy enemy)
+        public void RemoveEnemy(
+            Enemy enemy)
         {
             _enemies.Remove(enemy);
         }
