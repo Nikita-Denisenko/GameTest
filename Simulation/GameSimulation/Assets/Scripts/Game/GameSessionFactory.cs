@@ -1,35 +1,33 @@
 ﻿using Assets.Scripts.Game;
-using Assets.Scripts.GameData;
 using Assets.Scripts.GameData.Runs;
 using System.Linq;
-using UnityEngine;
 
 namespace Assets.Scripts.Factories
 {
     public class GameSessionFactory
     {
-        private readonly Catalog _catalog;
-
+        private readonly GameContext _gameContext;
         private readonly PlayerFactory _playerFactory;
         private readonly WaveFactory _waveFactory;
 
 
         public GameSessionFactory(
-            Catalog catalog,
+            GameContext gameContext,
             PlayerFactory playerFactory,
             WaveFactory waveFactory)
         {
-            _catalog = catalog;
+            _gameContext = gameContext;
             _playerFactory = playerFactory;
             _waveFactory = waveFactory;
         }
 
 
         public GameSession Create(
-            RunPreparationData preparation,
-            Vector2 playerPosition)
+            RunPreparationData preparation)
         {
-            var unitData = _catalog.Units[
+            var catalog = _gameContext.Catalog;
+
+            var unitData = catalog.Units[
                 preparation.Unit.UnitId];
 
 
@@ -40,23 +38,22 @@ namespace Assets.Scripts.Factories
                 .First(x => x.WeaponId == startWeaponId);
 
 
-            var weaponData = _catalog.Weapons[
+            var weaponData = _gameContext.Catalog.Weapons[
                 startWeaponId];
 
 
             var player = _playerFactory.Create(
                 preparation,
                 unitData,
-                _catalog.UnitStats.Values.ToList(),
+                catalog.UnitStats.Values.ToList(),
                 runWeapon,
                 weaponData,
-                _catalog.WeaponStats.Values.ToList(),
-                _catalog.PlayerLevels.Values.ToList(),
-                playerPosition);
+                catalog.WeaponStats.Values.ToList(),
+                catalog.PlayerLevels.Values.ToList());
 
 
             var waves = _waveFactory.CreateMany(
-                _catalog.Waves.Values);
+                catalog.Waves.Values);
 
 
             return new GameSession(

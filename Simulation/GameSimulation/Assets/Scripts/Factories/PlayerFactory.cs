@@ -1,11 +1,11 @@
 ﻿using Assets.Scripts.Entities;
 using Assets.Scripts.GameData.Runs;
 using Assets.Scripts.GameData.StaticData;
+using Assets.Scripts.Services.Spawn;
 using Assets.Scripts.StaticData;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
 
 namespace Assets.Scripts.Factories
 {
@@ -14,16 +14,19 @@ namespace Assets.Scripts.Factories
         private readonly PlayerUnitFactory _unitFactory;
         private readonly WeaponFactory _weaponFactory;
         private readonly PlayerLevelFactory _levelFactory;
+        private readonly SpawnService _spawnService;
 
 
         public PlayerFactory(
             PlayerUnitFactory unitFactory,
             WeaponFactory weaponFactory,
-            PlayerLevelFactory levelFactory)
+            PlayerLevelFactory levelFactory,
+            SpawnService spawnService)
         {
             _unitFactory = unitFactory;
             _weaponFactory = weaponFactory;
             _levelFactory = levelFactory;
+            _spawnService = spawnService;
         }
 
 
@@ -34,14 +37,13 @@ namespace Assets.Scripts.Factories
             RunWeaponData startWeapon,
             WeaponData weaponData,
             IReadOnlyCollection<WeaponStatData> weaponStats,
-            IReadOnlyCollection<PlayerLevelData> levels,
-            Vector2 position)
+            IReadOnlyCollection<PlayerLevelData> levels)
         {
             var unit = _unitFactory.Create(
                 preparation.Unit,
                 unitData,
                 unitStats,
-                position);
+                _spawnService.GetStartPosition());
 
 
             var weapon = _weaponFactory.Create(

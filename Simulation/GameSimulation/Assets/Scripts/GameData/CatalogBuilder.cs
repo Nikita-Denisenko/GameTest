@@ -1,6 +1,4 @@
 ﻿using Assets.Scripts.GameData.StaticData;
-using Assets.Scripts.StaticData;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Assets.Scripts.GameData
@@ -8,26 +6,19 @@ namespace Assets.Scripts.GameData
     public sealed class CatalogBuilder
     {
         public Catalog Build(
-            IReadOnlyCollection<EnemyData> enemies,
-            IReadOnlyCollection<EnemyStatData> enemyStats,
-            IReadOnlyCollection<ItemData> items,
-            IReadOnlyCollection<UnitData> units,
-            IReadOnlyCollection<UnitStatData> unitStats,
-            IReadOnlyCollection<WeaponData> weapons,
-            IReadOnlyCollection<WeaponStatData> weaponStats,
-            IReadOnlyCollection<WaveData> waves,
-            IReadOnlyCollection<PlayerLevelData> playerLevels)
+            CatalogData data)
         {
             return new Catalog(
-                enemies.ToDictionary(x => x.Id),
-                enemyStats.ToDictionary(x => x.Id),
-                items.ToDictionary(x => x.Id),
-                units.ToDictionary(x => x.Id),
-                unitStats.ToDictionary(x => x.Id),
-                weapons.ToDictionary(x => x.Id),
-                weaponStats.ToDictionary(x => x.Id),
-                waves.ToDictionary(x => x.Id),
-                playerLevels.ToDictionary(x => x.Id));
+                data.Enemies.ToDictionary(x => x.Id),
+                data.EnemyStats.ToDictionary(x => x.Id),
+                data.Items.ToDictionary(x => x.Id),
+                data.Units.ToDictionary(x => x.Id),
+                data.UnitStats.ToDictionary(x => x.Id),
+                data.Weapons.ToDictionary(x => x.Id),
+                data.WeaponStats.ToDictionary(x => x.Id),
+                data.Waves.ToDictionary(x => x.Id),
+                data.PlayerLevels.ToDictionary(x => x.Id),
+                data.Arenas.ToDictionary(x => x.Id));
         }
     }
 }

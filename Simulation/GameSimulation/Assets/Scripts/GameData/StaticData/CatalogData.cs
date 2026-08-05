@@ -18,5 +18,6 @@ namespace Assets.Scripts.GameData.StaticData
 
         public IReadOnlyCollection<WaveData> Waves { get; }
         public IReadOnlyCollection<PlayerLevelData> PlayerLevels { get; }
+        public IReadOnlyCollection<ArenaData> Arenas { get; }
     }
 }
