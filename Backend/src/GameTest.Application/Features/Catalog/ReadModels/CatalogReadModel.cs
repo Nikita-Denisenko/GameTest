@@ -16,5 +16,7 @@
         public IReadOnlyCollection<WaveReadModel> Waves { get; init; } = [];
 
         public IReadOnlyCollection<PlayerLevelReadModel> PlayerLevels { get; init; } = [];
+
+        public IReadOnlyCollection<ArenaReadModel> Arenas { get; init; } = [];
     }
 }

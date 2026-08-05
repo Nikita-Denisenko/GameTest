@@ -1,4 +1,5 @@
-﻿using GameTest.Application.Features.Catalog.Queries.GetEnemies;
+﻿using GameTest.Application.Features.Catalog.Queries.GetArenas;
+using GameTest.Application.Features.Catalog.Queries.GetEnemies;
 using GameTest.Application.Features.Catalog.Queries.GetEnemyStats;
 using GameTest.Application.Features.Catalog.Queries.GetItems;
 using GameTest.Application.Features.Catalog.Queries.GetPlayerLevels;
@@ -34,6 +35,7 @@ namespace GameTest.Application.Features.Catalog.Queries.GetCatalog
             var weaponStatsTask = _mediator.Send(new GetWeaponStatsQuery(), ct);
             var wavesTask = _mediator.Send(new GetWavesQuery(), ct);
             var playerLevelsTask = _mediator.Send(new GetPlayerLevelsQuery(), ct);
+            var arenasTask = _mediator.Send(new GetArenasQuery(), ct);
 
             await Task.WhenAll(
                 enemiesTask,
@@ -44,7 +46,8 @@ namespace GameTest.Application.Features.Catalog.Queries.GetCatalog
                 weaponsTask,
                 weaponStatsTask,
                 wavesTask,
-                playerLevelsTask);
+                playerLevelsTask,
+                arenasTask);
 
             return new CatalogReadModel
             {
@@ -60,7 +63,10 @@ namespace GameTest.Application.Features.Catalog.Queries.GetCatalog
                 WeaponStats = await weaponStatsTask,
 
                 Waves = await wavesTask,
-                PlayerLevels = await playerLevelsTask
+
+                PlayerLevels = await playerLevelsTask,
+
+                Arenas = await arenasTask
             };
         }
     }

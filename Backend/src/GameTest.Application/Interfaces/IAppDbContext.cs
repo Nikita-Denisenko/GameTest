@@ -29,6 +29,7 @@ namespace GameTest.Application.Interfaces
         DbSet<Run> Runs { get; }
         DbSet<Wave> Waves { get; }
         DbSet<PlayerLevel> PlayerLevels { get; }
+        DbSet<Arena> Arenas { get; }
 
         DbSet<TEntity> Set<TEntity>() where TEntity : class;
 
