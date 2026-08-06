@@ -1,10 +1,11 @@
 ﻿using Assets.Scripts.Api.Interfaces;
 using Assets.Scripts.GameData.Runs;
-using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace Assets.Scripts.Api
 {
@@ -12,25 +13,53 @@ namespace Assets.Scripts.Api
     {
         private readonly HttpClient _httpClient;
 
-        public RunPreparationApiClient(HttpClient httpClient)
+
+        public RunPreparationApiClient(
+            HttpClient httpClient)
         {
             _httpClient = httpClient;
         }
 
+
         public async Task<RunPreparationData> GetPreparationAsync(
-            int playerId,
-            CancellationToken cancellationToken = default)
+            int arenaId,
+            int playerUnitId,
+            string token,
+            CancellationToken ct = default)
         {
-            var response = await _httpClient.GetAsync(
-                $"api/runs/preparation/{playerId}",
-                cancellationToken);
+            using var request =
+                new HttpRequestMessage(
+                    HttpMethod.Get,
+                    $"api/runs/preparation?playerUnitId={playerUnitId}&arenaId={arenaId}");
+
+
+            request.Headers.Authorization =
+                new AuthenticationHeaderValue(
+                    "Bearer",
+                    token);
+
+
+            var response =
+                await _httpClient.SendAsync(
+                    request,
+                    ct);
+
 
             response.EnsureSuccessStatusCode();
 
-            var json = await response.Content.ReadAsStringAsync();
 
-            return JsonConvert.DeserializeObject<RunPreparationData>(json)
-                ?? throw new Exception("Run preparation is null");
+            var json =
+                await response.Content.ReadAsStringAsync();
+
+
+            var preparation =
+                JsonUtility
+                    .FromJson<RunPreparationData>(json);
+
+
+            return preparation
+                ?? throw new Exception(
+                    "Run preparation is null.");
         }
     }
 }

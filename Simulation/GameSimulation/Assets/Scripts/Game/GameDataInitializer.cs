@@ -2,17 +2,18 @@
 using Assets.Scripts.GameData;
 using System.Threading;
 using System.Threading.Tasks;
+using Unity.VisualScripting.Antlr3.Runtime;
 
 namespace Assets.Scripts.Game
 {
-    public class GameInitializer
+    public class GameDataInitializer
     {
         private readonly ICatalogApiClient _catalogApiClient;
         private readonly CatalogBuilder _catalogBuilder;
         private readonly GameContext _gameContext;
 
 
-        public GameInitializer(
+        public GameDataInitializer(
             ICatalogApiClient catalogApiClient,
             CatalogBuilder catalogBuilder,
             GameContext gameContext)
@@ -24,11 +25,12 @@ namespace Assets.Scripts.Game
 
 
         public async Task InitializeAsync(
+            string token,
             CancellationToken ct = default)
         {
             var catalogData =
                 await _catalogApiClient
-                    .GetCatalogAsync(ct);
+                    .GetCatalogAsync(token, ct);
 
 
             var catalog =

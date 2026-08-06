@@ -9,18 +9,20 @@ namespace Assets.Scripts.Factories
         private readonly GameContext _gameContext;
         private readonly PlayerFactory _playerFactory;
         private readonly WaveFactory _waveFactory;
+        private readonly ArenaFactory _arenaFactory;
 
 
         public GameSessionFactory(
             GameContext gameContext,
             PlayerFactory playerFactory,
-            WaveFactory waveFactory)
+            WaveFactory waveFactory,
+            ArenaFactory arenaFactory)
         {
             _gameContext = gameContext;
             _playerFactory = playerFactory;
             _waveFactory = waveFactory;
+            _arenaFactory = arenaFactory;
         }
-
 
         public GameSession Create(
             RunPreparationData preparation)
@@ -55,8 +57,14 @@ namespace Assets.Scripts.Factories
             var waves = _waveFactory.CreateMany(
                 catalog.Waves.Values);
 
+            var arenaData = _gameContext.Catalog.Arenas[
+                preparation.ArenaId];
+
+            var arena = _arenaFactory.Create(
+                arenaData);
 
             return new GameSession(
+                arena,
                 preparation,
                 player,
                 waves);

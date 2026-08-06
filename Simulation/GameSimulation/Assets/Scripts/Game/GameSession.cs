@@ -7,6 +7,7 @@ namespace Assets.Scripts.Game
 {
     public class GameSession
     {
+        public Arena Arena {  get; }
         public RunPreparationData Preparation { get; }
 
         public Player Player { get; }
@@ -30,10 +31,15 @@ namespace Assets.Scripts.Game
 
 
         public GameSession(
+            Arena arena,
             RunPreparationData preparation,
             Player player,
             IEnumerable<Wave> waves)
         {
+            if (arena == null)
+                throw new InvalidGameSessionStateException(
+                    "Arena cannot be null.");
+
             if (preparation == null)
                 throw new InvalidGameSessionStateException(
                     "Preparation cannot be null.");
@@ -45,6 +51,8 @@ namespace Assets.Scripts.Game
             if (waves == null)
                 throw new InvalidGameSessionStateException(
                     "Waves cannot be null.");
+
+            Arena = arena;
 
             Preparation = preparation;
             Player = player;

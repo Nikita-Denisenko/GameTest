@@ -1,23 +1,26 @@
 ﻿using Assets.Scripts.StaticData;
-using System.Collections.Generic;
+using System;
 
 namespace Assets.Scripts.GameData.StaticData
 {
+    [Serializable]
     public class CatalogData
     {
-        public IReadOnlyCollection<EnemyData> Enemies { get; }
-        public IReadOnlyCollection<EnemyStatData> EnemyStats { get; }
+        public EnemyData[] Enemies;
+        public EnemyStatData[] EnemyStats;
 
-        public IReadOnlyCollection<ItemData> Items { get; }
+        public ItemData[] Items;
 
-        public IReadOnlyCollection<UnitData> Units { get; } 
-        public IReadOnlyCollection<UnitStatData> UnitStats { get; }
+        public UnitData[] Units;
+        public UnitStatData[] UnitStats;
 
-        public IReadOnlyCollection<WeaponData> Weapons { get; }
-        public IReadOnlyCollection<WeaponStatData> WeaponStats { get; }
+        public WeaponData[] Weapons;
+        public WeaponStatData[] WeaponStats;
 
-        public IReadOnlyCollection<WaveData> Waves { get; }
-        public IReadOnlyCollection<PlayerLevelData> PlayerLevels { get; }
-        public IReadOnlyCollection<ArenaData> Arenas { get; }
+        public WaveData[] Waves;
+
+        public PlayerLevelData[] PlayerLevels;
+
+        public ArenaData[] Arenas;
     }
 }

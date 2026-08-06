@@ -65,6 +65,7 @@ namespace GameTest.Application.Features.Runs.Queries.GetRunPreparation
 
             return new RunPreparationReadModel
             {
+                ArenaId = query.ArenaId,
                 PlayerId = query.PlayerId,
                 Weapons = weapons,
                 Items = items,

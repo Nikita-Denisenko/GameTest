@@ -7,5 +7,6 @@ namespace GameTest.Application.Features.Runs.Queries.GetRunPreparation
     {
         public int PlayerId { get; init; }
         public int PlayerUnitId { get; init; }
+        public int ArenaId { get; init; }
     }
 }

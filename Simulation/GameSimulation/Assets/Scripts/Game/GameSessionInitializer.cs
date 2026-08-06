@@ -9,39 +9,34 @@ namespace Assets.Scripts.Game
     {
         private readonly IRunPreparationApiClient _runPreparationApiClient;
         private readonly GameSessionFactory _gameSessionFactory;
-        private readonly GameServer _gameServer;
 
 
         public GameSessionInitializer(
             IRunPreparationApiClient runPreparationApiClient,
-            GameSessionFactory gameSessionFactory,
-            GameServer gameServer)
+            GameSessionFactory gameSessionFactory)
         {
             _runPreparationApiClient = runPreparationApiClient;
             _gameSessionFactory = gameSessionFactory;
-            _gameServer = gameServer;
         }
 
 
         public async Task<GameSession> InitializeAsync(
-            int playerId,
+            int playerUnitId,
+            int arenaId,
+            string token,
             CancellationToken ct = default)
         {
             var preparation =
-                await _runPreparationApiClient.GetPreparationAsync(
-                    playerId,
-                    ct);
+                await _runPreparationApiClient
+                    .GetPreparationAsync(
+                        arenaId,
+                        playerUnitId,
+                        token,
+                        ct);
 
 
-            var session =
-                _gameSessionFactory.Create(
-                    preparation);
-
-
-            _gameServer.AddSession(session);
-
-
-            return session;
+            return _gameSessionFactory
+                .Create(preparation);
         }
     }
 }

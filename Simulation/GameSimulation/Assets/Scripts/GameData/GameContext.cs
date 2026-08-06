@@ -1,7 +1,6 @@
 ﻿using Assets.Scripts.Exceptions;
-using Assets.Scripts.GameData;
 
-namespace Assets.Scripts.Game
+namespace Assets.Scripts.GameData
 {
     public class GameContext
     {

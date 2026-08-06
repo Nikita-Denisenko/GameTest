@@ -7,7 +7,9 @@ namespace Assets.Scripts.Api.Interfaces
     public interface IRunPreparationApiClient
     {
         Task<RunPreparationData> GetPreparationAsync(
-            int playerId,
+            int playerUnitId,
+            int arenaId,
+            string token,
             CancellationToken ct = default);
     }
 }

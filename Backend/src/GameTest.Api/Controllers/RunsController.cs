@@ -100,7 +100,8 @@ namespace GameTest.Api.Controllers
             var query = new GetRunPreparationQuery
             {
                 PlayerId = _currentUserService.PlayerId,
-                PlayerUnitId = request.PlayerUnitId
+                PlayerUnitId = request.PlayerUnitId,
+                ArenaId = request.ArenaId,
             };
 
             return Ok(await _mediator.Send(query, ct));

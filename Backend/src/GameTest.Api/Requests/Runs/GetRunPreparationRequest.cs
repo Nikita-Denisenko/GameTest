@@ -6,5 +6,8 @@ namespace GameTest.Api.Requests.Runs
     {
         [Range(1, int.MaxValue)]
         public int PlayerUnitId { get; init; }
+
+        [Range(1, int.MaxValue)]
+        public int ArenaId { get; init; }
     }
 }
