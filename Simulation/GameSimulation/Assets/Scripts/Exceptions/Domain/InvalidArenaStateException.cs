@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Exceptions
 {
-    public class InvalidArenaStateException : Exception
+    public class InvalidArenaStateException : DomainSimulationException
     {
         public InvalidArenaStateException(
             string message) : base(message)

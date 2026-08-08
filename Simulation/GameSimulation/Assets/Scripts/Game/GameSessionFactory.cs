@@ -1,4 +1,6 @@
-﻿using Assets.Scripts.Game;
+﻿using Assets.Scripts.Entities;
+using Assets.Scripts.Exceptions.Game;
+using Assets.Scripts.Game;
 using Assets.Scripts.GameData.Runs;
 using System.Linq;
 
@@ -53,9 +55,16 @@ namespace Assets.Scripts.Factories
                 catalog.WeaponStats.Values.ToList(),
                 catalog.PlayerLevels.Values.ToList());
 
+            var firstWaveData = catalog.Waves.Values
+                .OrderBy(w => w.Number)
+                .FirstOrDefault();
 
-            var waves = _waveFactory.CreateMany(
-                catalog.Waves.Values);
+            if (firstWaveData == null)
+                throw new NotFoundException(
+                    nameof(Wave),
+                    "first");
+
+            var firstWave = _waveFactory.Create(firstWaveData);
 
             var arenaData = _gameContext.Catalog.Arenas[
                 preparation.ArenaId];
@@ -67,7 +76,7 @@ namespace Assets.Scripts.Factories
                 arena,
                 preparation,
                 player,
-                waves);
+                firstWave);
         }
     }
 }

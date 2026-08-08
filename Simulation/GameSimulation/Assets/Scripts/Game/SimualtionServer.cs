@@ -2,54 +2,56 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-public class SimulationServer
+namespace Assets.Scripts.Game
 {
-    private readonly GameDataInitializer _gameDataInitializer;
-    private readonly GameSessionInitializer _gameSessionInitializer;
-
-    private GameSimulation _simulation;
-
-    private bool _catalogLoaded;
-
-    public SimulationServer(
-        GameDataInitializer gameDataInitializer,
-        GameSessionInitializer gameSessionInitializer)
+    public class SimulationServer
     {
-        _gameDataInitializer = gameDataInitializer;
-        _gameSessionInitializer = gameSessionInitializer;
-    }
+        private readonly GameDataInitializer _gameDataInitializer;
+        private readonly GameSessionInitializer _gameSessionInitializer;
 
-    public async Task StartGameAsync(
-        int playerUnitId,
-        int arenaId,
-        string token,
-        CancellationToken ct = default)
-    {
-        if (!_catalogLoaded)
+        private GameSession _currentSession;
+
+        private bool _catalogLoaded;
+
+
+        public SimulationServer(
+            GameDataInitializer gameDataInitializer,
+            GameSessionInitializer gameSessionInitializer)
         {
-            await _gameDataInitializer.InitializeAsync(
-                token,
-                ct);
-
-            _catalogLoaded = true;
+            _gameDataInitializer = gameDataInitializer;
+            _gameSessionInitializer = gameSessionInitializer;
         }
 
-        var session =
-            await _gameSessionInitializer.InitializeAsync(
-                playerUnitId,
-                arenaId,
-                token,
-                ct);
 
-        _simulation =
-            new GameSimulation(
-                session);
-    }
+        public async Task StartGameAsync(
+            int playerUnitId,
+            int arenaId,
+            string token,
+            CancellationToken ct = default)
+        {
+            if (!_catalogLoaded)
+            {
+                await _gameDataInitializer.InitializeAsync(
+                    token,
+                    ct);
 
-    public void Tick(
-        float deltaTime)
-    {
-        _simulation?.Tick(
-            deltaTime);
+                _catalogLoaded = true;
+            }
+
+            _currentSession =
+                await _gameSessionInitializer.InitializeAsync(
+                    playerUnitId,
+                    arenaId,
+                    token,
+                    ct);
+        }
+
+
+        public void Tick(
+            float deltaTime)
+        {
+            _currentSession?.Tick(
+                deltaTime);
+        }
     }
 }

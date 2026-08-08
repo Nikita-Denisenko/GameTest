@@ -13,10 +13,7 @@ namespace Assets.Scripts.Game
         public Player Player { get; }
 
 
-        private readonly List<Wave> _waves = new();
-
-        public IReadOnlyCollection<Wave> Waves
-            => _waves;
+        public Wave CurrentWave { get; private set; }
 
 
         private readonly List<Enemy> _enemies = new();
@@ -34,7 +31,7 @@ namespace Assets.Scripts.Game
             Arena arena,
             RunPreparationData preparation,
             Player player,
-            IEnumerable<Wave> waves)
+            Wave wave)
         {
             if (arena == null)
                 throw new InvalidGameSessionStateException(
@@ -48,21 +45,20 @@ namespace Assets.Scripts.Game
                 throw new InvalidGameSessionStateException(
                     "Player cannot be null.");
 
-            if (waves == null)
+            if (wave == null)
                 throw new InvalidGameSessionStateException(
-                    "Waves cannot be null.");
+                    "Wave cannot be null.");
 
             Arena = arena;
 
             Preparation = preparation;
             Player = player;
 
-            _waves.AddRange(waves);
+            CurrentWave = wave;
 
             CurrentTime = 0;
             IsPaused = false;
         }
-
 
         public void Tick(
             float deltaTime)
@@ -91,6 +87,14 @@ namespace Assets.Scripts.Game
             _enemies.Remove(enemy);
         }
 
+        public void ChangeWave(
+            Wave wave)
+        {
+            if (wave == null)
+                throw new InvalidGameSessionStateException(
+                    "Wave cannot be null.");
+            CurrentWave = wave;
+        }
 
         public void Pause()
         {

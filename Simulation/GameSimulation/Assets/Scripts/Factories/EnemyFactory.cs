@@ -20,7 +20,7 @@ namespace Assets.Scripts.Factories
 
         public Enemy Create(
             EnemyData data,
-            IReadOnlyCollection<EnemyStatData> stats,
+            IEnumerable<EnemyStatData> stats,
             Vector2 position)
         {
             var properties = data.Properties

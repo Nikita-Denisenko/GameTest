@@ -2,7 +2,7 @@
 
 namespace Assets.Scripts.Exceptions
 {
-    public class CatalogException : Exception
+    public class CatalogException : DomainSimulationException
     {
         public CatalogException(string message)
             : base(message)
