@@ -4,7 +4,6 @@ using Assets.Scripts.GameData;
 using Assets.Scripts.ValueObjects;
 using System;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Assets.Scripts.Services
 {
@@ -13,24 +12,22 @@ namespace Assets.Scripts.Services
         private readonly GameSession _gameSession;
         private readonly Catalog _catalog;
         private readonly EnemyFactory _enemyFactory;
+        private readonly SpawnPositionService _spawnPositionService;
 
         private readonly List<WaveEnemyInfo> _enemiesInfo = new();
 
-        private readonly System.Random _random = new();
+        private readonly Random _random = new();
 
         public SpawnService(
             GameSession gameSession,
             Catalog catalog,
-            EnemyFactory enemyFactory)
+            EnemyFactory enemyFactory,
+            SpawnPositionService spawnPositionService)
         {
             _gameSession = gameSession;
             _catalog = catalog;
             _enemyFactory = enemyFactory;
-        }
-
-        public Vector2 GetStartPosition()
-        {
-            return Vector2.zero;
+            _spawnPositionService = spawnPositionService;
         }
 
         public void StartSpawnEnemies()
@@ -85,15 +82,21 @@ namespace Assets.Scripts.Services
             WaveEnemyInfo enemyInfo)
         {
             var enemyData =
-                _catalog.Enemies[enemyInfo.EnemyId];
+                _catalog.Enemies[
+                    enemyInfo.EnemyId];
+
+            var position =
+                _spawnPositionService
+                    .GetFreeEnemySpawnPosition();
 
             var enemy =
                 _enemyFactory.Create(
                     enemyData,
                     _catalog.EnemyStats.Values,
-                    GetStartPosition());
+                    position);
 
-            _gameSession.AddEnemy(enemy);
+            _gameSession.AddEnemy(
+                enemy);
 
             enemyInfo.AddCount();
         }
