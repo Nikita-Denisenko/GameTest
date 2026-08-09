@@ -2,6 +2,9 @@ using Assets.Scripts.Api;
 using Assets.Scripts.Api.Interfaces;
 using Assets.Scripts.Factories;
 using Assets.Scripts.GameData;
+using Assets.Scripts.Network;
+using Assets.Scripts.Network.Handlers;
+using Assets.Scripts.Services;
 using System;
 using System.Net.Http;
 using VContainer;
@@ -56,6 +59,18 @@ namespace Assets.Scripts.Game
             builder.Register<WeaponFactory>(
                 Lifetime.Singleton);
 
+            builder.Register<MovementService>(
+                Lifetime.Singleton);
+
+            builder.Register<SpawnPositionService>(
+                Lifetime.Singleton);
+
+            builder.Register<SpawnService>(
+                Lifetime.Singleton);
+
+            builder.Register<WaveService>(
+                Lifetime.Singleton);
+
             builder.Register<ICatalogApiClient, CatalogApiClient>(
                 Lifetime.Singleton);
 
@@ -63,6 +78,11 @@ namespace Assets.Scripts.Game
                 Lifetime.Singleton);
 
             builder.Register<SimulationServer>(
+                Lifetime.Singleton);
+
+            builder.RegisterEntryPoint<NetworkInitializer>();
+
+            builder.Register<StartGameRequestHandler>(
                 Lifetime.Singleton);
 
             builder.Register(
