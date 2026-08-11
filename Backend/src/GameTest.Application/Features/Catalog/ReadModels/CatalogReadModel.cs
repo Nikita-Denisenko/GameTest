@@ -1,4 +1,6 @@
-﻿namespace GameTest.Application.Features.Catalog.ReadModels
+﻿using GameTest.Domain.Entities;
+
+namespace GameTest.Application.Features.Catalog.ReadModels
 {
     public class CatalogReadModel
     {
@@ -18,5 +20,8 @@
         public IReadOnlyCollection<PlayerLevelReadModel> PlayerLevels { get; init; } = [];
 
         public IReadOnlyCollection<ArenaReadModel> Arenas { get; init; } = [];
+
+        public IReadOnlyCollection<CatReadModel> Cats { get; init; } = [];
+        public IReadOnlyCollection<CatStatReadModel> CatStats { get; init; } = [];
     }
 }

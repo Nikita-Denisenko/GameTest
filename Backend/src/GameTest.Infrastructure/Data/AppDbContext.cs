@@ -36,6 +36,9 @@ public class AppDbContext : DbContext, IAppDbContext
     public DbSet<Wave> Waves { get; set; } = null!;
     public DbSet<PlayerLevel> PlayerLevels { get; set; } = null!;
     public DbSet<Arena> Arenas { get; set; } = null!;
+    public DbSet<Cat> Cats { get; } = null!;
+    public DbSet<CatStat> CatStats { get; } = null!;
+    public DbSet<CatProperty> CatProperties { get; } = null!;
 
     public new DatabaseFacade Database => base.Database;
 

@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace GameTest.Application.Features.Runs.Queries.GetRunPreparation
+namespace GameTest.Application.Features.Runs.Commands.PrepareRun
 {
-    public class GetRunPreparationQueryValidator : AbstractValidator<GetRunPreparationQuery>
+    public class PrepareRunCommandValidator : AbstractValidator<PrepareRunCommand>
     {
-        public GetRunPreparationQueryValidator() 
+        public PrepareRunCommandValidator() 
         {
             RuleFor(x => x.PlayerId)
                 .GreaterThan(0)
@@ -17,6 +17,10 @@ namespace GameTest.Application.Features.Runs.Queries.GetRunPreparation
             RuleFor(x => x.ArenaId)
                 .GreaterThan(0)
                 .WithMessage("ArenaId must be greater than 0");
+
+            RuleFor(x => x.CatId)
+                .GreaterThan(0)
+                .WithMessage("CatId must be greater than 0");
         }
     }
 }

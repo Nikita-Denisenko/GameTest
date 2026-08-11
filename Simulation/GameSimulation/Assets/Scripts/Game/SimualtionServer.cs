@@ -26,6 +26,7 @@ namespace Assets.Scripts.Game
         public async Task StartGameAsync(
             int playerUnitId,
             int arenaId,
+            int? catId,
             string token,
             CancellationToken ct = default)
         {
@@ -42,10 +43,10 @@ namespace Assets.Scripts.Game
                 await _gameSessionInitializer.InitializeAsync(
                     playerUnitId,
                     arenaId,
+                    catId,
                     token,
                     ct);
         }
-
 
         public void Tick(
             float deltaTime)

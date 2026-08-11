@@ -11,6 +11,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using GameTest.Application.Features.Catalog.Queries.GetPlayerLevels;
 using GameTest.Application.Features.Catalog.Queries.GetArenas;
+using GameTest.Application.Features.Catalog.Queries.GetCats;
 
 namespace GameTest.Api.Controllers
 {
@@ -64,6 +65,14 @@ namespace GameTest.Api.Controllers
         [HttpGet("arenas")]
         public async Task<IActionResult> GetArenas(CancellationToken ct)
             => Ok(await _mediator.Send(new GetArenasQuery(), ct));
+
+        [HttpGet("cats")]
+        public async Task<IActionResult> GetCats(CancellationToken ct)
+            => Ok(await _mediator.Send(new GetCatsQuery(), ct));
+
+        [HttpGet("cat-stats")]
+        public async Task<IActionResult> GetCatStats(CancellationToken ct)
+            => Ok(await _mediator.Send(new GetCatsQuery(), ct));
 
         [HttpGet]
         public async Task<IActionResult> GetCatalog(CancellationToken ct)

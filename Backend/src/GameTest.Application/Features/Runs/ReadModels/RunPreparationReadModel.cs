@@ -7,5 +7,6 @@
         public IReadOnlyCollection<RunWeaponReadModel> Weapons { get; init; } = [];
         public IReadOnlyCollection<RunItemReadModel> Items { get; init; } = [];
         public RunUnitReadModel Unit { get; init; } = null!;
+        public RunCatReadModel? Cat { get; init; }
     }
 }

@@ -9,6 +9,7 @@ namespace Assets.Scripts.Api.Interfaces
         Task<RunPreparationData> GetPreparationAsync(
             int playerUnitId,
             int arenaId,
+            int? catId,
             string token,
             CancellationToken ct = default);
     }

@@ -23,6 +23,7 @@ namespace Assets.Scripts.Game
         public async Task<GameSession> InitializeAsync(
             int playerUnitId,
             int arenaId,
+            int? catId,
             string token,
             CancellationToken ct = default)
         {
@@ -31,6 +32,7 @@ namespace Assets.Scripts.Game
                     .GetPreparationAsync(
                         arenaId,
                         playerUnitId,
+                        catId,
                         token,
                         ct);
 
