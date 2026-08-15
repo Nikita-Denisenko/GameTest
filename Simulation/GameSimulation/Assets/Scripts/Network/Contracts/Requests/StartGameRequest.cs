@@ -6,6 +6,7 @@ namespace Assets.Scripts.Network.Contracts.Requests
     {
         public int PlayerUnitId;
         public int ArenaId;
+        public int? CatId;
         public string Token;
     }
 }

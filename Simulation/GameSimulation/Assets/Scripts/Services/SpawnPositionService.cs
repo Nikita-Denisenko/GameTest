@@ -31,6 +31,10 @@ namespace Assets.Scripts.Services
                 arena.Height / 2f);
         }
 
+        public Vector2 GetCatStartPosition(Vector2 playerPosition)
+        {
+            return playerPosition + new Vector2(1.5f, 0f);
+        }
         public Vector2 GetFreeEnemySpawnPosition()
         {
             var arena = _gameSession.Arena;

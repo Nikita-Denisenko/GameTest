@@ -12,18 +12,20 @@ namespace Assets.Scripts.Factories
         private readonly PlayerFactory _playerFactory;
         private readonly WaveFactory _waveFactory;
         private readonly ArenaFactory _arenaFactory;
-
+        private readonly CatFactory _catFactory;
 
         public GameSessionFactory(
             GameContext gameContext,
             PlayerFactory playerFactory,
             WaveFactory waveFactory,
-            ArenaFactory arenaFactory)
+            ArenaFactory arenaFactory,
+            CatFactory catFactory)
         {
             _gameContext = gameContext;
             _playerFactory = playerFactory;
             _waveFactory = waveFactory;
             _arenaFactory = arenaFactory;
+            _catFactory = catFactory;
         }
 
         public GameSession Create(
@@ -72,11 +74,19 @@ namespace Assets.Scripts.Factories
             var arena = _arenaFactory.Create(
                 arenaData);
 
+            var cat = preparation.Cat != null
+                ? _catFactory.Create(
+                preparation.Cat,
+                catalog.CatStats.Values.ToList(),
+                player.Unit.Position)
+                : null;
+
             return new GameSession(
                 arena,
                 preparation,
                 player,
-                firstWave);
+                firstWave,
+                cat);
         }
     }
 }

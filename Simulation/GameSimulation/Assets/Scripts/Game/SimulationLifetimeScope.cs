@@ -85,6 +85,9 @@ namespace Assets.Scripts.Game
             builder.Register<StartGameRequestHandler>(
                 Lifetime.Singleton);
 
+            builder.Register<CatFactory>(
+                Lifetime.Singleton);
+
             builder.Register(
                 _ => new HttpClient
             {

@@ -22,5 +22,8 @@ namespace Assets.Scripts.GameData.StaticData
         public PlayerLevelData[] PlayerLevels;
 
         public ArenaData[] Arenas;
+
+        public CatData[] Cats;
+        public CatStatData[] CatStats;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Exceptions;
+using Assets.Scripts.GameData.StaticData;
 using System.Collections.Generic;
 
 namespace Assets.Scripts.GameData.Runs
@@ -10,6 +11,7 @@ namespace Assets.Scripts.GameData.Runs
         public RunUnitData Unit { get; }
         public IReadOnlyCollection<RunWeaponData> Weapons { get; }
         public IReadOnlyCollection<RunItemData> Items { get; }
+        public CatData Cat { get; } = null;
 
 
         public RunPreparationData(
@@ -17,7 +19,8 @@ namespace Assets.Scripts.GameData.Runs
             int playerId,
             RunUnitData unit,
             IReadOnlyCollection<RunWeaponData> weapons,
-            IReadOnlyCollection<RunItemData> items)
+            IReadOnlyCollection<RunItemData> items,
+            CatData cat)
         {
             if (arenaId <= 0)
                 throw new InvalidValueObjectException(
@@ -42,6 +45,7 @@ namespace Assets.Scripts.GameData.Runs
                     "Items cannot be null.");
 
             PlayerId = playerId;
+            Cat = cat;
         }
     }
 }

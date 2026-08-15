@@ -18,7 +18,9 @@ namespace Assets.Scripts.GameData
                 data.WeaponStats.ToDictionary(x => x.Id),
                 data.Waves.ToDictionary(x => x.Id),
                 data.PlayerLevels.ToDictionary(x => x.Id),
-                data.Arenas.ToDictionary(x => x.Id));
+                data.Arenas.ToDictionary(x => x.Id),
+                data.Cats.ToDictionary(x => x.Id),
+                data.CatStats.ToDictionary(x => x.Id));
         }
     }
 }

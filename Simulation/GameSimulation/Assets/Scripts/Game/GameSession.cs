@@ -11,6 +11,7 @@ namespace Assets.Scripts.Game
         public RunPreparationData Preparation { get; }
 
         public Player Player { get; }
+        public Cat Cat { get; } = null;
 
 
         public Wave CurrentWave { get; private set; }
@@ -31,7 +32,8 @@ namespace Assets.Scripts.Game
             Arena arena,
             RunPreparationData preparation,
             Player player,
-            Wave wave)
+            Wave wave,
+            Cat cat)
         {
             if (arena == null)
                 throw new InvalidGameSessionStateException(
@@ -58,6 +60,8 @@ namespace Assets.Scripts.Game
 
             CurrentTime = 0;
             IsPaused = false;
+
+            Cat = cat;
         }
 
         public void Tick(

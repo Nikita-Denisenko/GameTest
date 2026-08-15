@@ -22,8 +22,9 @@ namespace Assets.Scripts.Network.Handlers
 			return _simulationServer.StartGameAsync(
 				request.PlayerUnitId,
 				request.ArenaId,
-				request.Token,
-				ct);
+                request.CatId,
+                request.Token,
+                ct);
 		}
 	}
 }

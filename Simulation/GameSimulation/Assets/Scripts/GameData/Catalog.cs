@@ -24,6 +24,9 @@ namespace Assets.Scripts.GameData
 
         public IReadOnlyDictionary<int, ArenaData> Arenas { get; }
 
+        public IReadOnlyDictionary<int, CatData> Cats { get; }
+        public IReadOnlyDictionary<int, CatStatData> CatStats { get; }
+
 
 
         public Catalog(
@@ -36,7 +39,9 @@ namespace Assets.Scripts.GameData
             IReadOnlyDictionary<int, WeaponStatData> weaponStats,
             IReadOnlyDictionary<int, WaveData> waves,
             IReadOnlyDictionary<int, PlayerLevelData> playerLevels,
-            IReadOnlyDictionary<int, ArenaData> arenas)
+            IReadOnlyDictionary<int, ArenaData> arenas,
+            IReadOnlyDictionary<int, CatData> cats,
+            IReadOnlyDictionary<int, CatStatData> catStats)
         {
             Enemies = enemies
                 ?? throw new CatalogException("Enemies cannot be null.");
@@ -67,6 +72,12 @@ namespace Assets.Scripts.GameData
 
             Arenas = arenas
                 ?? throw new CatalogException("Arenas cannot be null.");
+
+            Cats = cats
+                ?? throw new CatalogException("Cats cannot be null");
+
+            CatStats = catStats
+                ?? throw new CatalogException("Cat stats cannot be null");
         }
     }
 }
