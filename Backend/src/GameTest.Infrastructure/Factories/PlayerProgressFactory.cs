@@ -2,7 +2,7 @@
 using GameTest.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace GameTest.Application.Factories
+namespace GameTest.Infrastructure.Factories
 {
     public class PlayerProgressFactory : IPlayerProgressFactory
     {
