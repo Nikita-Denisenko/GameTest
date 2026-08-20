@@ -11,6 +11,6 @@
         Ricochet,            
         ExplosionRadius,     
         Duration,            
-        StatusEffect         
+        StatusEffect
     }
 }

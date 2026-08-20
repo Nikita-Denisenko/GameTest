@@ -2,6 +2,8 @@
 {
     public enum EnemyMovementType
     {
-        
+        FollowPlayer,
+        KeepDistance,
+        Stationary
     }
 }

@@ -2,11 +2,12 @@ using FluentValidation;
 using GameTest.Api.Middleware;
 using GameTest.Api.Services;
 using GameTest.Application.Common.Behaviors;
-using GameTest.Application.Factories;
 using GameTest.Application.Features.Runs.Commands.SaveRun;
 using GameTest.Application.Interfaces;
 using GameTest.Infrastructure;
 using GameTest.Infrastructure.Authentication;
+using GameTest.Infrastructure.Data.Seeders;
+using GameTest.Infrastructure.Factories;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
     ?? throw new InvalidOperationException("Connection string not found");
 
 builder.Services.AddDbContext<IAppDbContext, AppDbContext>(options =>
-    options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+    options.UseMySql(
+        connectionString,
+        ServerVersion.AutoDetect(connectionString)));
 
 builder.Services.AddMediatR(cfg =>
 {
@@ -42,11 +45,30 @@ builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
 
 builder.Services.AddScoped<IPasswordHasher, PasswordHasher>();
 builder.Services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-builder.Services.AddScoped<IPlayerProgressFactory, PlayerProgressFactory>();
 
+builder.Services.AddScoped<IArenaFactory, ArenaFactory>();
+builder.Services.AddScoped<ICatFactory, CatFactory>();
+builder.Services.AddScoped<IEnemyFactory, EnemyFactory>();
+builder.Services.AddScoped<IItemFactory, ItemFactory>();
+builder.Services.AddScoped<IPlayerProgressFactory, PlayerProgressFactory>();
+builder.Services.AddScoped<IUnitFactory, UnitFactory>();
+builder.Services.AddScoped<IWeaponFactory, WeaponFactory>();
+
+builder.Services.AddScoped<ArenaSeeder>();
+builder.Services.AddScoped<CatSeeder>();
+builder.Services.AddScoped<CatStatSeeder>();
+builder.Services.AddScoped<EnemySeeder>();
+builder.Services.AddScoped<EnemyStatSeeder>();
+builder.Services.AddScoped<ItemSeeder>();
+builder.Services.AddScoped<UnitSeeder>();
+builder.Services.AddScoped<UnitStatSeeder>();
+builder.Services.AddScoped<WeaponSeeder>();
+builder.Services.AddScoped<WeaponStatSeeder>();
+builder.Services.AddScoped<DatabaseSeeder>();
 
 var jwtKey = builder.Configuration["Jwt:Key"]
     ?? throw new InvalidOperationException("Jwt:Key not found");
+
 var jwtIssuer = builder.Configuration["Jwt:Issuer"]
     ?? throw new InvalidOperationException("Jwt:Issuer not found");
 
@@ -72,13 +94,15 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateIssuerSigningKey = true,
             ValidIssuer = jwtIssuer,
             ValidAudience = jwtIssuer,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey))
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(jwtKey))
         };
     });
 
 builder.Services.AddAuthorization();
 
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo
@@ -117,7 +141,13 @@ var app = builder.Build();
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<IAppDbContext>();
+
     dbContext.Database.Migrate();
+
+    var databaseSeeder = scope.ServiceProvider
+        .GetRequiredService<DatabaseSeeder>();
+
+    await databaseSeeder.SeedAsync(CancellationToken.None);
 }
 
 if (app.Environment.IsDevelopment())
@@ -132,4 +162,5 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();
