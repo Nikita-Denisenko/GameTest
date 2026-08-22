@@ -31,6 +31,7 @@ namespace GameTest.Infrastructure.Configurations
 
                 levels.Property(l => l.Level)
                     .IsRequired()
+                    .ValueGeneratedNever()
                     .HasColumnName("Level");
 
                 levels.Property(l => l.Value)
@@ -52,8 +53,9 @@ namespace GameTest.Infrastructure.Configurations
                 temporaryLevels.HasKey("UnitPropertyId", "Level");
 
                 temporaryLevels.Property(l => l.Level)
-                   .IsRequired()
-                   .HasColumnName("Level");
+                    .IsRequired()
+                    .ValueGeneratedNever()
+                    .HasColumnName("Level");
 
                 temporaryLevels.Property(l => l.Bonus)
                     .IsRequired()

@@ -34,8 +34,9 @@ namespace GameTest.Infrastructure.Configurations
 
                     levels.HasKey("ItemEffectId", "Level");
 
-                    levels.Property(l => l.Level).IsRequired()
+                    levels.Property(l => l.Level)
                         .IsRequired()
+                        .ValueGeneratedNever()
                         .HasColumnName("Level");
 
                     levels.Property(l => l.Value).IsRequired()
@@ -55,8 +56,9 @@ namespace GameTest.Infrastructure.Configurations
                 temporaryLevels.HasKey("ItemId", "Level");
 
                 temporaryLevels.Property(l => l.Level)
-                   .IsRequired()
-                   .HasColumnName("Level");
+                    .IsRequired()
+                    .ValueGeneratedNever()
+                    .HasColumnName("Level");
 
                 temporaryLevels.Property(l => l.Bonus)
                     .IsRequired()

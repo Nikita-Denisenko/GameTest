@@ -109,7 +109,7 @@ public class CatSeeder
                     (stats[CatStatType.Damage], 8f),
                     (stats[CatStatType.MovementSpeed], 5f),
                     (stats[CatStatType.Luck], 3f)
-                ])
+                ]),
         };
 
         await _context.Cats.AddRangeAsync(cats, ct);

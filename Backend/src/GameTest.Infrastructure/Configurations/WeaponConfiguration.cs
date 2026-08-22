@@ -22,6 +22,7 @@ namespace GameTest.Infrastructure.Configurations
 
                 levels.Property(l => l.Level)
                     .IsRequired()
+                    .ValueGeneratedNever()
                     .HasColumnName("Level");
 
                 levels.Property(l => l.Price)

@@ -16,8 +16,9 @@ public class CatStatSeeder
 
     public async Task SeedAsync(CancellationToken ct)
     {
-        if (await _context.CatStats.AnyAsync(ct))
-            return;
+        var existingStatTypes = await _context.CatStats
+            .Select(stat => stat.Type)
+            .ToHashSetAsync(ct);
 
         var stats = new[]
         {
@@ -30,6 +31,11 @@ public class CatStatSeeder
                 "Damage",
                 "Damage bonus provided by the cat.",
                 CatStatType.Damage),
+
+            new CatStat(
+                "Armor",
+                "Armor bonus provided by the cat.",
+                CatStatType.Armor),
 
             new CatStat(
                 "Attack Speed",
@@ -77,7 +83,14 @@ public class CatStatSeeder
                 CatStatType.CritDamage)
         };
 
-        await _context.CatStats.AddRangeAsync(stats, ct);
+        var newStats = stats
+            .Where(stat => !existingStatTypes.Contains(stat.Type))
+            .ToArray();
+
+        if (newStats.Length == 0)
+            return;
+
+        await _context.CatStats.AddRangeAsync(newStats, ct);
         await _context.SaveChangesAsync(ct);
     }
 }

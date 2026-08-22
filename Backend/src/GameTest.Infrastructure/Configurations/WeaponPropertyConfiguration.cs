@@ -25,12 +25,14 @@ namespace GameTest.Infrastructure.Configurations
 
             builder.OwnsMany(wp => wp.Levels, levels =>
             {
-                levels.WithOwner().HasForeignKey("WeaponPropertyId");
+                levels.WithOwner()
+                    .HasForeignKey("WeaponPropertyId");
 
                 levels.HasKey("WeaponPropertyId", "Level");
 
                 levels.Property(l => l.Level)
                     .IsRequired()
+                    .ValueGeneratedNever()
                     .HasColumnName("Level");
 
                 levels.Property(l => l.Value)
@@ -43,17 +45,19 @@ namespace GameTest.Infrastructure.Configurations
             });
 
             builder.Navigation(wp => wp.Levels)
-               .UsePropertyAccessMode(PropertyAccessMode.Field);
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
 
             builder.OwnsMany(wp => wp.TemporaryLevels, temporaryLevels =>
             {
-                temporaryLevels.WithOwner().HasForeignKey("UnitPropertyId");
+                temporaryLevels.WithOwner()
+                    .HasForeignKey("WeaponPropertyId");
 
-                temporaryLevels.HasKey("UnitPropertyId", "Level");
+                temporaryLevels.HasKey("WeaponPropertyId", "Level");
 
                 temporaryLevels.Property(l => l.Level)
-                   .IsRequired()
-                   .HasColumnName("Level");
+                    .IsRequired()
+                    .ValueGeneratedNever()
+                    .HasColumnName("Level");
 
                 temporaryLevels.Property(l => l.Bonus)
                     .IsRequired()
@@ -61,7 +65,7 @@ namespace GameTest.Infrastructure.Configurations
             });
 
             builder.Navigation(wp => wp.TemporaryLevels)
-               .UsePropertyAccessMode(PropertyAccessMode.Field);
+                .UsePropertyAccessMode(PropertyAccessMode.Field);
         }
     }
 }
